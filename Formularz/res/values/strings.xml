@@ -14,5 +14,6 @@
     <string name="blogHint">Blog + link</string>
     <string name="tel">Telefon: </string>
     <string name="telHint">Telefon</string>
+    <string name="colour">Ulubiony kolor: </string>
 
 </resources>

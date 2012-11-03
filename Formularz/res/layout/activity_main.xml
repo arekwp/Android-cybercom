@@ -1,14 +1,16 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="fill_parent"
     android:layout_height="match_parent" >
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:layout_marginLeft="5dp" 
+        >
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
 
@@ -20,14 +22,14 @@
 
             <EditText
                 android:id="@+id/etName"
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/nameHint" >
             </EditText>
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
 
@@ -39,7 +41,7 @@
 
             <EditText
                 android:id="@+id/etSurname"
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/surnameHint" />
         </LinearLayout>
@@ -58,14 +60,14 @@
 
             <DatePicker
                 android:layout_width="wrap_content"
-                android:layout_height="140dp"
+                android:layout_height="wrap_content"
                 android:calendarViewShown="false"
                 android:endYear="2012"
                 android:startYear="1900" />
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
 
@@ -84,16 +86,12 @@
                 android:inputType="textMultiLine"
                 android:singleLine="false" >
 
-                <requestFocus
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
             </EditText>
 
         </LinearLayout>
         
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
 
@@ -113,13 +111,12 @@
                 android:autoLink="web" 
                 >
 
-                <requestFocus />
             </EditText>
 
         </LinearLayout>
         
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
 
@@ -134,12 +131,14 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:inputType="phone" />
+                android:inputType="phone"
+                android:autoLink="phone"
+                 />
 
         </LinearLayout>
         
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
 
@@ -147,11 +146,11 @@
                 android:id="@+id/tvColour"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/blog" />
+                android:text="@string/colour" />
 
             <MultiAutoCompleteTextView
                 android:id="@+id/mactvColour"
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content" />
 
         </LinearLayout>
