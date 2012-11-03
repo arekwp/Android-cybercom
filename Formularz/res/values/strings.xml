@@ -18,5 +18,6 @@
     <string name="lang">Języki: </string>
     <string name="gender">Płeć: </string>
     <string name="isOnFb">Czy masz konto na Fb: </string>
+    <string name="onFbSince">Na Fb od: </string>
 
 </resources>

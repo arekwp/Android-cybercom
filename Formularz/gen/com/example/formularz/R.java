@@ -22,8 +22,9 @@ public final class R {
         public static final int etSurname=0x7f070003;
         public static final int mactvColour=0x7f07000c;
         public static final int mactvLang=0x7f07000e;
-        public static final int menu_settings=0x7f070013;
+        public static final int menu_settings=0x7f070015;
         public static final int sGender=0x7f070010;
+        public static final int seekBar1=0x7f070014;
         public static final int toggleButton1=0x7f070012;
         public static final int tvBirthDate=0x7f070004;
         public static final int tvBlog=0x7f070007;
@@ -33,6 +34,7 @@ public final class R {
         public static final int tvGender=0x7f07000f;
         public static final int tvLang=0x7f07000d;
         public static final int tvName=0x7f070000;
+        public static final int tvOnFbSince=0x7f070013;
         public static final int tvSurname=0x7f070002;
         public static final int tvTel=0x7f070009;
     }
@@ -56,6 +58,7 @@ public final class R {
         public static final int menu_settings=0x7f040001;
         public static final int name=0x7f040003;
         public static final int nameHint=0x7f040004;
+        public static final int onFbSince=0x7f040012;
         public static final int surname=0x7f040005;
         public static final int surnameHint=0x7f040006;
         public static final int tel=0x7f04000c;
