@@ -15,5 +15,8 @@
     <string name="tel">Telefon: </string>
     <string name="telHint">Telefon</string>
     <string name="colour">Ulubiony kolor: </string>
+    <string name="lang">Języki: </string>
+    <string name="gender">Płeć: </string>
+    <string name="isOnFb">Czy masz konto na Fb: </string>
 
 </resources>
