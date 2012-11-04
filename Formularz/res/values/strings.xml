@@ -19,5 +19,18 @@
     <string name="isOnFb">Czy masz konto na Fb: </string>
     <string name="onFbSince">Na Fb od: </string>
     <string name="menu_clear">Wyczyść</string>
+    
+    <string-array name="langs_array">
+        <item>angielski</item>
+        <item>rosyjski</item>
+        <item>niemiecki</item>
+        <item>włoski</item>
+    </string-array>
+    
+    <string-array name="genders_array">
+        <item>m</item>
+        <item>f</item>
+        <item>n/a</item>
+    </string-array>
 
 </resources>

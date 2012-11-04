@@ -8,6 +8,10 @@
 package com.example.formularz;
 
 public final class R {
+    public static final class array {
+        public static final int genders_array=0x7f050001;
+        public static final int langs_array=0x7f050000;
+    }
     public static final class attr {
     }
     public static final class drawable {
@@ -15,35 +19,35 @@ public final class R {
         public static final int ic_launcher=0x7f020001;
     }
     public static final class id {
-        public static final int editText1=0x7f07000b;
-        public static final int etBlog=0x7f070009;
-        public static final int etDesc=0x7f070007;
-        public static final int etName=0x7f070002;
-        public static final int etSurname=0x7f070004;
-        public static final int globalLinear=0x7f070000;
-        public static final int mactvColour=0x7f07000d;
-        public static final int mactvLang=0x7f07000f;
-        public static final int menuClear=0x7f070016;
-        public static final int sGender=0x7f070011;
-        public static final int seekBar1=0x7f070015;
-        public static final int toggleButton1=0x7f070013;
-        public static final int tvBirthDate=0x7f070005;
-        public static final int tvBlog=0x7f070008;
-        public static final int tvColour=0x7f07000c;
-        public static final int tvDescription=0x7f070006;
-        public static final int tvFbAcc=0x7f070012;
-        public static final int tvGender=0x7f070010;
-        public static final int tvLang=0x7f07000e;
-        public static final int tvName=0x7f070001;
-        public static final int tvOnFbSince=0x7f070014;
-        public static final int tvSurname=0x7f070003;
-        public static final int tvTel=0x7f07000a;
+        public static final int editText1=0x7f08000b;
+        public static final int etBlog=0x7f080009;
+        public static final int etDesc=0x7f080007;
+        public static final int etName=0x7f080002;
+        public static final int etSurname=0x7f080004;
+        public static final int globalLinear=0x7f080000;
+        public static final int mactvColour=0x7f08000d;
+        public static final int mactvLang=0x7f08000f;
+        public static final int menuClear=0x7f080016;
+        public static final int sGender=0x7f080011;
+        public static final int seekBar1=0x7f080015;
+        public static final int toggleButton1=0x7f080013;
+        public static final int tvBirthDate=0x7f080005;
+        public static final int tvBlog=0x7f080008;
+        public static final int tvColour=0x7f08000c;
+        public static final int tvDescription=0x7f080006;
+        public static final int tvFbAcc=0x7f080012;
+        public static final int tvGender=0x7f080010;
+        public static final int tvLang=0x7f08000e;
+        public static final int tvName=0x7f080001;
+        public static final int tvOnFbSince=0x7f080014;
+        public static final int tvSurname=0x7f080003;
+        public static final int tvTel=0x7f08000a;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
     }
     public static final class menu {
-        public static final int activity_main=0x7f060000;
+        public static final int activity_main=0x7f070000;
     }
     public static final class string {
         public static final int app_name=0x7f040000;
@@ -67,6 +71,6 @@ public final class R {
         public static final int title_activity_main=0x7f040001;
     }
     public static final class style {
-        public static final int AppTheme=0x7f050000;
+        public static final int AppTheme=0x7f060000;
     }
 }

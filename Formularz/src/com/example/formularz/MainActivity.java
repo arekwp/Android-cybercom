@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.MultiAutoCompleteTextView;
+import android.widget.Spinner;
 import android.widget.ToggleButton;
 
 public class MainActivity extends Activity {
@@ -22,21 +23,37 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		EditText etSurname = (EditText) findViewById(R.id.etSurname);
 		registerForContextMenu(etSurname);
-		
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+
+		ArrayAdapter<String> adapterColours = new ArrayAdapter<String>(this,
 				android.R.layout.simple_dropdown_item_1line, COLOURS);
-		
-		MultiAutoCompleteTextView mactv = (MultiAutoCompleteTextView)findViewById(R.id.mactvColour);
-		
-		mactv.setAdapter(adapter);
-		
-		mactv.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
-		
+
+		ArrayAdapter<CharSequence> adapterLangs = ArrayAdapter
+				.createFromResource(this, R.array.langs_array,
+						android.R.layout.simple_spinner_item);
+
+		ArrayAdapter<CharSequence> adapterGenders = ArrayAdapter
+				.createFromResource(this, R.array.genders_array,
+						android.R.layout.simple_spinner_item);
+
+		Spinner spinner = (Spinner) findViewById(R.id.sGender);
+
+		spinner.setAdapter(adapterGenders);
+
+		MultiAutoCompleteTextView mactvLangs = (MultiAutoCompleteTextView) findViewById(R.id.mactvLang);
+
+		mactvLangs.setAdapter(adapterLangs);
+
+		MultiAutoCompleteTextView mactvColours = (MultiAutoCompleteTextView) findViewById(R.id.mactvColour);
+
+		mactvColours.setAdapter(adapterColours);
+
+		mactvColours
+				.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
+
 	}
-	
-	private static final String[] COLOURS = new String[] {
-		"niebieski", "czerwony", "czarny", "¿ó³ty", "zielony"
-	};
+
+	private static final String[] COLOURS = new String[] { "niebieski",
+			"czerwony", "czarny", "¿ó³ty", "zielony" };
 
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v,
@@ -49,10 +66,10 @@ public class MainActivity extends Activity {
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 
-		EditText etSurname = (EditText)findViewById(R.id.etSurname);
-		
+		EditText etSurname = (EditText) findViewById(R.id.etSurname);
+
 		Editable edit = etSurname.getText();
-		
+
 		etSurname.setText(edit.toString().toUpperCase());
 		return true;
 	}
