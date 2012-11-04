@@ -1,8 +1,8 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="match_parent" >
+<ScrollView android:layout_width="fill_parent"
+    android:layout_height="match_parent" xmlns:android="http://schemas.android.com/apk/res/android">
 
     <LinearLayout
+        android:id="@+id/globalLinear"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -24,8 +24,7 @@
                 android:id="@+id/etName"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/nameHint" >
-            </EditText>
+                android:hint="@string/nameHint" />
         </LinearLayout>
 
         <LinearLayout
@@ -37,6 +36,7 @@
                 android:id="@+id/tvSurname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:longClickable="true"
                 android:text="@string/surname" />
 
             <EditText
@@ -105,11 +105,11 @@
                 android:id="@+id/etBlog"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:autoLink="web"
                 android:hint="@string/blogHint"
                 android:inputType="textMultiLine"
-                android:singleLine="false"
-                android:autoLink="web" 
-                >
+                android:linksClickable="true"
+                android:singleLine="false" >
 
             </EditText>
 
@@ -125,15 +125,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/tel" />
-
+
             <EditText
                 android:id="@+id/editText1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:inputType="phone"
                 android:autoLink="phone"
-                 />
+                android:inputType="phone"
+                android:linksClickable="true" />
+
         </LinearLayout>
         
         <LinearLayout
