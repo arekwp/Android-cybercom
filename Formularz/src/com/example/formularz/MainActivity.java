@@ -3,6 +3,8 @@ package com.example.formularz;
 import android.app.Activity;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.method.LinkMovementMethod;
+import android.text.method.MovementMethod;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
@@ -49,6 +51,12 @@ public class MainActivity extends Activity {
 
 		mactvColours
 				.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
+		
+		EditText etTemp = (EditText)findViewById(R.id.etBlog);
+		etTemp.setMovementMethod(LinkMovementMethod.getInstance());
+		
+		etTemp = (EditText)findViewById(R.id.etPhone);
+		etTemp.setMovementMethod(LinkMovementMethod.getInstance());
 
 	}
 

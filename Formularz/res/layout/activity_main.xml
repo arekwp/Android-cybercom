@@ -1,13 +1,13 @@
-<ScrollView android:layout_width="fill_parent"
-    android:layout_height="match_parent" xmlns:android="http://schemas.android.com/apk/res/android">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent" >
 
     <LinearLayout
         android:id="@+id/globalLinear"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginLeft="5dp" 
-        >
+        android:layout_marginLeft="5dp"
+        android:orientation="vertical" >
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -85,11 +85,9 @@
                 android:hint="@string/descHint"
                 android:inputType="textMultiLine"
                 android:singleLine="false" >
-
             </EditText>
-
         </LinearLayout>
-        
+
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -105,16 +103,9 @@
                 android:id="@+id/etBlog"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:autoLink="web"
-                android:hint="@string/blogHint"
-                android:inputType="textMultiLine"
-                android:linksClickable="true"
-                android:singleLine="false" >
-
-            </EditText>
-
+                android:hint="@string/blogHint" />
         </LinearLayout>
-        
+
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -125,18 +116,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/tel" />
-
-            <EditText
-                android:id="@+id/editText1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:autoLink="phone"
-                android:inputType="phone"
-                android:linksClickable="true" />
 
+            <EditText
+                android:id="@+id/etPhone"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inputType="phone" />
         </LinearLayout>
-        
+
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -152,9 +139,8 @@
                 android:id="@+id/mactvColour"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content" />
-
         </LinearLayout>
-        
+
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -170,9 +156,8 @@
                 android:id="@+id/mactvLang"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content" />
-
         </LinearLayout>
-        
+
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -188,9 +173,8 @@
                 android:id="@+id/sGender"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content" />
-
         </LinearLayout>
-        
+
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -206,9 +190,8 @@
                 android:id="@+id/toggleButton1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
-
         </LinearLayout>
-        
+
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -225,9 +208,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
-
         </LinearLayout>
-        
     </LinearLayout>
 
 </ScrollView>
