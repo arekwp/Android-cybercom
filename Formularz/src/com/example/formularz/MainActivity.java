@@ -3,9 +3,7 @@ package com.example.formularz;
 import java.util.Calendar;
 
 import android.app.Activity;
-import android.opengl.Visibility;
 import android.os.Bundle;
-import android.renderscript.Sampler.Value;
 import android.text.Editable;
 import android.text.method.LinkMovementMethod;
 import android.view.ContextMenu;
