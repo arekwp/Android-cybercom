@@ -1,6 +1,7 @@
 package com.example.formularz;
 
 import android.app.Activity;
+import android.opengl.Visibility;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.method.LinkMovementMethod;
@@ -13,7 +14,9 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.MultiAutoCompleteTextView;
+import android.widget.SeekBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.ToggleButton;
 
 public class MainActivity extends Activity {
@@ -66,6 +69,27 @@ public class MainActivity extends Activity {
 		etTemp = (EditText)findViewById(R.id.etPhone);
 		etTemp.setMovementMethod(LinkMovementMethod.getInstance());
 
+		SeekBar seekBar = (SeekBar)findViewById(R.id.seekBar1);
+		seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+			
+			public void onStopTrackingTouch(SeekBar seekBar) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			public void onStartTrackingTouch(SeekBar seekBar) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			public void onProgressChanged(SeekBar seekBar, int progress,
+					boolean fromUser) {
+				
+				TextView tv = (TextView)findViewById(R.id.tvOnFbValue);
+				tv.setText(seekBar.getProgress());
+				
+			}
+		});
 	}
 
 	private static final String[] COLOURS = new String[] { "niebieski",
@@ -127,4 +151,17 @@ public class MainActivity extends Activity {
 
 		layout.invalidate();
 	}
+	
+	public void onToggleClick(View view)
+	{
+	    // Is the toggle on?
+	    boolean on = ((ToggleButton) view).isChecked();
+	    LinearLayout ll = (LinearLayout)findViewById(R.id.fbLayout);
+	    if (on) {
+	    	ll.setVisibility(0);
+	    } else {
+	        ll.setVisibility(8);
+	    }
+	}
+	
 }

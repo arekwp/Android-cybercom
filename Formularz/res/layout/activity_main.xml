@@ -36,7 +36,6 @@
                 android:id="@+id/tvSurname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                
                 android:text="@string/surname" />
 
             <EditText
@@ -189,12 +188,16 @@
             <ToggleButton
                 android:id="@+id/toggleButton1"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content" 
+                android:onClick="onToggleClick"
+                />
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/fbLayout"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:orientation="horizontal" >
 
             <TextView
@@ -208,6 +211,12 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/tvOnFbValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="" />
         </LinearLayout>
     </LinearLayout>
 
