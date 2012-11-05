@@ -1,8 +1,11 @@
 package com.example.formularz;
 
+import java.util.Calendar;
+
 import android.app.Activity;
 import android.opengl.Visibility;
 import android.os.Bundle;
+import android.renderscript.Sampler.Value;
 import android.text.Editable;
 import android.text.method.LinkMovementMethod;
 import android.view.ContextMenu;
@@ -70,6 +73,9 @@ public class MainActivity extends Activity {
 		etTemp.setMovementMethod(LinkMovementMethod.getInstance());
 
 		SeekBar seekBar = (SeekBar)findViewById(R.id.seekBar1);
+		Calendar c = Calendar.getInstance();
+		int y = c.get(Calendar.YEAR);
+		seekBar.setMax(y - 2004);
 		seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 			
 			public void onStopTrackingTouch(SeekBar seekBar) {
@@ -86,7 +92,9 @@ public class MainActivity extends Activity {
 					boolean fromUser) {
 				
 				TextView tv = (TextView)findViewById(R.id.tvOnFbValue);
-				tv.setText(seekBar.getProgress());
+				//tv.setText(seekBar.getVisibility());
+				tv.setText(progress + "lat");
+				//tv.setText(seekBar.getProgress());
 				
 			}
 		});
