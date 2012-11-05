@@ -22,6 +22,7 @@ public class MainActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
 		EditText etSurname = (EditText) findViewById(R.id.etSurname);
 		registerForContextMenu(etSurname);
 
@@ -30,7 +31,7 @@ public class MainActivity extends Activity {
 
 		ArrayAdapter<CharSequence> adapterLangs = ArrayAdapter
 				.createFromResource(this, R.array.langs_array,
-						android.R.layout.simple_spinner_item);
+						android.R.layout.simple_dropdown_item_1line);
 
 		ArrayAdapter<CharSequence> adapterGenders = ArrayAdapter
 				.createFromResource(this, R.array.genders_array,
@@ -40,16 +41,24 @@ public class MainActivity extends Activity {
 
 		spinner.setAdapter(adapterGenders);
 
-		MultiAutoCompleteTextView mactvLangs = (MultiAutoCompleteTextView) findViewById(R.id.mactvLang);
+		MultiAutoCompleteTextView mactvLangs = 
+				(MultiAutoCompleteTextView) findViewById(R.id.mactvLang);
 
 		mactvLangs.setAdapter(adapterLangs);
+		mactvLangs.setTokenizer(
+				new MultiAutoCompleteTextView.
+				CommaTokenizer());
+		
 
-		MultiAutoCompleteTextView mactvColours = (MultiAutoCompleteTextView) findViewById(R.id.mactvColour);
+		MultiAutoCompleteTextView mactvColours = 
+				(MultiAutoCompleteTextView) findViewById(R.id.mactvColour);
 
 		mactvColours.setAdapter(adapterColours);
 
 		mactvColours
-				.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
+				.setTokenizer(
+						new MultiAutoCompleteTextView
+						.CommaTokenizer());
 		
 		EditText etTemp = (EditText)findViewById(R.id.etBlog);
 		etTemp.setMovementMethod(LinkMovementMethod.getInstance());
