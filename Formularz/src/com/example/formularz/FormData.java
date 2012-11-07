@@ -1,35 +1,33 @@
 package com.example.formularz;
 
-import android.R.string;
+public class FormData {
 
-public class FormularzData {
-
-	string name;
-	string surname;
+	String name;
+	String surname;
 	int id;
-	string description;
-	string blog;
-	string languages;
-	string colours;
-	string birthDate;
-	string phone;
-	string gender;
+	String description;
+	String blog;
+	String languages;
+	String colours;
+	String birthDate;
+	String phone;
+	String gender;
 	boolean doHaveFbAcc;
 	int doHaveFbSince;
 
-	public string getName() {
+	public String getName() {
 		return name;
 	}
 
-	public void setName(string name) {
+	public void setName(String name) {
 		this.name = name;
 	}
 
-	public string getSurname() {
+	public String getSurname() {
 		return surname;
 	}
 
-	public void setSurname(string surname) {
+	public void setSurname(String surname) {
 		this.surname = surname;
 	}
 
@@ -37,13 +35,13 @@ public class FormularzData {
 		return id;
 	}
 
-	public FormularzData() {
+	public FormData() {
 		super();
 	}
 
-	public FormularzData(string name, string surname, int id,
-			string description, string blog, string languages, string colours,
-			string birthDate, string phone, string gender, boolean doHaveFbAcc,
+	public FormData(String name, String surname, int id,
+			String description, String blog, String languages, String colours,
+			String birthDate, String phone, String gender, boolean doHaveFbAcc,
 			int doHaveFbSince) {
 		super();
 		this.name = name;
@@ -64,59 +62,59 @@ public class FormularzData {
 		this.id = id;
 	}
 
-	public string getDescription() {
+	public String getDescription() {
 		return description;
 	}
 
-	public void setDescription(string description) {
+	public void setDescription(String description) {
 		this.description = description;
 	}
 
-	public string getBlog() {
+	public String getBlog() {
 		return blog;
 	}
 
-	public void setBlog(string blog) {
+	public void setBlog(String blog) {
 		this.blog = blog;
 	}
 
-	public string getLanguages() {
+	public String getLanguages() {
 		return languages;
 	}
 
-	public void setLanguages(string languages) {
+	public void setLanguages(String languages) {
 		this.languages = languages;
 	}
 
-	public string getColours() {
+	public String getColours() {
 		return colours;
 	}
 
-	public void setColours(string colours) {
+	public void setColours(String colours) {
 		this.colours = colours;
 	}
 
-	public string getBirthDate() {
+	public String getBirthDate() {
 		return birthDate;
 	}
 
-	public void setBirthDate(string birthDate) {
+	public void setBirthDate(String birthDate) {
 		this.birthDate = birthDate;
 	}
 
-	public string getPhone() {
+	public String getPhone() {
 		return phone;
 	}
 
-	public void setPhone(string phone) {
+	public void setPhone(String phone) {
 		this.phone = phone;
 	}
 
-	public string getGender() {
+	public String getGender() {
 		return gender;
 	}
 
-	public void setGender(string gender) {
+	public void setGender(String gender) {
 		this.gender = gender;
 	}
 
