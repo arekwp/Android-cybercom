@@ -12,7 +12,7 @@ public class FormData {
 	String birthDate;
 	String phone;
 	String gender;
-	boolean doHaveFbAcc;
+	int doHaveFbAcc;
 	int doHaveFbSince;
 
 	public String getName() {
@@ -41,7 +41,7 @@ public class FormData {
 
 	public FormData(String name, String surname, int id,
 			String description, String blog, String languages, String colours,
-			String birthDate, String phone, String gender, boolean doHaveFbAcc,
+			String birthDate, String phone, String gender, int doHaveFbAcc,
 			int doHaveFbSince) {
 		super();
 		this.name = name;
@@ -118,11 +118,11 @@ public class FormData {
 		this.gender = gender;
 	}
 
-	public boolean isDoHaveFbAcc() {
+	public int getDoHaveFbAcc() {
 		return doHaveFbAcc;
 	}
 
-	public void setDoHaveFbAcc(boolean doHaveFbAcc) {
+	public void setDoHaveFbAcc(int doHaveFbAcc) {
 		this.doHaveFbAcc = doHaveFbAcc;
 	}
 
