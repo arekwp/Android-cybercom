@@ -160,7 +160,6 @@ public class MainActivity extends Activity {
 	
 	public void onToggleClick(View view)
 	{
-	    // Is the toggle on?
 	    boolean on = ((ToggleButton) view).isChecked();
 	    LinearLayout ll = (LinearLayout)findViewById(R.id.fbLayout);
 	    if (on) {
