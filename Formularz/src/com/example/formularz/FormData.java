@@ -39,10 +39,26 @@ public class FormData {
 		super();
 	}
 
-	public FormData(String name, String surname, int id,
-			String description, String blog, String languages, String colours,
-			String birthDate, String phone, String gender, int doHaveFbAcc,
-			int doHaveFbSince) {
+	public FormData(String name, String surname, String description,
+			String blog, String languages, String colours, String birthDate,
+			String phone, String gender, int doHaveFbAcc, int doHaveFbSince) {
+		super();
+		this.name = name;
+		this.surname = surname;
+		this.description = description;
+		this.blog = blog;
+		this.languages = languages;
+		this.colours = colours;
+		this.birthDate = birthDate;
+		this.phone = phone;
+		this.gender = gender;
+		this.doHaveFbAcc = doHaveFbAcc;
+		this.doHaveFbSince = doHaveFbSince;
+	}
+
+	public FormData(String name, String surname, int id, String description,
+			String blog, String languages, String colours, String birthDate,
+			String phone, String gender, int doHaveFbAcc, int doHaveFbSince) {
 		super();
 		this.name = name;
 		this.surname = surname;
@@ -134,4 +150,9 @@ public class FormData {
 		this.doHaveFbSince = doHaveFbSince;
 	}
 
+	@Override
+	public String toString()
+	{
+		return name + ", " + surname + ", " + description + ", " + blog + ", " + colours + ", " + languages; 
+	}
 }

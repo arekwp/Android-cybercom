@@ -169,4 +169,27 @@ public class MainActivity extends Activity {
 	    }
 	}
 	
+	/**
+	 * Zbiera wszystkie dane z formularza i zapisuje je do obiektu klasy FormData;
+	 * @return
+	 */
+	private FormData packData()
+	{
+		FormData fd;
+		String name = ((EditText)findViewById(R.id.etName)).getText().toString();
+		String surname = ((EditText)findViewById(R.id.etSurname)).getText().toString();
+		String description = ((EditText)findViewById(R.id.etDesc)).getText().toString();
+		String blog = ((EditText)findViewById(R.id.etBlog)).getText().toString();
+		String languages = ((MultiAutoCompleteTextView)findViewById(R.id.mactvLang)).getText().toString();
+		String colours = ((MultiAutoCompleteTextView)findViewById(R.id.mactvColour)).getText().toString();
+		String phone = ((EditText)findViewById(R.id.etPhone)).getText().toString();
+		String gender = ((Spinner)findViewById(R.id.sGender)).getSelectedItem().toString();
+		String birthDate = ((EditText)findViewById(R.id.sGender)).getText().toString();
+		int doHaveFbAcc = ((ToggleButton)findViewById(R.id.toggleButton1)).isChecked() ? 1 : 0;
+		int doHaveFbSince = ((SeekBar)findViewById(R.id.seekBar1)).getProgress();
+		
+		fd = new FormData(name, surname, description, blog, languages, colours, birthDate, phone, gender, doHaveFbAcc, doHaveFbSince);
+		return fd;
+	}
+	
 }
