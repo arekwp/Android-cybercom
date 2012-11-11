@@ -9,11 +9,16 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
  
     // FormDatas table name
     private static final String TABLE_FORMS = "forms";
+    
+    private static final String DATABASE_NAME = "forms";
+    
+    private static final int DATABASE_VERSION = 1;
  
     // FormDatas Table Columns names
     private static final String KEY_ID = "id";
@@ -33,9 +38,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			int version) {
 		super(context, name, factory, version);
 	}
+	
+	public DatabaseHelper(Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    }
 
 	@Override
-	public void onCreate(SQLiteDatabase db) {
+	public void onCreate(SQLiteDatabase db) {		
 		 String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_FORMS + "("
 	                + KEY_ID + " INTEGER PRIMARY KEY," 
 	                + KEY_NAME + " TEXT,"
@@ -54,7 +63,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		// TODO Auto-generated method stub
+		// Drop older table if existed
+				db.execSQL("DROP TABLE IF EXISTS " + TABLE_FORMS);
+
+				// Create tables again
+				onCreate(db);
 		
 	}
 
@@ -71,12 +84,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	    values.put(KEY_BIRTH, contact.getBirthDate());
 	    values.put(KEY_PHONE, contact.getPhone());
 	    values.put(KEY_GENDER, contact.getGender());
-	    values.put(KEY_FBSINCE, contact.getSurname());
+	    values.put(KEY_FBSINCE, contact.getDoHaveFbSince());
 	    values.put(KEY_ISONFB, contact.getDoHaveFbAcc());
 	 
 	    // Inserting Row
 	    db.insert(TABLE_FORMS, null, values);
-	    db.close(); // Closing database connection
+	    //db.close(); // Closing database connection
 	}
 	
 	/*
@@ -101,11 +114,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	 
 	    SQLiteDatabase db = this.getWritableDatabase();
 	    Cursor cursor = db.rawQuery(selectQuery, null);
-	 
-	    // looping through all rows and adding to list
+	    
 	    if (cursor.moveToFirst()) {
 	        do {
 	            FormData form = new FormData();
+	            Log.d("ilosc kolumn: ", String.valueOf(cursor.getColumnCount()));
+	            Log.d("kolumny: ", cursor.getColumnNames()[0] + ": " + Integer.parseInt(cursor.getString(0)));
+	            Log.d("kolumny: ", cursor.getColumnNames()[1] + ": " + cursor.getString(1));
+	            Log.d("kolumny: ", cursor.getColumnNames()[2] + ": " + cursor.getString(2));
+	            Log.d("kolumny: ", cursor.getColumnNames()[3] + ": " + cursor.getString(3));
+	            Log.d("kolumny: ", cursor.getColumnNames()[4] + ": " + cursor.getString(4));
+	            Log.d("kolumny: ", cursor.getColumnNames()[5] + ": " + cursor.getString(5));
+	            Log.d("kolumny: ", cursor.getColumnNames()[6] + ": " + cursor.getString(6));
+	            Log.d("kolumny: ", cursor.getColumnNames()[7] + ": " + cursor.getString(7));
+	            Log.d("kolumny: ", cursor.getColumnNames()[8] + ": " + cursor.getString(8));
+	            Log.d("kolumny: ", cursor.getColumnNames()[9] + ": " + cursor.getString(9));
+	            Log.d("kolumny: ", cursor.getColumnNames()[10] + ": " + Integer.parseInt(cursor.getString(10)));
+	            Log.d("kolumny: ", cursor.getColumnNames()[11] + ": " + Integer.parseInt(cursor.getString(11)));
+	            
 	            form.setId(Integer.parseInt(cursor.getString(0)));
 	            form.setName(cursor.getString(1));
 	            form.setSurname(cursor.getString(2));
@@ -122,8 +148,36 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	            formList.add(form);
 	        } while (cursor.moveToNext());
 	    }
-	 
-	    // return contact list
+	    cursor.close();
+	    db.close();
+
 	    return formList;
+	}
+	
+	public int getCount()
+	{
+		
+		String countQuery = "SELECT  * FROM " + TABLE_FORMS;
+		SQLiteDatabase db = this.getReadableDatabase();
+		
+		Cursor cursor = db.rawQuery(countQuery, null);
+
+		int count = cursor.getCount();
+		cursor.close();
+		db.close();
+
+		// return count
+		return count;
+	}
+	
+	public void dropDb()
+	{
+		SQLiteDatabase db = this.getReadableDatabase();
+		
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_FORMS);
+		
+		onCreate(db);
+		
+		db.close();
 	}
 }

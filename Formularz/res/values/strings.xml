@@ -6,7 +6,7 @@
     <string name="nameHint">Imię</string>
     <string name="surname">Nazwisko: </string>
     <string name="surnameHint">Nazwisko</string>
-    <string name="birthDate">Data ur.:</string>
+    <string name="birth_date">Data ur.:</string>
     <string name="descHint">Opis</string>
     <string name="desc">Opis: </string>
     <string name="blog">Blog: </string>
@@ -31,9 +31,12 @@
         <item>f</item>
         <item>n/a</item>
     </string-array>
-
-    <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
     <string name="title_activity_form_list">FormListActivity</string>
+    <string name="menu_form_list">Pokaż listę formularzy</string>
+    <string name="menu_add_new">Dodaj nowy formularz</string>
+    <string name="menu_add_form">Dodaj</string>
+    <string name="menu_erase_db">Usun wszystkie zapisane formularze</string>
+    <string name="menu_clear_menu">Wyczyść formularz</string>
 
 </resources>

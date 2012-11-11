@@ -1,11 +1,12 @@
 package com.example.formularz;
 
 import java.util.Calendar;
-
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
@@ -26,9 +27,10 @@ public class MainActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
 		
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		
+		setContentView(R.layout.activity_main);
 		
 		EditText etSurname = (EditText) findViewById(R.id.etSurname);
 		registerForContextMenu(etSurname);
@@ -80,23 +82,16 @@ public class MainActivity extends Activity {
 		seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 			
 			public void onStopTrackingTouch(SeekBar seekBar) {
-				// TODO Auto-generated method stub
-				
 			}
 			
 			public void onStartTrackingTouch(SeekBar seekBar) {
-				// TODO Auto-generated method stub
-				
 			}
 			
 			public void onProgressChanged(SeekBar seekBar, int progress,
 					boolean fromUser) {
 				
 				TextView tv = (TextView)findViewById(R.id.tvOnFbValue);
-				//tv.setText(seekBar.getVisibility());
-				tv.setText(progress + "lat");
-				//tv.setText(seekBar.getProgress());
-				
+				tv.setText(progress + "lat");				
 			}
 		});
 	}
@@ -133,16 +128,48 @@ public class MainActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle item selection
 		switch (item.getItemId()) {
-		case R.id.menuClear:
+		case R.id.menu_clear_form:
 			doClean();
+			return true;
+		case R.id.menu_erase_db:
+			eraseDb();
+			return true;
+		case R.id.menu_add_form:
+			addFormToSQLite();
+			doClean();
+			return true;
+		case R.id.menu_goto_form_list:
+			Intent intent = new Intent(MainActivity.this, FormListActivity.class);
+			MainActivity.this.startActivity(intent);
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
 	}
 
+	private void eraseDb() {
+		DatabaseHelper dh = new DatabaseHelper(this);
+		
+		dh.dropDb();
+		
+		dh.close();
+		
+	}
+
+	private void addFormToSQLite() {
+		FormData fd = packData();
+		
+		DatabaseHelper dh = new DatabaseHelper(this);
+		
+		Log.d("Dodaje nowy formularz: ", fd.getName() + " " + fd.getSurname());
+		dh.addForm(fd);
+		Log.d("Ilosc rekordow: ", String.valueOf(dh.getCount()));
+		dh.close();
+		
+	}
+
 	private void doClean() {
-		LinearLayout layout = (LinearLayout) findViewById(R.id.globalLinear);
+		LinearLayout layout = (LinearLayout) findViewById(R.id.global_linear);
 
 		for (int i = 0; i < layout.getChildCount(); i++) {
 			LinearLayout l = (LinearLayout) layout.getChildAt(i);
@@ -187,7 +214,7 @@ public class MainActivity extends Activity {
 		String colours = ((MultiAutoCompleteTextView)findViewById(R.id.mactvColour)).getText().toString();
 		String phone = ((EditText)findViewById(R.id.etPhone)).getText().toString();
 		String gender = ((Spinner)findViewById(R.id.sGender)).getSelectedItem().toString();
-		String birthDate = ((EditText)findViewById(R.id.sGender)).getText().toString();
+		String birthDate = ((Spinner)findViewById(R.id.sGender)).getSelectedItem().toString();
 		int doHaveFbAcc = ((ToggleButton)findViewById(R.id.toggleButton1)).isChecked() ? 1 : 0;
 		int doHaveFbSince = ((SeekBar)findViewById(R.id.seekBar1)).getProgress();
 		
