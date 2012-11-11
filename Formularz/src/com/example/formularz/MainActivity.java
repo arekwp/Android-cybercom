@@ -11,6 +11,7 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -26,6 +27,8 @@ public class MainActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		
 		EditText etSurname = (EditText) findViewById(R.id.etSurname);
 		registerForContextMenu(etSurname);
