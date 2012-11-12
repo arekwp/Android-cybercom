@@ -1,11 +1,13 @@
 package com.example.formularz;
 
 import java.util.Calendar;
+
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.method.LinkMovementMethod;
+import android.text.util.Linkify;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -13,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -29,6 +32,7 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 		
 		setContentView(R.layout.activity_main);
 		
@@ -69,11 +73,14 @@ public class MainActivity extends Activity {
 						new MultiAutoCompleteTextView
 						.CommaTokenizer());
 		
+			
 		EditText etTemp = (EditText)findViewById(R.id.etBlog);
-		etTemp.setMovementMethod(LinkMovementMethod.getInstance());
+		etTemp.setLinksClickable(true);
+		etTemp.setAutoLinkMask(Linkify.ALL);
 		
 		etTemp = (EditText)findViewById(R.id.etPhone);
-		etTemp.setMovementMethod(LinkMovementMethod.getInstance());
+		etTemp.setLinksClickable(true);
+		etTemp.setAutoLinkMask(Linkify.ALL);
 
 		SeekBar seekBar = (SeekBar)findViewById(R.id.seekBar1);
 		Calendar c = Calendar.getInstance();
@@ -220,6 +227,26 @@ public class MainActivity extends Activity {
 		
 		fd = new FormData(name, surname, description, blog, languages, colours, birthDate, phone, gender, doHaveFbAcc, doHaveFbSince);
 		return fd;
+	}
+	
+	public void onButtonClick(View view)
+	{
+		AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+		alertDialog.setTitle("Informacja");
+		alertDialog.setMessage("Dziêkujemy za wype³nienie folmularza");
+		alertDialog.show();		
+	}
+	
+	public void onEditClick(View view)
+	{
+		EditText etBlog = (EditText) findViewById(R.id.etBlog);
+		Linkify.addLinks(etBlog, Linkify.WEB_URLS);	
+	}
+	
+	public void onPhoneClick(View view)
+	{
+		EditText etPhone = (EditText) findViewById(R.id.etPhone);
+		Linkify.addLinks(etPhone, Linkify.PHONE_NUMBERS);	
 	}
 	
 }
