@@ -59,6 +59,10 @@ public class FormDetailsActivity extends FragmentActivity
 	setViewsContent(dh.getFormById(extras.getInt("form_id")));
     }
     
+    /*
+     * TODO dokonczyc ustawianie danych ponizej
+     * 
+     */
     private void setViewsContent(FormData f)
     {
 	EditText et;
