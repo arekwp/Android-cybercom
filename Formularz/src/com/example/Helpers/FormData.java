@@ -1,4 +1,4 @@
-package com.example.formularz;
+package com.example.Helpers;
 
 public class FormData {
 

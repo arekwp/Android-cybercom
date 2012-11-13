@@ -43,6 +43,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/surnameHint" />
+            
         </LinearLayout>
 
         <LinearLayout
@@ -54,16 +55,19 @@
                 android:id="@+id/tvBirthDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
                 android:text="@string/birth_date" />
 
-            <DatePicker
-                android:id="@+id/dpBirthDate"
+            <Button
+                android:id="@+id/bShowDatePickerDialog"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:calendarViewShown="false"
-                android:endYear="2012"
-                android:startYear="1900" />
+                android:text="@string/button_show_picker" />
+            
+            <TextView
+                android:id="@+id/tvDate"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="" />
         </LinearLayout>
 
         <LinearLayout
