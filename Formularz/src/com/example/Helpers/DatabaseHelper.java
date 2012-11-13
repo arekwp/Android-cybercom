@@ -180,4 +180,37 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		
 		db.close();
 	}
+	
+	public FormData getFormById(int id)
+	    {
+		FormData form = new FormData();
+		// Select All Query
+
+		String selectQuery = "SELECT  * FROM " + TABLE_FORMS + " WHERE id = "
+		        + id;
+
+		SQLiteDatabase db = this.getWritableDatabase();
+		Cursor cursor = db.rawQuery(selectQuery, null);
+
+		if (cursor.moveToFirst())
+		{
+		    form.setId(Integer.parseInt(cursor.getString(0)));
+		    form.setName(cursor.getString(1));
+		    form.setSurname(cursor.getString(2));
+		    form.setDescription(cursor.getString(3));
+		    form.setBlog(cursor.getString(4));
+		    form.setLanguages(cursor.getString(5));
+		    form.setColours(cursor.getString(6));
+		    form.setBirthDate(cursor.getString(7));
+		    form.setPhone(cursor.getString(8));
+		    form.setGender(cursor.getString(9));
+		    form.setDoHaveFbAcc(Integer.parseInt(cursor.getString(10)));
+		    form.setDoHaveFbSince(Integer.parseInt(cursor.getString(11)));
+
+		}
+		cursor.close();
+		db.close();
+
+		return form;
+	    }
 }

@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <string name="app_name">Formularz</string>
@@ -31,11 +32,15 @@
         <item>f</item>
         <item>n/a</item>
     </string-array>
+
     <string name="menu_form_list">Pokaż listę formularzy</string>
     <string name="menu_add_new">Dodaj nowy formularz</string>
     <string name="menu_add_form">Dodaj</string>
     <string name="menu_erase_db">Usun wszystkie zapisane formularze</string>
     <string name="menu_clear_menu">Wyczyść formularz</string>
     <string name="button_show_picker">Wybierz datę</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_form_details">FormDetailsActivity</string>
 
 </resources>

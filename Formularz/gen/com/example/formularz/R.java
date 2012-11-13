@@ -29,12 +29,13 @@ public final class R {
         public static final int global_linear=0x7f080000;
         public static final int mactvColour=0x7f08000f;
         public static final int mactvLang=0x7f080011;
-        public static final int menu_add_form=0x7f08001b;
-        public static final int menu_add_new_form=0x7f08001a;
-        public static final int menu_clear=0x7f08001d;
-        public static final int menu_clear_form=0x7f08001e;
-        public static final int menu_erase_db=0x7f08001f;
-        public static final int menu_goto_form_list=0x7f08001c;
+        public static final int menu_add_form=0x7f08001c;
+        public static final int menu_add_new_form=0x7f08001b;
+        public static final int menu_clear=0x7f08001e;
+        public static final int menu_clear_form=0x7f08001f;
+        public static final int menu_erase_db=0x7f080020;
+        public static final int menu_goto_form_list=0x7f08001d;
+        public static final int menu_settings=0x7f08001a;
         public static final int sGender=0x7f080013;
         public static final int seekBar1=0x7f080018;
         public static final int toggleButton1=0x7f080015;
@@ -53,12 +54,14 @@ public final class R {
         public static final int tvTel=0x7f08000c;
     }
     public static final class layout {
-        public static final int activity_form_list=0x7f030000;
-        public static final int activity_main=0x7f030001;
+        public static final int activity_form_details=0x7f030000;
+        public static final int activity_form_list=0x7f030001;
+        public static final int activity_main=0x7f030002;
     }
     public static final class menu {
-        public static final int activity_form_list=0x7f070000;
-        public static final int activity_main=0x7f070001;
+        public static final int activity_form_details=0x7f070000;
+        public static final int activity_form_list=0x7f070001;
+        public static final int activity_main=0x7f070002;
     }
     public static final class string {
         public static final int app_name=0x7f040000;
@@ -70,6 +73,7 @@ public final class R {
         public static final int desc=0x7f040008;
         public static final int descHint=0x7f040007;
         public static final int gender=0x7f04000f;
+        public static final int hello_world=0x7f040019;
         public static final int isOnFb=0x7f040010;
         public static final int lang=0x7f04000e;
         public static final int menu_add_form=0x7f040015;
@@ -78,6 +82,7 @@ public final class R {
         public static final int menu_clear_menu=0x7f040017;
         public static final int menu_erase_db=0x7f040016;
         public static final int menu_form_list=0x7f040013;
+        public static final int menu_settings=0x7f04001a;
         public static final int name=0x7f040002;
         public static final int nameHint=0x7f040003;
         public static final int onFbSince=0x7f040011;
@@ -85,6 +90,7 @@ public final class R {
         public static final int surnameHint=0x7f040005;
         public static final int tel=0x7f04000b;
         public static final int telHint=0x7f04000c;
+        public static final int title_activity_form_details=0x7f04001b;
         public static final int title_activity_main=0x7f040001;
     }
     public static final class style {
