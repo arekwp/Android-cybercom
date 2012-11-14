@@ -12,10 +12,13 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.MultiAutoCompleteTextView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.app.DatePickerDialog;
 
+import com.example.Helpers.ContentHelper;
 import com.example.Helpers.DatabaseHelper;
 import com.example.Helpers.DateHelper;
 import com.example.Helpers.DatePickerFragment;
@@ -86,6 +89,22 @@ public class FormDetailsActivity extends FragmentActivity implements DatePickerD
 
 	et = (EditText) findViewById(R.id.etPhone);
 	et.setText(f.getPhone());
+	
+	TextView tv;
+	tv = (TextView) findViewById(R.id.tvDate);
+	tv.setText(f.getBirthDate());
+	
+	MultiAutoCompleteTextView mactv;
+	mactv = (MultiAutoCompleteTextView) findViewById(R.id.mactvColour);
+	mactv.setText(f.getColours());
+	
+	mactv = (MultiAutoCompleteTextView) findViewById(R.id.mactvLang);
+	mactv.setText(f.getLanguages());
+	
+	Spinner s;
+	s = (Spinner) findViewById(R.id.sGender);
+	s.setSelection(ContentHelper.getId(ContentHelper.GENDERS, f.getGender()));
+	
 
     }
 

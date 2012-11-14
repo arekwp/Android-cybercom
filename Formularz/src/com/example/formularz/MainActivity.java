@@ -31,6 +31,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.example.Helpers.ContentHelper;
 import com.example.Helpers.DatabaseHelper;
 import com.example.Helpers.DateHelper;
 import com.example.Helpers.DatePickerFragment;
@@ -55,15 +56,14 @@ public class MainActivity extends FragmentActivity implements
 	registerForContextMenu(etSurname);
 	
 	ArrayAdapter<String> adapterColours = new ArrayAdapter<String>(this,
-	        android.R.layout.simple_dropdown_item_1line, COLOURS);
+	        android.R.layout.simple_dropdown_item_1line, ContentHelper.COLOURS);
 	
 	ArrayAdapter<CharSequence> adapterLangs = ArrayAdapter
 	        .createFromResource(this, R.array.langs_array,
 	                android.R.layout.simple_dropdown_item_1line);
 	
-	ArrayAdapter<CharSequence> adapterGenders = ArrayAdapter
-	        .createFromResource(this, R.array.genders_array,
-	                android.R.layout.simple_spinner_item);
+	ArrayAdapter<CharSequence> adapterGenders = new ArrayAdapter<CharSequence>
+	(this, android.R.layout.simple_dropdown_item_1line, ContentHelper.GENDERS);
 	
 	Spinner spinner = (Spinner) findViewById(R.id.sGender);
 	
@@ -134,7 +134,7 @@ public class MainActivity extends FragmentActivity implements
 	Calendar c = Calendar.getInstance();
 	DialogFragment df = new DatePickerFragment();
 	DatePickerFragment.YEAR = c.get(Calendar.YEAR);
-	DatePickerFragment.MONTH = c.get(Calendar.MONTH)+1;
+	DatePickerFragment.MONTH = c.get(Calendar.MONTH);
 	DatePickerFragment.DAY = c.get(Calendar.DAY_OF_MONTH);
 	
 	DatePickerFragment.activity = "MainActivity";
@@ -142,9 +142,6 @@ public class MainActivity extends FragmentActivity implements
 	df.show(getSupportFragmentManager(), "datePicker");
 	
     }
-
-    private static final String[] COLOURS = new String[]
-    { "niebieski", "czerwony", "czarny", "¿ó³ty", "zielony" };
     
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v,
@@ -287,8 +284,8 @@ public class MainActivity extends FragmentActivity implements
 	        .toString();
 	String gender = ((Spinner) findViewById(R.id.sGender))
 	        .getSelectedItem().toString();
-	String birthDate = ((Spinner) findViewById(R.id.sGender))
-	        .getSelectedItem().toString();
+	String birthDate = ((TextView) findViewById(R.id.tvDate)).
+		getText().toString();
 	int doHaveFbAcc = ((ToggleButton) findViewById(R.id.toggleButton1))
 	        .isChecked() ? 1 : 0;
 	int doHaveFbSince = ((SeekBar) findViewById(R.id.seekBar1))
@@ -323,9 +320,10 @@ public class MainActivity extends FragmentActivity implements
     {
 	TextView tvDate = (TextView) findViewById(R.id.tvDate);
 	
+	Log.d("wybrana data: ", String.valueOf(day + "-" + month + "-" + year));
 	if (DateHelper.isNoFuture(day, month, year))
 	    
-	    tvDate.setText(day + "-" + (++month) + "-" + year + " ");
+	    tvDate.setText(day + "-" + (month+1) + "-" + year + " ");
 	else
 	{
 	    showDatePicker();

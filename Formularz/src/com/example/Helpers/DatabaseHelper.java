@@ -211,7 +211,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		    form.setGender(cursor.getString(9));
 		    form.setDoHaveFbAcc(Integer.parseInt(cursor.getString(10)));
 		    form.setDoHaveFbSince(Integer.parseInt(cursor.getString(11)));
-
+		    Log.d("data ur", cursor.getString(7));
 		}
 		cursor.close();
 		db.close();
