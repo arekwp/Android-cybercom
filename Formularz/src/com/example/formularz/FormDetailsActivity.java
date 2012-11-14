@@ -67,6 +67,7 @@ public class FormDetailsActivity extends FragmentActivity implements DatePickerD
 
     /*
      * TODO dokonczyc ustawianie danych ponizej
+     * date ustawic poprzez statyczne pola YEAR, MONTH, DAY
      */
     private void setViewsContent(FormData f)
     {

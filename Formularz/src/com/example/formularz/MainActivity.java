@@ -131,7 +131,12 @@ public class MainActivity extends FragmentActivity implements
     
     protected void showDatePicker()
     {
+	Calendar c = Calendar.getInstance();
 	DialogFragment df = new DatePickerFragment();
+	DatePickerFragment.YEAR = c.get(Calendar.YEAR);
+	DatePickerFragment.MONTH = c.get(Calendar.MONTH)+1;
+	DatePickerFragment.DAY = c.get(Calendar.DAY_OF_MONTH);
+	
 	DatePickerFragment.activity = "MainActivity";
 	
 	df.show(getSupportFragmentManager(), "datePicker");
