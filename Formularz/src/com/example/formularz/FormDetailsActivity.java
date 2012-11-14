@@ -1,5 +1,8 @@
 package com.example.formularz;
 
+import java.util.Calendar;
+
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
@@ -13,10 +16,11 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.MultiAutoCompleteTextView;
+import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.app.DatePickerDialog;
+import android.widget.ToggleButton;
 
 import com.example.Helpers.ContentHelper;
 import com.example.Helpers.DatabaseHelper;
@@ -24,9 +28,10 @@ import com.example.Helpers.DateHelper;
 import com.example.Helpers.DatePickerFragment;
 import com.example.Helpers.FormData;
 
-public class FormDetailsActivity extends FragmentActivity implements DatePickerDialog.OnDateSetListener
+public class FormDetailsActivity extends FragmentActivity implements
+        DatePickerDialog.OnDateSetListener
 {
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -34,59 +39,97 @@ public class FormDetailsActivity extends FragmentActivity implements DatePickerD
 	this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 	this.getWindow().setSoftInputMode(
 	        WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
+	
 	setContentView(R.layout.activity_form_details);
-
+	
 	Button b = (Button) findViewById(R.id.bShowDatePickerDialog);
 	b.setOnClickListener(new View.OnClickListener()
 	{
-
+	    
 	    public void onClick(View v)
 	    {
 		showDatePicker();
 	    }
 	});
-
+	
 	setViewsVisible(false);
-
+	
 	getData();
+	
+	SeekBar seekBar = (SeekBar) findViewById(R.id.seekBar1);
+	Calendar c = Calendar.getInstance();
+	int y = c.get(Calendar.YEAR);
+	seekBar.setMax(y - 2004);
+	seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
+	{
+	    
+	    public void onStopTrackingTouch(SeekBar seekBar)
+	    {
+	    }
+	    
+	    public void onStartTrackingTouch(SeekBar seekBar)
+	    {
+	    }
+	    
+	    public void onProgressChanged(SeekBar seekBar, int progress,
+		    boolean fromUser)
+	    {
+		
+		TextView tv = (TextView) findViewById(R.id.tvOnFbValue);
+		tv.setText(progress + "lat");
+	    }
+	});
+	
     }
-
+    
+    public void onToggleClick(View view)
+    {
+	boolean on = ((ToggleButton) view).isChecked();
+	LinearLayout ll = (LinearLayout) findViewById(R.id.fbLayout);
+	if (on)
+	{
+	    ll.setVisibility(0);
+	} else
+	{
+	    ll.setVisibility(8);
+	}
+    }
+    
     protected void showDatePicker()
     {
 	DialogFragment df = new DatePickerFragment();
 	DatePickerFragment.activity = "FormDetailsActivity";
-
+	
 	df.show(getSupportFragmentManager(), "datePicker");
-
+	
     }
-
+    
     private void getData()
     {
 	Bundle extras = getIntent().getExtras();
 	DatabaseHelper dh = new DatabaseHelper(this);
 	setViewsContent(dh.getFormById(extras.getInt("form_id")));
     }
-
+    
     /*
-     * TODO dokonczyc ustawianie danych ponizej
-     * date ustawic poprzez statyczne pola YEAR, MONTH, DAY
+     * TODO dokonczyc ustawianie danych ponizej date ustawic poprzez statyczne
+     * pola YEAR, MONTH, DAY
      */
     private void setViewsContent(FormData f)
     {
 	EditText et;
 	et = (EditText) findViewById(R.id.etName);
 	et.setText(f.getName());
-
+	
 	et = (EditText) findViewById(R.id.etSurname);
 	et.setText(f.getSurname());
-
+	
 	et = (EditText) findViewById(R.id.etDesc);
 	et.setText(f.getDescription());
-
+	
 	et = (EditText) findViewById(R.id.etBlog);
 	et.setText(f.getBlog());
-
+	
 	et = (EditText) findViewById(R.id.etPhone);
 	et.setText(f.getPhone());
 	
@@ -105,13 +148,21 @@ public class FormDetailsActivity extends FragmentActivity implements DatePickerD
 	s = (Spinner) findViewById(R.id.sGender);
 	s.setSelection(ContentHelper.getId(ContentHelper.GENDERS, f.getGender()));
 	
-
+	// Facebook 
+	ToggleButton tbOnFacebook = (ToggleButton) findViewById(R.id.toggleButton1);
+	if (f.getDoHaveFbAcc() == 1)
+	{
+	    tbOnFacebook.toggle();
+	}
+	
+	
+	
     }
-
+    
     private void setViewsVisible(boolean b)
     {
 	LinearLayout layout = (LinearLayout) findViewById(R.id.global_linear);
-
+	
 	for (int i = 0; i < layout.getChildCount(); i++)
 	{
 	    LinearLayout l = (LinearLayout) layout.getChildAt(i);
@@ -122,7 +173,7 @@ public class FormDetailsActivity extends FragmentActivity implements DatePickerD
 	    }
 	}
     }
-
+    
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
@@ -130,7 +181,7 @@ public class FormDetailsActivity extends FragmentActivity implements DatePickerD
 	getMenuInflater().inflate(R.menu.activity_form_details, menu);
 	return true;
     }
-
+    
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
@@ -143,7 +194,7 @@ public class FormDetailsActivity extends FragmentActivity implements DatePickerD
 		return super.onOptionsItemSelected(item);
 	}
     }
-
+    
     public void onDateSet(DatePicker view, int year, int month, int day)
     {
 	TextView tvDate = (TextView) findViewById(R.id.tvDate);
@@ -154,7 +205,8 @@ public class FormDetailsActivity extends FragmentActivity implements DatePickerD
 	else
 	{
 	    showDatePicker();
-	    Toast.makeText(this, "Data wybiega w przyszlosc", Toast.LENGTH_LONG).show();
+	    Toast.makeText(this, "Data wybiega w przyszlosc", Toast.LENGTH_LONG)
+		    .show();
 	}
 	
     }
