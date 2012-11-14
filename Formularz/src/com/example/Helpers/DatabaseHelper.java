@@ -11,6 +11,11 @@ import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+/* TODO add method:
+ * update -> form
+ * 
+ */
+
 public class DatabaseHelper extends SQLiteOpenHelper {
  
     // FormDatas table name

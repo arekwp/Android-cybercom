@@ -7,6 +7,7 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 
+import com.example.formularz.FormDetailsActivity;
 import com.example.formularz.MainActivity;
 
 public class DatePickerFragment extends DialogFragment
@@ -27,6 +28,6 @@ public class DatePickerFragment extends DialogFragment
         if(activity.equals("MainActivity"))
             return new DatePickerDialog(getActivity(), (MainActivity)getActivity(), year, month, day);
         else
-            return new DatePickerDialog(getActivity(), (MainActivity)getActivity(), year, month, day);
+            return new DatePickerDialog(getActivity(), (FormDetailsActivity)getActivity(), year, month, day);
     }
 }

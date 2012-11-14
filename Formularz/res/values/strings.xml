@@ -39,5 +39,6 @@
     <string name="menu_erase_db">Usun wszystkie zapisane formularze</string>
     <string name="menu_clear_menu">Wyczyść formularz</string>
     <string name="button_show_picker">Wybierz datę</string>
+    <string name="menu_edit">Edytuj</string>
 
 </resources>
