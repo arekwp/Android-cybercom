@@ -14,7 +14,7 @@ public class ContentHelper
     {	
 	for (int i = 0; i < array.length; i++)
 	{
-	    if(array[i] == gender)
+	    if(array[i].equals(gender))
 	    {
 		return i;
 	    }

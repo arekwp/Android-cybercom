@@ -40,5 +40,6 @@
     <string name="menu_clear_menu">Wyczyść formularz</string>
     <string name="button_show_picker">Wybierz datę</string>
     <string name="menu_edit">Edytuj</string>
+    <string name="menu_save">Zapisz zmiany</string>
 
 </resources>

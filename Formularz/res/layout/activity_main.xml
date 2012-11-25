@@ -108,8 +108,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:autoLink="web"
-                android:hint="@string/blogHint"
-                android:onClick="onEditClick" />
+                android:hint="@string/blogHint" />
+                <!-- android:onClick="onEditClick" --> 
         </LinearLayout>
 
         <LinearLayout
@@ -127,8 +127,8 @@
                 android:id="@+id/etPhone"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:inputType="phone"
-				android:onClick="onPhoneClick" />
+                android:inputType="phone" />
+				<!-- android:onClick="onPhoneClick" />  -->
         </LinearLayout>
 
         <LinearLayout

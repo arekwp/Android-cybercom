@@ -240,6 +240,16 @@ public class MainActivity extends FragmentActivity implements
 		{
 		    ((ToggleButton) v).setChecked(false);
 		}
+		
+		if (v instanceof SeekBar)
+		{
+		    ((SeekBar) v).setProgress(0);
+		}
+		
+		if (v.getId() == R.id.tvDate)
+		{
+		    ((TextView) v).setText("");
+		}
 	    }
 	}
 	
