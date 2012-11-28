@@ -15,8 +15,8 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.Helpers.DatabaseHelper;
-import com.example.Helpers.FormData;
+import com.example.helpers.DatabaseHelper;
+import com.example.helpers.FormData;
 
 public class FormListActivity extends ListActivity
 {

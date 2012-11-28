@@ -25,11 +25,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import com.example.Helpers.ContentHelper;
-import com.example.Helpers.DatabaseHelper;
-import com.example.Helpers.DateHelper;
-import com.example.Helpers.DatePickerFragment;
-import com.example.Helpers.FormData;
+import com.example.helpers.ContentHelper;
+import com.example.helpers.DatabaseHelper;
+import com.example.helpers.DateHelper;
+import com.example.helpers.DatePickerFragment;
+import com.example.helpers.FormData;
 
 public class FormDetailsActivity extends FragmentActivity implements
         DatePickerDialog.OnDateSetListener
