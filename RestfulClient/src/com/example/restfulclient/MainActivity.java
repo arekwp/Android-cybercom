@@ -82,7 +82,7 @@ public class MainActivity extends Activity implements OnClickListener
 	protected Category doInBackground(String... url)
 	{
 	    String webClientUrl = "http://" + url[0] + ":8020/";
-	    String categoryUrl = "categoryservice/category/001";
+	    String categoryUrl = "categoryservice/category/001/books";
 	    
 	    Category c = null;
 	    

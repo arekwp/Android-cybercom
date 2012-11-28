@@ -4,22 +4,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Application;
-import android.util.Log;
 
 public class MyApplication extends Application
 {
     public List<Category> categories;
+    
+    public String catId = "";
     
     public MyApplication()
     {
 	categories = new ArrayList<Category>();
     }
     
-    public void ShowCategories()
+    public int getById(String id)
     {
-	for(int i =0; i < categories.size(); i++)
+	for(int i= 0; i < categories.size(); i++)
 	{
-	    Log.v(categories.get(i).getCategoryId(), categories.get(i).getCategoryName());
+	    if(categories.get(i).getCategoryId().equals(id))
+		return i;
 	}
+	
+	return -1;
     }
 }

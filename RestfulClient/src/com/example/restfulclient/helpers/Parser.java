@@ -2,6 +2,7 @@ package com.example.restfulclient.helpers;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -38,21 +39,13 @@ public class Parser
 	
 	Category c = new Category();
 	
-	parser.require(XmlPullParser.START_TAG, ns, "Category"); // wymaga
-	                                                         // glownego
-	                                                         // tagu o
-	                                                         // nazwie
-	                                                         // Category
-//	while (parser.next() != XmlPullParser.END_TAG)
-//	{
-//	    if (parser.getEventType() != XmlPullParser.START_TAG)
-//	    {
-//		continue;
-//	    }
-//	    // String name = parser.getName();
-//	    
-	    c = readCategory(parser);
-//	}
+	//parser.require(XmlPullParser.START_TAG, ns, "Category");
+	// wymaga
+	// glownego
+	// tagu o
+	// nazwie
+	// Category
+	c = readCategory(parser);
 	return c;
     }
     
@@ -60,27 +53,37 @@ public class Parser
     {
 	String name = "blob";
 	String id = null;
-	Collection<Book> books = null;
+	Collection<Book> books = new ArrayList<Book>();
 	String pname = null;
 	
 	try
 	{
-	    while (parser.next() != XmlPullParser.END_TAG)
+	    while (parser.next() != XmlPullParser.END_DOCUMENT)
 	    {
+		pname = parser.getName();
+		
+		if(parser.getText() != null)
+		    Log.d("getText", parser.getText());
+		
+		Log.d("pos desc", parser.getPositionDescription());
+		
 		if (parser.getEventType() != XmlPullParser.START_TAG)
 		{
 		    continue;
-		}
-		pname = parser.getName();
+		} 
+		
+		
+		
+		Log.d("pname: ", pname);
 		if (pname.equals("categoryId"))
 		{
 		    id = readId(parser);
 		} else if (pname.equals("categoryName"))
 		{
 		    name = readName(parser);
-		} else if (pname.equals("books"))
+		} else
 		{
-		    books = readBooks(parser);
+		    books.add(readBook(parser));
 		}
 	    }
 	} catch (XmlPullParserException e)
@@ -90,14 +93,60 @@ public class Parser
 	{
 	    e.printStackTrace();
 	}
-	Log.d("Parser readCat:", id + " " + name);
+	Log.d("Parser readCat:", id + " " + name + " and " + books.size()
+	        + " books");
 	return new Category(id, name, books);
     }
     
-    private Collection<Book> readBooks(XmlPullParser parser)
+    private Book readBook(XmlPullParser parser)
     {
-	// TODO Auto-generated method stub
-	return null;
+	Book book = new Book();
+	
+	try
+	{
+	    while (parser.next() != XmlPullParser.END_TAG)
+	    {
+		if (parser.getEventType() != XmlPullParser.START_TAG)
+		{
+		    continue;
+		}
+		
+		String name = parser.getName();
+		
+		if (name.equals("author"))
+		{
+		    book.setAuthor(readText(parser));
+		} else if (name.equals("bookISBNnumber"))
+		{
+		    book.setBookISBNnumber(readText(parser));
+		} else if (name.equals("bookId"))
+		{
+		    book.setBookId(readText(parser));
+		} else if (name.equals("bookName"))
+		{
+		    book.setBookName(readBookName(parser));
+		}
+		
+	    }
+	    
+	} catch (XmlPullParserException e)
+	{
+	    e.printStackTrace();
+	} catch (IOException e)
+	{
+	    e.printStackTrace();
+	}
+	
+	return book;
+    }
+    
+    private String readBookName(XmlPullParser parser) throws IOException,
+	    XmlPullParserException
+    {
+	parser.require(XmlPullParser.START_TAG, ns, "bookName");
+	String name = readText(parser);
+	parser.require(XmlPullParser.END_TAG, ns, "bookName");
+	return name;
     }
     
     private String readName(XmlPullParser parser) throws IOException,

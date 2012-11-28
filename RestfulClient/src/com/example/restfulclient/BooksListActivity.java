@@ -1,7 +1,6 @@
 package com.example.restfulclient;
 
 import android.app.ListActivity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -12,59 +11,73 @@ import android.view.Window;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.example.restfulclient.helpers.Book;
 import com.example.restfulclient.helpers.Category;
 import com.example.restfulclient.helpers.MyApplication;
 
-public class CategoryListActivity extends ListActivity
+public class BooksListActivity extends ListActivity
 {
-    MyApplication myApp;
+    
+    MyApplication myApp = null;
+    Category cat = null;
     
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
 	super.onCreate(savedInstanceState);
 	this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-	setContentView(R.layout.activity_category_list);
+	setContentView(R.layout.activity_books_list);
 	
 	myApp = (MyApplication) getApplication();
+	int index = myApp.getById(myApp.catId);
+	cat = myApp.categories.get(index);
+	
+	Log.d("odebrano id: ", myApp.catId);
+	Log.d("wybrano kat: ", cat.getCategoryId());
 	
 	setListAdapter(new BaseAdapter()
 	{
 	    
+	    @Override
 	    public View getView(int pos, View view, ViewGroup parent)
 	    {
 		if (view == null)
 		{
-		    view = View.inflate(CategoryListActivity.this,
+		    view = View.inflate(BooksListActivity.this,
 			    android.R.layout.two_line_list_item, null);
 		}
 		
-		Category cat = (Category) getItem(pos);
+		Book cat = (Book) getItem(pos);
 		
 		TextView text = (TextView) view
 		        .findViewById(android.R.id.text1);
-		text.setText(cat.getCategoryId());
+		text.setText(cat.getBookName());
 		
 		text = (TextView) view.findViewById(android.R.id.text2);
-		text.setText(cat.getCategoryName());
+		text.setText(cat.getAuthor());
 		return view;
 	    }
 	    
+	    @Override
 	    public long getItemId(int position)
 	    {
 		return position;
 	    }
 	    
+	    @Override
 	    public Object getItem(int position)
 	    {
-		return myApp.categories.get(position);
+		Log.d("getItem: ",
+		        ((Book) cat.getBooks().toArray()[position]).getBookId());
+		return (Book) cat.getBooks().toArray()[position];
 	    }
 	    
+	    @Override
 	    public int getCount()
 	    {
-		return myApp.categories.size();
+		Log.d("getCount books: ", String.valueOf(cat.getBooks().size()));
+		return cat.getBooks().size();
 	    }
 	});
 	
@@ -76,7 +89,7 @@ public class CategoryListActivity extends ListActivity
     public boolean onCreateOptionsMenu(Menu menu)
     {
 	// Inflate the menu; this adds items to the action bar if it is present.
-	getMenuInflater().inflate(R.menu.activity_category_list, menu);
+	getMenuInflater().inflate(R.menu.activity_books_list, menu);
 	return true;
     }
     
@@ -94,20 +107,7 @@ public class CategoryListActivity extends ListActivity
     protected void onListItemClick(ListView l, View v, int position, long id)
     {
 	// super.onListItemClick(l, v, position, id);
-	Category selection = (Category) l.getItemAtPosition(position);
-	Log.d("kliknieto: ", selection.getCategoryId());
-	myApp.catId = selection.getCategoryId();
-	
-	if(selection.getBooks() == null || selection.getBooks().size() == 0)
-	{
-	    Toast.makeText(this, "No books in this category", Toast.LENGTH_SHORT).show();
-	    return;
-	}
-	
-	
-	Intent i = new Intent(CategoryListActivity.this,
-	        BooksListActivity.class);
-	CategoryListActivity.this.startActivity(i);
+	Book selection = (Book) l.getItemAtPosition(position);
+	Log.d("kliknieto: ", selection.getAuthor());
     }
-    
 }

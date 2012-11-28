@@ -4,5 +4,6 @@
     <string name="app_name">RestfulClient</string>
     <string name="title_activity_category_list">CategoryListActivity</string>
     <string name="menu_cat_list">Pokaz liste kategorii</string>
+    <string name="title_activity_books_list">BooksListActivity</string>
 
 </resources>
