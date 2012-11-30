@@ -9,7 +9,7 @@ public class MyApplication extends Application
 {
     public List<Category> categories;
     
-    public String catId = "";
+    public Category c;
     
     public MyApplication()
     {
