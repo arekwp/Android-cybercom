@@ -10,6 +10,7 @@ public class MyApplication extends Application
     public List<Category> categories;
     
     public Category c;
+    public Book b;
     
     public MyApplication()
     {
