@@ -64,7 +64,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
 				+ KEY_BOOK_NAME	+ " TEXT, "
 		        + KEY_BOOK_AUTHOR + " TEXT, "
 				+ KEY_BOOK_ISBN
-		        + " TEXT, " + KEY_BOOK_CAT + " TEXT, " + ")";
+		        + " TEXT, " + KEY_BOOK_CAT + " TEXT " + ")";
 
 		db.execSQL(CREATE_CAT_TABLE);
 		db.execSQL(CREATE_BOOK_TABLE);
@@ -95,7 +95,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
 
 	public List<Category> getAllCats()
 	{
-		List<Category> formList = new ArrayList<Category>();
+		List<Category> catList = new ArrayList<Category>();
 		// Select All Query
 		String selectQuery = "SELECT  * FROM " + TABLE_CATS;
 
@@ -106,15 +106,15 @@ public class DatabaseHelper extends SQLiteOpenHelper
 		{
 			do
 			{
-				Category form = packToCat(cursor);
+				Category cat = packToCat(cursor);
 
-				formList.add(form);
+				catList.add(cat);
 			} while (cursor.moveToNext());
 		}
 		cursor.close();
 		db.close();
 
-		return formList;
+		return catList;
 	}
 	
 	public List<Book> getAllBooks()
@@ -294,13 +294,14 @@ public class DatabaseHelper extends SQLiteOpenHelper
 	{
 		ContentValues values = new ContentValues();
 		values.put(KEY_CAT_NAME, c.getCategoryName());
-
+		values.put(KEY_CAT_ID, c.getCategoryId());
 		return values;
 	}
 
 	private ContentValues packToValues(Book b)
 	{
 		ContentValues values = new ContentValues();
+		values.put(KEY_BOOK_ID, b.getBookId());
 		values.put(KEY_BOOK_NAME, b.getBookName());
 		values.put(KEY_BOOK_AUTHOR, b.getAuthor());
 		values.put(KEY_BOOK_ISBN, b.getBookISBNnumber());

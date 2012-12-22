@@ -9,7 +9,6 @@ import java.util.List;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
-import android.util.Log;
 import android.util.Xml;
 
 public class Parser
@@ -48,7 +47,7 @@ public class Parser
 	    parser.next(); // into cats
 	    pname = parser.getName();
 	    
-	    Log.d("starting pname", pname);
+	    //Log.d("starting pname", pname);
 	    
 	    while (parser.next() != XmlPullParser.END_DOCUMENT)
 	    {
@@ -65,12 +64,12 @@ public class Parser
 		
 		if (pname.equals("coll"))
 		{
-		    Log.d("coll", "in");
+		    //Log.d("coll", "in");
 		    while (parser.next() != XmlPullParser.END_TAG)
 		    {
 			
-			Log.d("1 parser data catId",
-			        parser.getPositionDescription());
+			//Log.d("1 parser data catId",
+			//        parser.getPositionDescription());
 			if (parser.getEventType() != XmlPullParser.START_TAG)
 			{
 			    continue;
@@ -78,25 +77,25 @@ public class Parser
 			
 			pname = parser.getName();
 			
-			Log.d("inner pname: ", pname);
+			//Log.d("inner pname: ", pname);
 			
 			if (pname.equals("categoryId"))
 			{
 			    id = readId(parser);
-			    Log.d("2 parser data catId",
-				    parser.getPositionDescription());
-			    Log.d("read: ", id + " cat");
+			    //Log.d("2 parser data catId",
+				 //   parser.getPositionDescription());
+			    //Log.d("read: ", id + " cat");
 			} else if (pname.equals("categoryName"))
 			{
 			    name = readName(parser);
-			    Log.d("3 parser data catName",
-				    parser.getPositionDescription());
-			    Log.d("read: ", name + " cat");
+			    //Log.d("3 parser data catName",
+				//    parser.getPositionDescription());
+			    //Log.d("read: ", name + " cat");
 			}
 		    }
 		    if (name != null && id != null)
 		    {
-			Log.d("adding: ", id + " " + name);
+			//Log.d("adding: ", id + " " + name);
 			cats.add(new Category(id, name, books));
 		    }
 		}
@@ -109,7 +108,7 @@ public class Parser
 	{
 	    e.printStackTrace();
 	}
-	Log.d("returned: ", cats.size() + " categories");
+	//Log.d("returned: ", cats.size() + " categories");
 	return cats;
     }
     

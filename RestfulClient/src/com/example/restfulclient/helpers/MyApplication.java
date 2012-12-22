@@ -12,6 +12,8 @@ public class MyApplication extends Application
     public Category c;
     public Book b;
     
+    public boolean offline = false;
+    
     public MyApplication()
     {
 	categories = new ArrayList<Category>();

@@ -1,19 +1,6 @@
 package com.example.restfulclient;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
-import org.xmlpull.v1.XmlPullParserException;
 
 import android.app.ListActivity;
 import android.content.Intent;
@@ -28,14 +15,20 @@ import android.view.Window;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.restfulclient.helpers.Category;
+import com.example.restfulclient.helpers.DatabaseHelper;
+import com.example.restfulclient.helpers.ILibraryDAO;
 import com.example.restfulclient.helpers.MyApplication;
-import com.example.restfulclient.helpers.Parser;
+import com.example.restfulclient.helpers.OnlineLibrary;
+import com.example.restfulclient.helpers.SQLiteLibrary;
 
 public class CategoryListActivity extends ListActivity
 {
 	MyApplication myApp;
+	boolean dumpToOffline = false;
+	final String mUrl = "192.168.1.2";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -44,9 +37,10 @@ public class CategoryListActivity extends ListActivity
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_category_list);
 
-		new GetCategoriesThread().execute("192.168.1.2");
-
 		myApp = (MyApplication) getApplication();
+
+		new GetCategoriesThread().execute(mUrl);
+
 	}
 
 	@Override
@@ -61,10 +55,20 @@ public class CategoryListActivity extends ListActivity
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
 		switch (item.getItemId())
-		{  
+		{
+			case R.id.menuCacheOffline:
+				doOfflineCache();
+				return true;
 			default:
 				return super.onOptionsItemSelected(item);
 		}
+	}
+
+	private void doOfflineCache()
+	{
+		Log.v("cacheing", "offline");
+		dumpToOffline = true;
+		new GetCategoriesThread().execute(mUrl);
 	}
 
 	@Override
@@ -82,111 +86,109 @@ public class CategoryListActivity extends ListActivity
 
 	class GetCategoriesThread extends AsyncTask<String, Void, List<Category>>
 	{
+		ILibraryDAO library;
+
 		protected List<Category> doInBackground(String... url)
 		{
-			String webClientUrl = "http://" + url[0] + ":8020/";
-			String categoryUrl = "categoryservice/category";
+			if (myApp.offline)
+				library = new SQLiteLibrary();
+			else
+				library = new OnlineLibrary();
 
-			List<Category> list = null;
+			library.setActivity(CategoryListActivity.this);
 
-			HttpParams params = new BasicHttpParams();
-
-			HttpConnectionParams.setConnectionTimeout(params, 2000);
-			HttpConnectionParams.setSoTimeout(params, 2000);
-
-			HttpClient hc = new DefaultHttpClient(params);
-
-			HttpGet hg = new HttpGet(webClientUrl + categoryUrl);
-			try
-			{
-				HttpResponse hr = hc.execute(hg);
-
-				HttpEntity entity = hr.getEntity();
-
-				if (entity != null)
-				{
-					InputStream is = entity.getContent();
-
-					Parser parser = new Parser();
-
-					try
-					{
-						list = parser.getCategories(is);
-					} catch (XmlPullParserException e)
-					{
-						e.printStackTrace();
-					}
-					is.close();
-				}
-			} catch (ClientProtocolException e)
-			{
-				e.printStackTrace();
-			} catch (IOException e)
-			{
-				System.out.println("service timeout");
-				e.printStackTrace();
-			}
-
-			// String output = "category content: " + c.getCategoryId() + "-"
-			// + c.getCategoryName();
-			// Log.d("parser returned: ", output);
-			return list;
+			return library.getCategories(url[0]);
 		}
 
 		protected void onPostExecute(List<Category> result)
 		{
+			if (dumpToOffline && !myApp.offline)
+			{
+				Log.v("AsynTask",
+				        "dumping offline cache size: " + result.size());
+				dumpData(result);
+				dumpToOffline = false;
+			}
+			Log.v("AsynTask", "setting result");
 			setCategory(result);
 		}
 	}
 
+	private void dumpData(List<Category> result)
+	{
+		DatabaseHelper dh = new DatabaseHelper(this);
+
+		if (result == null)
+			return;
+
+		dh.dropDb();
+		for (Category c : result)
+			dh.addCategory(c);
+
+		Toast.makeText(this,
+		        "Zapisano " + dh.getCatCount() + " kategorii do SQLite",
+		        Toast.LENGTH_LONG).show();
+		if (myApp.offline)
+			goOffline();
+
+	}
+
+	private void goOffline()
+	{
+		DatabaseHelper dh = new DatabaseHelper(this);
+		myApp.categories.clear();
+		myApp.categories.addAll(dh.getAllCats());
+	}
+
 	public void setCategory(List<Category> result)
 	{
-		try
+
+		if (myApp.offline)
+		{
+			goOffline();
+		} else
 		{
 			myApp.categories.clear();
 			myApp.categories.addAll(result);
-			Log.d("ilosc kategori  i: ", String.valueOf(myApp.categories.size()));
-		} catch (NullPointerException e)
-		{
-			e.printStackTrace();
 		}
 
-		setListAdapter(new BaseAdapter()
+		Log.v("zapisane kategorie: ", String.valueOf(myApp.categories.size()));
+		setListAdapter(new CatAdapter());
+	}
+
+	private class CatAdapter extends BaseAdapter
+	{
+		public View getView(int pos, View view, ViewGroup parent)
 		{
-
-			public View getView(int pos, View view, ViewGroup parent)
+			if (view == null)
 			{
-				if (view == null)
-				{
-					view = View.inflate(CategoryListActivity.this,
-					        android.R.layout.two_line_list_item, null);
-				}
-
-				Category cat = (Category) getItem(pos);
-
-				TextView text = (TextView) view
-				        .findViewById(android.R.id.text1);
-				text.setText(cat.getCategoryId());
-
-				text = (TextView) view.findViewById(android.R.id.text2);
-				text.setText(cat.getCategoryName());
-				return view;
+				view = View.inflate(CategoryListActivity.this,
+				        android.R.layout.two_line_list_item, null);
 			}
 
-			public long getItemId(int position)
-			{
-				return position;
-			}
+			Category cat = (Category) getItem(pos);
 
-			public Object getItem(int position)
-			{
-				return myApp.categories.get(position);
-			}
+			TextView text = (TextView) view.findViewById(android.R.id.text1);
+			text.setText(cat.getCategoryId());
 
-			public int getCount()
-			{
-				return myApp.categories.size();
-			}
-		});
+			text = (TextView) view.findViewById(android.R.id.text2);
+			text.setText(cat.getCategoryName());
+			return view;
+		}
+
+		public long getItemId(int position)
+		{
+			return position;
+		}
+
+		public Object getItem(int position)
+		{
+			return myApp.categories.get(position);
+		}
+
+		public int getCount()
+		{
+			return myApp.categories.size();
+		}
 	}
 }
