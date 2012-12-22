@@ -1,5 +1,7 @@
 package com.example.restfulclient.helpers;
 
+import android.graphics.Bitmap;
+
 public class Book {
 
 	private String bookId;
@@ -7,6 +9,10 @@ public class Book {
 	private String bookISBNnumber;
 	
 	private String bookName;
+	
+	private Bitmap photo;
+	
+	private String catId;
 	
 	//Let assume one author only
 	private String author;
@@ -42,5 +48,25 @@ public class Book {
 	public void setAuthor(String author) {
 		this.author = author;
 	}
+
+	public Bitmap getPhoto()
+    {
+	    return photo;
+    }
+
+	public void setPhoto(Bitmap photo)
+    {
+	    this.photo = photo;
+    }
+
+	public String getCatId()
+    {
+	    return catId;
+    }
+
+	public void setCatId(String catId)
+    {
+	    this.catId = catId;
+    }
 	
 }

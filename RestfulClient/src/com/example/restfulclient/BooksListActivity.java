@@ -1,6 +1,8 @@
 package com.example.restfulclient;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -17,6 +19,9 @@ import org.apache.http.params.HttpParams;
 
 import android.app.ListActivity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -33,8 +38,10 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.restfulclient.helpers.Book;
 import com.example.restfulclient.helpers.Category;
@@ -47,6 +54,7 @@ public class BooksListActivity extends ListActivity
 	private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
 	MyApplication myApp = null;
 	Category cat = null;
+	String mStorage = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -63,6 +71,8 @@ public class BooksListActivity extends ListActivity
 
 		Log.d("odebrano id: ", myApp.c.getCategoryId());
 		Log.d("wybrano kat: ", cat.getCategoryId());
+		mStorage = (Environment.getExternalStorageDirectory() + "/" + "Category Images")
+		        .toString();
 	}
 
 	@Override
@@ -177,6 +187,8 @@ public class BooksListActivity extends ListActivity
 
 		Uri fileUri = getOutputMediaFileUri();
 
+		Log.d("fileuri: ", fileUri.getPath());
+
 		intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
 
 		startActivityForResult(intent, 100);
@@ -189,14 +201,14 @@ public class BooksListActivity extends ListActivity
 
 	private File getOutputPath()
 	{
-		File imgDir = new File(Environment.getExternalStorageDirectory(),
-		        "Category Images");
+		File imgDir = new File(mStorage);
 
 		if (!imgDir.exists())
 			if (!imgDir.mkdirs())
 				Log.d("Making image dirs failed", "getOutputPath");
 
-		File image = new File(imgDir.getPath() + myApp.b.getBookName() + ".jpg");
+		File image = new File(imgDir.getPath() + "/" + myApp.b.getBookName()
+		        + ".jpg");
 
 		return image;
 	}
@@ -208,33 +220,78 @@ public class BooksListActivity extends ListActivity
 		{
 			if (resultCode == RESULT_OK)
 			{
-				// Image captured and saved to fileUri specified in the Intent
-				Toast.makeText(this, "Image saved to:\n" + data.getData(),
-				        Toast.LENGTH_LONG).show();
-			} else if (resultCode == RESULT_CANCELED)
-			{
-				// User cancelled the image capture
-			} else
-			{
-				// Image capture failed, advise user
-			}
-		}
 
-		if (requestCode == CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE)
-		{
-			if (resultCode == RESULT_OK)
-			{
-				// Video captured and saved to fileUri specified in the Intent
-				Toast.makeText(this, "Video saved to:\n" + data.getData(),
-				        Toast.LENGTH_LONG).show();
+				
+				File bmp = new File(mStorage + "/" + myApp.b.getBookName()
+				        + ".jpg");
+
+				Bitmap bmpImg = resAndScaleBitmap(bmp);
+
+				FileOutputStream out;
+				try
+				{
+					out = new FileOutputStream(mStorage + "/"
+					        + myApp.b.getBookName() + "_mini.jpg");
+
+					bmpImg.compress(Bitmap.CompressFormat.JPEG, 80, out);
+
+					setListAdapter(new BookAdapter());
+					
+					// Image captured and saved to fileUri specified in the
+					// Intent
+					Toast.makeText(this, "Image saved", Toast.LENGTH_LONG)
+					        .show();
+					
+				} catch (FileNotFoundException e)
+				{
+					e.printStackTrace();
+				}
+
 			} else if (resultCode == RESULT_CANCELED)
 			{
-				// User cancelled the video capture
+				Toast.makeText(this, "Action canceled", Toast.LENGTH_LONG)
+				        .show();
 			} else
 			{
-				// Video capture failed, advise user
+				Toast.makeText(this, "Action failed, check log",
+				        Toast.LENGTH_LONG).show();
 			}
 		}
+		
+	}
+
+	private Bitmap resAndScaleBitmap(File bmp)
+	{
+		// Get the dimensions of the View
+		int targetW = 300;
+		int targetH = 500;
+
+		// Get the dimensions of the bitmap
+		BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+		bmOptions.inJustDecodeBounds = true;
+
+		BitmapFactory.decodeFile(bmp.getPath(), bmOptions);
+
+		int photoW = bmOptions.outWidth;
+		int photoH = bmOptions.outHeight;
+
+		// Determine how much to scale down the image
+		int scaleFactor = Math.min(photoW / targetW, photoH / targetH);
+
+		// Decode the image file into a Bitmap sized to fill the View
+		bmOptions.inJustDecodeBounds = false;
+		bmOptions.inSampleSize = scaleFactor;
+		bmOptions.inPurgeable = true;
+
+		Bitmap bitmap = BitmapFactory.decodeFile(bmp.getPath(), bmOptions);
+		
+		Matrix mx = new Matrix();
+		
+		mx.postRotate(90);
+		
+		Bitmap resScaledBmp = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), mx, true);
+		
+		return resScaledBmp;
 	}
 
 	private class BookAdapter extends BaseAdapter
@@ -258,23 +315,36 @@ public class BooksListActivity extends ListActivity
 
 			vHolder = new ViewHolder();
 
-			Book cat = (Book) getItem(pos);
+			Book book = (Book) getItem(pos);
 
 			vHolder.tvTitle = (TextView) view.findViewById(R.id.tvTitle);
-			vHolder.tvTitle.setText(cat.getBookName());
+			vHolder.tvTitle.setText(book.getBookName());
 
 			vHolder.tvAuthor = (TextView) view.findViewById(R.id.tvAuthor);
-			vHolder.tvAuthor.setText(cat.getAuthor());
+			vHolder.tvAuthor.setText(book.getAuthor());
+
+			vHolder.ivBook = (ImageView) view.findViewById(R.id.ivBook);
+			File img = new File(mStorage + "/" + book.getBookName()
+			        + "_mini.jpg");
+			if (img.exists())
+			{
+				vHolder.ivBook.setImageBitmap(BitmapFactory.decodeFile(img
+				        .getPath()));
+			}
 
 			vHolder.bTakePhoto = (Button) view.findViewById(R.id.bTakePhoto);
+			vHolder.bTakePhoto.setTag(book);
 			vHolder.bTakePhoto.setOnClickListener(new OnClickListener()
 			{
 
 				@Override
 				public void onClick(View v)
 				{
-					dispatchTakePictureIntent();
+					Button b = (Button) v;
 
+					myApp.b = (Book) b.getTag();
+
+					dispatchTakePictureIntent();
 				}
 			});
 			return view;
@@ -303,6 +373,7 @@ public class BooksListActivity extends ListActivity
 			public TextView tvTitle;
 			public TextView tvAuthor;
 			public Button bTakePhoto;
+			public ImageView ivBook;
 		}
 	}
 }
