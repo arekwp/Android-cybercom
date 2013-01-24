@@ -29,6 +29,12 @@ public class Category
 	books = books2;
     }
     
+    public Category(Category c)
+    {
+	this.setCategoryId(c.getCategoryId());
+	this.setCategoryName(c.getCategoryName());
+    }
+
     public String getCategoryId()
     {
 	return categoryId;

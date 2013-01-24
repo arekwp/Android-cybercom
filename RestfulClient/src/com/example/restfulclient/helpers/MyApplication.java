@@ -12,7 +12,9 @@ public class MyApplication extends Application
     public Category c;
     public Book b;
     
-    public String addr = "192.168.0.102";
+    public int catcount;
+    
+    public String addr = "192.168.0.104";
     
     public boolean offline = false;
     

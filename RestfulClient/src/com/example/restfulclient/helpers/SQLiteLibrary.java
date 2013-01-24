@@ -2,43 +2,57 @@ package com.example.restfulclient.helpers;
 
 import java.util.List;
 
-import android.app.ListActivity;
+import android.content.Context;
+import android.util.Log;
 
 public class SQLiteLibrary implements ILibraryDAO
 {
 
-	List<Category> cats = null;
-	List<Book> books = null;
-	
-	ListActivity actv = null;
+    List<Category> cats = null;
+    List<Book> books = null;
 
-	@Override
+    Context actv = null;
+    
+    DatabaseHelper dh;
+    
+    public SQLiteLibrary(Context con)
+    {
+	actv = con;
+	dh = new DatabaseHelper(actv);
+    }
+
+    @Override
     public List<Category> getCategories(String url)
     {
-		DatabaseHelper dh = new DatabaseHelper(actv);
-
-		return dh.getAllCats();	    
+	List<Category> cats = dh.getAllCats();
+	Log.v("cats null? :", (cats == null ? "null" : "not null"));
+	return cats;
     }
 
-	@Override
+    @Override
     public List<Book> getBooks(String url)
     {
-	    return null;
+	return null;
     }
 
-	@Override
-    public void setActivity(ListActivity la)
+    @Override
+    public void setActivity(Context la)
     {
-	    actv = la;
+	actv = la;
     }
-	
-	@Override
+
+    @Override
     public void addBook(Book b)
     {
-		DatabaseHelper dh = new DatabaseHelper(actv);
-		dh.addBook(b);
+
     }
 
-	
-	
+    @Override
+    public void AddCategory(Category c)
+    {
+	// TODO:
+	// dopisanie generowania ID dla kategorii
+	dh.addCategory(new Category(c));
+    }
+
 }
