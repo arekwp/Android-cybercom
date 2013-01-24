@@ -34,6 +34,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="android.app.ListActivity" />
@@ -45,7 +46,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="android.app.ListActivity" />
         </activity>
+        <activity
+            android:name="com.example.restfulclient.AddBookActivity"
+            android:label="@string/title_activity_add_book" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="android.app.BooksListActivity" />
+        </activity>
     </application>
 
->>>>>>> branch 'master' of https://github.com/phini/Android-cybercom.git
 </manifest>

@@ -35,7 +35,8 @@ public class SQLiteLibrary implements ILibraryDAO
 	@Override
     public void addBook(Book b)
     {
-	   
+		DatabaseHelper dh = new DatabaseHelper(actv);
+		dh.addBook(b);
     }
 
 	

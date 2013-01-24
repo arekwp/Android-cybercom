@@ -101,6 +101,12 @@ public class BooksListActivity extends ListActivity
 	{
 		switch (item.getItemId())
 		{
+		case  R.id.add_book:
+			Intent intent = new Intent(BooksListActivity.this,
+			        AddBookActivity.class);
+			BooksListActivity.this.startActivity(intent);
+			return true;
+			
 			default:
 				return super.onOptionsItemSelected(item);
 		}

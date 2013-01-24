@@ -92,7 +92,18 @@ public class DatabaseHelper extends SQLiteOpenHelper
 		db.insert(TABLE_CATS, null, values);
 		// db.close(); // Closing database connection
 	}
+	
+	public void addBook(Book b)
+	{
+		SQLiteDatabase db = this.getWritableDatabase();
 
+		ContentValues values = packToValues(b);
+
+		// Inserting Row
+		db.insert(TABLE_BOOKS, null, values);
+		// db.close(); // Closing database connection
+	}
+	
 	public List<Category> getAllCats()
 	{
 		List<Category> catList = new ArrayList<Category>();
@@ -294,14 +305,14 @@ public class DatabaseHelper extends SQLiteOpenHelper
 	{
 		ContentValues values = new ContentValues();
 		values.put(KEY_CAT_NAME, c.getCategoryName());
-		values.put(KEY_CAT_ID, c.getCategoryId());
+	//	values.put(KEY_CAT_ID, c.getCategoryId());
 		return values;
 	}
 
 	private ContentValues packToValues(Book b)
 	{
 		ContentValues values = new ContentValues();
-		values.put(KEY_BOOK_ID, b.getBookId());
+		//values.put(KEY_BOOK_ID, b.getBookId());
 		values.put(KEY_BOOK_NAME, b.getBookName());
 		values.put(KEY_BOOK_AUTHOR, b.getAuthor());
 		values.put(KEY_BOOK_ISBN, b.getBookISBNnumber());
