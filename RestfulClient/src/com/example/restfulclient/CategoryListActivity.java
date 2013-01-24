@@ -28,7 +28,7 @@ public class CategoryListActivity extends ListActivity
 {
 	MyApplication myApp;
 	boolean dumpToOffline = false;
-	final String mUrl = "192.168.1.2";
+	final String mUrl = "192.168.0.102";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)

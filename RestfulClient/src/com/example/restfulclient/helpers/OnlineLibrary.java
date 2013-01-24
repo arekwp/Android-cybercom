@@ -32,8 +32,8 @@ public class OnlineLibrary implements ILibraryDAO
 
 		HttpParams params = new BasicHttpParams();
 
-		HttpConnectionParams.setConnectionTimeout(params, 2000);
-		HttpConnectionParams.setSoTimeout(params, 2000);
+		HttpConnectionParams.setConnectionTimeout(params, 9000);
+		HttpConnectionParams.setSoTimeout(params, 9000);
 
 		HttpClient hc = new DefaultHttpClient(params);
 

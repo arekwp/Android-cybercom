@@ -67,7 +67,7 @@ public class BooksListActivity extends ListActivity
 		cat = myApp.c;
 		cat.setBooks(new ArrayList<Book>());
 
-		new GetBooksThread(myApp.c).execute("192.168.1.2");
+		new GetBooksThread(myApp.c).execute("192.168.0.102");
 
 		Log.d("odebrano id: ", myApp.c.getCategoryId());
 		Log.d("wybrano kat: ", cat.getCategoryId());
