@@ -133,14 +133,20 @@ public class BooksListActivity extends ListActivity
 
 		protected Category doInBackground(String... url)
 		{
+		    if(myApp.offline)
+		    {}
+		    else
+		    {
+		    
+		    }
 			String webClientUrl = "http://" + url[0] + ":8020/";
 			String categoryUrl = "categoryservice/category/"
 			        + c.getCategoryId() + "/books";
 
 			HttpParams params = new BasicHttpParams();
 
-			HttpConnectionParams.setConnectionTimeout(params, 2000);
-			HttpConnectionParams.setSoTimeout(params, 2000);
+			HttpConnectionParams.setConnectionTimeout(params, 8000);
+			HttpConnectionParams.setSoTimeout(params, 8000);
 
 			HttpClient hc = new DefaultHttpClient(params);
 
@@ -197,7 +203,7 @@ public class BooksListActivity extends ListActivity
 
 		intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
 
-		startActivityForResult(intent, 100);
+		startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
 	}
 
 	private Uri getOutputMediaFileUri()

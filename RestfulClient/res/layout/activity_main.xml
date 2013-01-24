@@ -17,7 +17,7 @@
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/editText1"
+        android:layout_alignBottom="@+id/etCatId"
         android:layout_alignParentLeft="true"
         android:text="ID" />
 
@@ -25,13 +25,13 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/editText2"
-        android:layout_alignBottom="@+id/editText2"
+        android:layout_alignBaseline="@+id/etCatName"
+        android:layout_alignBottom="@+id/etCatName"
         android:layout_alignParentLeft="true"
         android:text="Name" />
 
     <EditText
-        android:id="@+id/editText1"
+        android:id="@+id/etCatId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -43,10 +43,10 @@
     </EditText>
 
     <EditText
-        android:id="@+id/teName"
+        android:id="@+id/etCatName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/editText1"
+        android:layout_below="@+id/etCatId"
         android:layout_toRightOf="@+id/textView2"
         android:ems="10" />
 

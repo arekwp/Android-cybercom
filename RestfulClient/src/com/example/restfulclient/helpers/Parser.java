@@ -2,12 +2,27 @@ package com.example.restfulclient.helpers;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Text;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlSerializer;
 
 import android.util.Xml;
 
@@ -47,7 +62,7 @@ public class Parser
 	    parser.next(); // into cats
 	    pname = parser.getName();
 	    
-	    //Log.d("starting pname", pname);
+	    // Log.d("starting pname", pname);
 	    
 	    while (parser.next() != XmlPullParser.END_DOCUMENT)
 	    {
@@ -64,12 +79,12 @@ public class Parser
 		
 		if (pname.equals("coll"))
 		{
-		    //Log.d("coll", "in");
+		    // Log.d("coll", "in");
 		    while (parser.next() != XmlPullParser.END_TAG)
 		    {
 			
-			//Log.d("1 parser data catId",
-			//        parser.getPositionDescription());
+			// Log.d("1 parser data catId",
+			// parser.getPositionDescription());
 			if (parser.getEventType() != XmlPullParser.START_TAG)
 			{
 			    continue;
@@ -77,25 +92,25 @@ public class Parser
 			
 			pname = parser.getName();
 			
-			//Log.d("inner pname: ", pname);
+			// Log.d("inner pname: ", pname);
 			
 			if (pname.equals("categoryId"))
 			{
 			    id = readId(parser);
-			    //Log.d("2 parser data catId",
-				 //   parser.getPositionDescription());
-			    //Log.d("read: ", id + " cat");
+			    // Log.d("2 parser data catId",
+			    // parser.getPositionDescription());
+			    // Log.d("read: ", id + " cat");
 			} else if (pname.equals("categoryName"))
 			{
 			    name = readName(parser);
-			    //Log.d("3 parser data catName",
-				//    parser.getPositionDescription());
-			    //Log.d("read: ", name + " cat");
+			    // Log.d("3 parser data catName",
+			    // parser.getPositionDescription());
+			    // Log.d("read: ", name + " cat");
 			}
 		    }
 		    if (name != null && id != null)
 		    {
-			//Log.d("adding: ", id + " " + name);
+			// Log.d("adding: ", id + " " + name);
 			cats.add(new Category(id, name, books));
 		    }
 		}
@@ -108,7 +123,7 @@ public class Parser
 	{
 	    e.printStackTrace();
 	}
-	//Log.d("returned: ", cats.size() + " categories");
+	// Log.d("returned: ", cats.size() + " categories");
 	return cats;
     }
     
@@ -122,20 +137,20 @@ public class Parser
 	    parser.nextTag();
 	    return readBooks(parser);
 	} catch (XmlPullParserException e)
-        {
+	{
 	    e.printStackTrace();
-        } catch (IOException e)
-        {
+	} catch (IOException e)
+	{
 	    e.printStackTrace();
-        } finally
+	} finally
 	{
 	    try
-            {
-	        in.close();
-            } catch (IOException e)
-            {
-	        e.printStackTrace();
-            }
+	    {
+		in.close();
+	    } catch (IOException e)
+	    {
+		e.printStackTrace();
+	    }
 	}
 	return null;
     }
@@ -145,8 +160,8 @@ public class Parser
 	List<Book> list = new ArrayList<Book>();
 	
 	try
-        {
-	    while(parser.next() != XmlPullParser.END_DOCUMENT)
+	{
+	    while (parser.next() != XmlPullParser.END_DOCUMENT)
 	    {
 		if (parser.getEventType() != XmlPullParser.START_TAG)
 		{
@@ -154,19 +169,103 @@ public class Parser
 		}
 		
 		String pname = parser.getName();
-		if(pname.equals("books"))
+		if (pname.equals("books"))
 		    list.add(readBook(parser));
 	    }
-        } catch (XmlPullParserException e)
-        {
+	} catch (XmlPullParserException e)
+	{
 	    e.printStackTrace();
-        } catch (IOException e)
-        {
+	} catch (IOException e)
+	{
 	    e.printStackTrace();
-        }
-	
+	}
 	
 	return list;
+    }
+    
+    public String getXml(Category c) throws IllegalArgumentException,
+	    IllegalStateException, IOException
+    {
+	XmlSerializer serializer = Xml.newSerializer();
+	StringWriter sw = new StringWriter();
+	
+	serializer.setOutput(sw);
+	
+	serializer.startDocument("UTF-8", true);
+	
+	serializer.startTag("", "Category");
+	
+	serializer.startTag("", "categoryId");
+	serializer.text(c.getCategoryId());
+	serializer.endTag("", "categoryId");
+	
+	serializer.startTag("", "categoryName");
+	serializer.text(c.getCategoryName());
+	serializer.endTag("", "categoryName");
+	
+	serializer.endTag("", "Category");
+	
+	serializer.endDocument();
+	
+	return sw.toString();
+    }
+    
+    public String getXml(List<Book> lb) throws IllegalArgumentException,
+	    IllegalStateException, IOException
+    {
+	
+	if(lb == null)
+	    throw new NullPointerException("List<Book> is a null");
+	
+	if(lb.size() == 0)
+	    throw new IllegalArgumentException("List<Book> is empty");
+	
+	XmlSerializer serializer = Xml.newSerializer();
+	StringWriter sw = new StringWriter();
+	
+	serializer.setOutput(sw);
+	
+	serializer.startDocument("UTF-8", true);
+	
+	serializer.startTag("", "Category");
+	
+	serializer.startTag("", "categoryId");
+	serializer.text(lb.get(0).getCatId());
+	serializer.endTag("", "categoryId");
+	
+	serializer.startTag("", "categoryName");
+	serializer.endTag("", "categoryName");
+	
+	for (Book b : lb)
+	{
+	    serializer.startDocument("UTF-8", true);
+	    
+	    serializer.startTag("", "Book");
+	    
+	    serializer.startTag("", "bookId");
+	    serializer.text(b.getBookId());
+	    serializer.endTag("", "bookId");
+	    
+	    serializer.startTag("", "bookName");
+	    serializer.text(b.getBookName());
+	    serializer.endTag("", "bookName");
+	    
+	    serializer.startTag("", "author");
+	    serializer.text(b.getAuthor());
+	    serializer.endTag("", "author");
+	    
+	    serializer.startTag("", "bookISBNnumber");
+	    serializer.text(b.getBookISBNnumber());
+	    serializer.endTag("", "bookISBNnumber");
+	    
+	    serializer.endTag("", "Book");
+	}
+	
+	serializer.endTag("", "Category");
+	
+	serializer.endDocument();
+	
+	return sw.toString();
     }
     
     private Book readBook(XmlPullParser parser)
