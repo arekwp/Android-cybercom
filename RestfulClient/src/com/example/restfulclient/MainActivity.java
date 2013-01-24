@@ -2,6 +2,7 @@ package com.example.restfulclient;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -9,7 +10,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
+import com.example.restfulclient.helpers.ILibraryDAO;
 import com.example.restfulclient.helpers.MyApplication;
+import com.example.restfulclient.helpers.OnlineLibrary;
+import com.example.restfulclient.helpers.SQLiteLibrary;
 
 public class MainActivity extends Activity implements OnClickListener
 {
@@ -71,6 +75,12 @@ public class MainActivity extends Activity implements OnClickListener
 	@Override
 	public void onClick(View v)
 	{
-
+	    ILibraryDAO library = null;
+	    if(myApp.offline)
+		library = new SQLiteLibrary();
+	    else
+		library = new OnlineLibrary();
+	    
+	    
 	}
 }
