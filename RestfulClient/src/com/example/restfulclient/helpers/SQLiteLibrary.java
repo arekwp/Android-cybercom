@@ -31,6 +31,12 @@ public class SQLiteLibrary implements ILibraryDAO
     {
 	    actv = la;
     }
+	
+	@Override
+    public void addBook(Book b)
+    {
+	   
+    }
 
 	
 	

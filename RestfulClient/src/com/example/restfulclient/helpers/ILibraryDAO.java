@@ -11,5 +11,7 @@ public interface ILibraryDAO
 
 	public List<Book> getBooks(String url);
 	
+	public void addBook(Book b);
+	
 	public void setActivity(ListActivity la);
 }

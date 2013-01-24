@@ -28,7 +28,8 @@ public class CategoryListActivity extends ListActivity
 {
 	MyApplication myApp;
 	boolean dumpToOffline = false;
-	final String mUrl = "192.168.0.102";
+
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -39,7 +40,7 @@ public class CategoryListActivity extends ListActivity
 
 		myApp = (MyApplication) getApplication();
 
-		new GetCategoriesThread().execute(mUrl);
+		new GetCategoriesThread().execute(myApp.addr);
 
 	}
 
@@ -68,7 +69,7 @@ public class CategoryListActivity extends ListActivity
 	{
 		Log.v("cacheing", "offline");
 		dumpToOffline = true;
-		new GetCategoriesThread().execute(mUrl);
+		new GetCategoriesThread().execute(myApp.addr);
 	}
 
 	@Override

@@ -82,4 +82,11 @@ public class OnlineLibrary implements ILibraryDAO
     {
 	    activ = la; 
     }
+	
+	@Override
+    public void addBook(Book b)
+    {
+	   
+    }
+	
 }
