@@ -29,8 +29,6 @@ public class CategoryListActivity extends ListActivity
 	MyApplication myApp;
 	boolean dumpToOffline = false;
 
-
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
