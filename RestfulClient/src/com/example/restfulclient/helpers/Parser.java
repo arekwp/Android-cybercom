@@ -183,7 +183,7 @@ public class Parser
 	return list;
     }
     
-    public String getXml(Category c) throws IllegalArgumentException,
+    public static String getXml(Category c) throws IllegalArgumentException,
 	    IllegalStateException, IOException
     {
 	XmlSerializer serializer = Xml.newSerializer();
@@ -210,7 +210,7 @@ public class Parser
 	return sw.toString();
     }
     
-    public String getXml(List<Book> lb) throws IllegalArgumentException,
+    public static String getXml(List<Book> lb) throws IllegalArgumentException,
 	    IllegalStateException, IOException
     {
 	

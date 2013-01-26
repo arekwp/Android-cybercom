@@ -1,7 +1,6 @@
 package com.example.restfulclient;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,9 +30,9 @@ public class AddBookActivity extends Activity {
 	{
 		ILibraryDAO library;
 	    if(myApp.offline)
-		library = new SQLiteLibrary();
+		library = new SQLiteLibrary(AddBookActivity.this);
 	    else
-		library = new OnlineLibrary();
+		library = new OnlineLibrary(myApp.addr);
 	    
 	    Book b = new Book();
 	    

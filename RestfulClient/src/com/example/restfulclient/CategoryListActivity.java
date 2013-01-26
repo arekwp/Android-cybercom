@@ -3,10 +3,7 @@ package com.example.restfulclient;
 import java.util.List;
 
 import android.app.ListActivity;
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -41,13 +38,13 @@ public class CategoryListActivity extends ListActivity
 	
 	myApp = (MyApplication) getApplication();
 	
-	ConnectivityManager cm =
-	        (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-	    NetworkInfo netInfo = cm.getActiveNetworkInfo();
-	    if (netInfo != null && netInfo.isConnectedOrConnecting())
-	        myApp.offline = false;
-	    else
-		myApp.offline = true;
+//	ConnectivityManager cm =
+//	        (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+//	    NetworkInfo netInfo = cm.getActiveNetworkInfo();
+//	    if (netInfo != null && netInfo.isConnectedOrConnecting())
+//	        myApp.offline = false;
+//	    else
+//		myApp.offline = true;
 	
 	new GetCategoriesThread().execute(myApp.addr);
     }
@@ -70,12 +67,22 @@ public class CategoryListActivity extends ListActivity
 		return true;
 	    case R.id.menuAddCategory:
 		Intent intent = new Intent(CategoryListActivity.this,
-			MainActivity.class);
+			AddNewCatActivity.class);
 		CategoryListActivity.this.startActivity(intent);
+		return true;
+	    case R.id.menuSync:
+		
 		return true;
 	    default:
 		return super.onOptionsItemSelected(item);
 	}
+    }
+    
+    @Override
+    public void onResume()
+    {
+	super.onResume();
+	new GetCategoriesThread().execute(myApp.addr);
     }
     
     private void doOfflineCache()
@@ -104,14 +111,14 @@ public class CategoryListActivity extends ListActivity
 	
 	protected List<Category> doInBackground(String... url)
 	{
-	    if (myApp.offline)
-		library = new SQLiteLibrary();
+	    if (myApp.isOffline())
+		library = new SQLiteLibrary(CategoryListActivity.this);
 	    else
-		library = new OnlineLibrary();
+		library = new OnlineLibrary(url[0]);
 	    
 	    library.setActivity(CategoryListActivity.this);
 	    
-	    return library.getCategories(url[0]);
+	    return library.getCategories();
 	}
 	
 	protected void onPostExecute(List<Category> result)
@@ -143,7 +150,7 @@ public class CategoryListActivity extends ListActivity
 	Toast.makeText(this,
 	        "Zapisano " + dh.getCatCount() + " kategorii do SQLite",
 	        Toast.LENGTH_LONG).show();
-	if (myApp.offline)
+	if (myApp.isOffline())
 	    goOffline();
 	
     }
@@ -158,7 +165,7 @@ public class CategoryListActivity extends ListActivity
     public void setCategory(List<Category> result)
     {
 	
-	if (myApp.offline)
+	if (myApp.isOffline())
 	{
 	    goOffline();
 	} else

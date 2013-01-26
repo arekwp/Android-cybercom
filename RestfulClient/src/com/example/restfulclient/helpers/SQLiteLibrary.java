@@ -3,6 +3,7 @@ package com.example.restfulclient.helpers;
 import java.util.List;
 
 import android.app.ListActivity;
+import android.content.Context;
 
 public class SQLiteLibrary implements ILibraryDAO
 {
@@ -10,10 +11,15 @@ public class SQLiteLibrary implements ILibraryDAO
     List<Category> cats = null;
     List<Book> books = null;
     
-    ListActivity actv = null;
+    Context actv = null;
     
+    public SQLiteLibrary(Context mainActivity)
+    {
+	actv = mainActivity;
+    }
+
     @Override
-    public List<Category> getCategories(String url)
+    public List<Category> getCategories()
     {
 	DatabaseHelper dh = new DatabaseHelper(actv);
 	
@@ -21,7 +27,7 @@ public class SQLiteLibrary implements ILibraryDAO
     }
     
     @Override
-    public List<Book> getBooks(String url)
+    public List<Book> getBooks()
     {
 	return null;
     }

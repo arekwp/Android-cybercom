@@ -1,5 +1,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
     <item android:id="@+id/menuCacheOffline" android:title="Offline cache"></item>
     <item android:id="@+id/menuAddCategory" android:title="Dodaj kategorię"></item>
+    <item android:id="@+id/menuSync" android:title="Synchronizacja"></item>
 
 </menu>

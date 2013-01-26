@@ -7,9 +7,9 @@ import android.app.ListActivity;
 public interface ILibraryDAO
 {
 
-	public List<Category> getCategories(String url);
+	public List<Category> getCategories();
 
-	public List<Book> getBooks(String url);
+	public List<Book> getBooks();
 	
 	public void addBook(Book b);
 	
