@@ -46,7 +46,7 @@ public class CategoryService
 	
 	System.out.println("getCategory called with category id: " + id);
 	
-	Category cat = (Category) getCategoryDAO().getCategory(id);
+	Category cat = getCategoryDAO().getCategory(id);
 	if (cat == null)
 	{
 	    ResponseBuilder builder = Response.status(Status.BAD_REQUEST);
@@ -67,7 +67,7 @@ public class CategoryService
 	
 	System.out.println("addCategory called");
 	
-	Category cat = (Category) getCategoryDAO().getCategory(
+	Category cat = getCategoryDAO().getCategory(
 	        category.getCategoryId());
 	
 	if (cat != null)
@@ -88,7 +88,7 @@ public class CategoryService
 	id = URLDecoder.decode(id, "UTF-8");
 	System.out.println("deleteCategory with category id : " + id);
 	
-	Category cat = (Category) getCategoryDAO().getCategory(id);
+	Category cat = getCategoryDAO().getCategory(id);
 	if (cat == null)
 	{
 	    return Response.status(Status.BAD_REQUEST).build();
@@ -107,7 +107,7 @@ public class CategoryService
 	System.out.println("updateCategory with category id : "
 	        + category.getCategoryId());
 	
-	Category cat = (Category) getCategoryDAO().getCategory(
+	Category cat = getCategoryDAO().getCategory(
 	        category.getCategoryId());
 	if (cat == null)
 	{
@@ -128,7 +128,7 @@ public class CategoryService
 	System.out.println("addBooks with category id : "
 	        + category.getCategoryId());
 	
-	Category cat = (Category) getCategoryDAO().getCategory(
+	Category cat = getCategoryDAO().getCategory(
 	        category.getCategoryId());
 	if (cat == null)
 	{
@@ -148,7 +148,7 @@ public class CategoryService
 	
 	System.out.println("getBooks called with category id : " + id);
 	
-	Category cat = (Category) getCategoryDAO().getCategory(id);
+	Category cat = getCategoryDAO().getCategory(id);
 	
 	if (cat == null)
 	{
@@ -169,7 +169,7 @@ public class CategoryService
 	
 	System.out.println("getCategories called");
 	
-	Map<String, Category> cats = (Map<String, Category>) getCategoryDAO()
+	Map<String, Category> cats = getCategoryDAO()
 	        .getCategories();
 	
 	if (cats == null)
