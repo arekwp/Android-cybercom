@@ -282,6 +282,9 @@ public class Parser
 		} else if (name.equals("bookName"))
 		{
 		    book.setBookName(readBookName(parser));
+		}else if (name.equals("bookPhoto"))
+		{
+		    book.setPhoto(readBookPhoto(parser));
 		}
 		
 	    }
@@ -297,6 +300,14 @@ public class Parser
 	return book;
     }
     
+    private String readBookPhoto(XmlPullParser parser) throws XmlPullParserException, IOException
+    {
+	parser.require(XmlPullParser.START_TAG, ns, "bookPhoto");
+	String name = readText(parser);
+	parser.require(XmlPullParser.END_TAG, ns, "bookPhoto");
+	return name;
+    }
+
     private String readBookName(XmlPullParser parser) throws IOException,
 	    XmlPullParserException
     {

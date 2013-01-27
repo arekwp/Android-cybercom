@@ -18,7 +18,6 @@ import org.apache.http.params.HttpParams;
 import android.annotation.TargetApi;
 import android.app.ListActivity;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -190,7 +189,7 @@ public class BooksListActivity extends ListActivity
 	
     }
     
-    //wywo³anie tej metody spowoduje uruchoimienie activity do robienia zdjêæ
+    // wywo³anie tej metody spowoduje uruchoimienie activity do robienia zdjêæ
     private void dispatchTakePictureIntent()
     {
 	Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -232,8 +231,9 @@ public class BooksListActivity extends ListActivity
 	    if (resultCode == RESULT_OK)
 	    {
 		
-		String img = PhotoHelper.PhotoToString(mStorage + "/" + myApp.b.getBookName()
-		        + ".jpg", myApp.b);
+		String img = PhotoHelper.PhotoToString(
+		        mStorage + "/" + myApp.b.getBookName() + ".jpg",
+		        myApp.b);
 		
 		setListAdapter(new BookAdapter());
 		
@@ -278,13 +278,9 @@ public class BooksListActivity extends ListActivity
 	    vHolder.tvAuthor.setText(book.getAuthor());
 	    
 	    vHolder.ivBook = (ImageView) view.findViewById(R.id.ivBook);
-	    File img = new File(mStorage + "/" + book.getBookName()
-		    + "_mini.jpg");
-	    if (img.exists())
-	    {
-		vHolder.ivBook.setImageBitmap(BitmapFactory.decodeFile(img
-		        .getPath()));
-	    }
+	    
+	    vHolder.ivBook.setImageBitmap(PhotoHelper.StringToPhoto(book
+		    .getPhoto()));
 	    
 	    return view;
 	}

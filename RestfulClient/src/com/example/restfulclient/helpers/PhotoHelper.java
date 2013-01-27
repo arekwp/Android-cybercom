@@ -60,4 +60,13 @@ public class PhotoHelper
 	
 	return resScaledBmp;
     }
+
+    @TargetApi(Build.VERSION_CODES.FROYO)
+    public static Bitmap StringToPhoto(String photo)
+    {
+	byte[] decodedString = Base64.decode(photo, Base64.DEFAULT);
+	Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+	
+	return decodedByte;
+    }
 }
