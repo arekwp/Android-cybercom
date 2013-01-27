@@ -11,6 +11,8 @@ public class Book {
 	
 	private String bookName;
 	
+	private String bookPhoto;
+	
 	//Let assume one author only
 	private String author;
 
@@ -45,5 +47,15 @@ public class Book {
 	public void setAuthor(String author) {
 		this.author = author;
 	}
+
+	public String getBookPhoto()
+        {
+	    return bookPhoto;
+        }
+
+	public void setBookPhoto(String bookPhoto)
+        {
+	    this.bookPhoto = bookPhoto;
+        }
 	
 }
