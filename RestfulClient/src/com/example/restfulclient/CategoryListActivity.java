@@ -170,7 +170,8 @@ public class CategoryListActivity extends ListActivity
     
     private class CatAdapter extends BaseAdapter
     {
-	public View getView(int pos, View view, ViewGroup parent)
+	@Override
+        public View getView(int pos, View view, ViewGroup parent)
 	{
 	    if (view == null)
 	    {
@@ -188,17 +189,20 @@ public class CategoryListActivity extends ListActivity
 	    return view;
 	}
 	
-	public long getItemId(int position)
+	@Override
+        public long getItemId(int position)
 	{
 	    return position;
 	}
 	
-	public Object getItem(int position)
+	@Override
+        public Object getItem(int position)
 	{
 	    return myApp.categories.get(position);
 	}
 	
-	public int getCount()
+	@Override
+        public int getCount()
 	{
 	    return myApp.categories.size();
 	}
@@ -243,7 +247,8 @@ public class CategoryListActivity extends ListActivity
     {
 	ILibraryDAO library;
 	
-	protected List<Category> doInBackground(String... url)
+	@Override
+        protected List<Category> doInBackground(String... url)
 	{
 	    if (myApp.isOffline())
 		library = new SQLiteLibrary(CategoryListActivity.this);
@@ -255,7 +260,8 @@ public class CategoryListActivity extends ListActivity
 		return library.getCategories();
 	}
 	
-	protected void onPostExecute(List<Category> result)
+	@Override
+        protected void onPostExecute(List<Category> result)
 	{
 	    Log.v("dump/offline: ", dumpToOffline + "/" + myApp.isOffline());
 	    // jeœli u¿ytkownik wymusi³ pobranie danych do SQLite i mamy
@@ -276,7 +282,8 @@ public class CategoryListActivity extends ListActivity
     {
 	ILibraryDAO library;
 	
-	protected Void doInBackground(String... url)
+	@Override
+        protected Void doInBackground(String... url)
 	{
 	    if (myApp.isOffline())
 		library = new SQLiteLibrary(CategoryListActivity.this);
@@ -287,7 +294,8 @@ public class CategoryListActivity extends ListActivity
 	    return null;
 	}
 	
-	protected void onPostExecute(Void result)
+	@Override
+        protected void onPostExecute(Void result)
 	{
 	    new GetCategoriesThread().execute(myApp.addr);
 	    Log.v("AsyncTask", "setting result");
@@ -295,7 +303,8 @@ public class CategoryListActivity extends ListActivity
     }
     class SyncThread extends AsyncTask<String, Void, Void>
     {
-	protected Void doInBackground(String... url)
+	@Override
+        protected Void doInBackground(String... url)
 	{
 	    if (!myApp.isOffline())
 	    {
@@ -320,7 +329,8 @@ public class CategoryListActivity extends ListActivity
 	    return null;
 	}
 
-	protected void onPostExecute(Void result)
+	@Override
+        protected void onPostExecute(Void result)
 	{
 	    new GetCategoriesThread().execute(myApp.addr);
 	    Log.v("AsyncTask", "setting result");

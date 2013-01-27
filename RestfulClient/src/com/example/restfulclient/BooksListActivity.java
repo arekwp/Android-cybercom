@@ -28,7 +28,6 @@ import android.widget.Toast;
 
 import com.example.restfulclient.helpers.Book;
 import com.example.restfulclient.helpers.Category;
-import com.example.restfulclient.helpers.DatabaseHelper;
 import com.example.restfulclient.helpers.ILibraryDAO;
 import com.example.restfulclient.helpers.MyApplication;
 import com.example.restfulclient.helpers.OnlineLibrary;
@@ -118,7 +117,8 @@ public class BooksListActivity extends ListActivity
 	    c = cin;
 	}
 	
-	protected Category doInBackground(String... url)
+	@Override
+        protected Category doInBackground(String... url)
 	{
 	    ILibraryDAO library = null;
 	    if (myApp.isOffline())
@@ -232,7 +232,7 @@ public class BooksListActivity extends ListActivity
 	@Override
 	public View getView(int pos, View view, ViewGroup parent)
 	{
-	    LayoutInflater layoutInflayer = (LayoutInflater) getLayoutInflater();
+	    LayoutInflater layoutInflayer = getLayoutInflater();
 	    ViewHolder vHolder = null;
 	    
 	    if (view == null)
@@ -268,7 +268,7 @@ public class BooksListActivity extends ListActivity
 	@Override
 	public Object getItem(int position)
 	{
-	    return (Book) myApp.c.getBooks().toArray()[position];
+	    return myApp.c.getBooks().toArray()[position];
 	}
 	
 	@Override

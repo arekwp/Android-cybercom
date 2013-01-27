@@ -94,7 +94,8 @@ public class CategoryDetailsActivity extends Activity implements
 	    
 	}
 	
-	protected void onPostExecute(Void result)
+	@Override
+        protected void onPostExecute(Void result)
 	{
 	    finish();
 	}
