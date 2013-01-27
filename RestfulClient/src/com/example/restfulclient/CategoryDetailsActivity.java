@@ -15,7 +15,7 @@ import com.example.restfulclient.helpers.MyApplication;
 import com.example.restfulclient.helpers.OnlineLibrary;
 import com.example.restfulclient.helpers.SQLiteLibrary;
 
-public class AddNewCatActivity extends Activity implements OnClickListener
+public class CategoryDetailsActivity extends Activity implements OnClickListener
 {
     MyApplication myApp;
     
@@ -40,19 +40,6 @@ public class AddNewCatActivity extends Activity implements OnClickListener
 	return true;
     }
     
-    /*
-     * @Override public boolean onOptionsItemSelected(MenuItem item) { // Handle
-     * item selection switch (item.getItemId()) { default: return
-     * super.onOptionsItemSelected(item); } }
-     * 
-     * /* @Override public boolean onPrepareOptionsMenu(Menu menu) {
-     * super.onPrepareOptionsMenu(menu);
-     * 
-     * return true;
-     * 
-     * }
-     */
-    
     @Override
     public void onClick(View v)
     {
@@ -73,7 +60,7 @@ public class AddNewCatActivity extends Activity implements OnClickListener
 	    ILibraryDAO library = null;
 	    
 	    if (myApp.isOffline())
-		library = new SQLiteLibrary(AddNewCatActivity.this);
+		library = new SQLiteLibrary(CategoryDetailsActivity.this);
 	    else
 		library = new OnlineLibrary(myApp.addr);
 	    

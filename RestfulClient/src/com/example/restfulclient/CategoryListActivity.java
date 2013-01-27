@@ -65,7 +65,7 @@ public class CategoryListActivity extends ListActivity
 		return true;
 	    case R.id.menuAddCategory:
 		Intent intent = new Intent(CategoryListActivity.this,
-		        AddNewCatActivity.class);
+		        CategoryDetailsActivity.class);
 		CategoryListActivity.this.startActivity(intent);
 		return true;
 	    case R.id.menuSync:
@@ -200,7 +200,7 @@ public class CategoryListActivity extends ListActivity
 	if (item.getTitle() == "Edytuj")
 	{
 	    Intent intent = new Intent(CategoryListActivity.this,
-		    AddNewCatActivity.class);
+		    CategoryDetailsActivity.class);
 	    
 	    CategoryListActivity.this.startActivity(intent);
 	    
@@ -210,6 +210,7 @@ public class CategoryListActivity extends ListActivity
 	    new DeleteCategoriesThread().execute(myApp.addr);
 	} else
 	{
+	    myApp.c = null;
 	    return false;
 	}
 	return true;
