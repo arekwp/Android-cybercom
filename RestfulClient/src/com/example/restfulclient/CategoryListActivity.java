@@ -232,8 +232,10 @@ public class CategoryListActivity extends ListActivity
 	
 	protected void onPostExecute(List<Category> result)
 	{
-	    Log.v("dump/offline: ", dumpToOffline + "/" + myApp.offline);
-	    if (dumpToOffline && !myApp.offline)
+	    Log.v("dump/offline: ", dumpToOffline + "/" + myApp.isOffline());
+	    // jeœli u¿ytkownik wymusi³ pobranie danych do SQLite i mamy
+	    // po³¹czenie z internetem to ...
+	    if (dumpToOffline && !myApp.isOffline())
 	    {
 		Log.v("AsyncTask",
 		        "dumping offline cache size: " + result.size());

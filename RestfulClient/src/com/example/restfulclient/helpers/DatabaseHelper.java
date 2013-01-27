@@ -24,7 +24,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
 
 	private static final String DATABASE_NAME = "cats";
 
-	private static final int DATABASE_VERSION = 1;
+	private static final int DATABASE_VERSION = 2;
 
 	// FormDatas Table Columns names
 	private static final String KEY_ID = "id";
@@ -37,6 +37,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
 	private static final String KEY_BOOK_AUTHOR = "author";
 	private static final String KEY_BOOK_ISBN = "isbn";
 	private static final String KEY_BOOK_CAT = "cid";
+	private static final String KEY_BOOK_PHOTO = "photo";
 
 	public DatabaseHelper(Context context, String name, CursorFactory factory,
 	        int version)
@@ -63,8 +64,10 @@ public class DatabaseHelper extends SQLiteOpenHelper
 		        + KEY_BOOK_NAME + " TEXT"
 				+ KEY_BOOK_NAME	+ " TEXT, "
 		        + KEY_BOOK_AUTHOR + " TEXT, "
-				+ KEY_BOOK_ISBN
-		        + " TEXT, " + KEY_BOOK_CAT + " TEXT " + ")";
+				+ KEY_BOOK_ISBN + " TEXT, " 
+		        + KEY_BOOK_CAT + " TEXT, "
+		        + KEY_BOOK_PHOTO + " TEXT "
+				+ ")";
 
 		db.execSQL(CREATE_CAT_TABLE);
 		db.execSQL(CREATE_BOOK_TABLE);
@@ -277,6 +280,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
 		b.setBookName(cursor.getString(2));
 		b.setAuthor(cursor.getString(3));
 		b.setBookISBNnumber(cursor.getString(4));
+		b.setPhoto(cursor.getString(5));
 
 	    return b;
     }
@@ -317,6 +321,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
 		values.put(KEY_BOOK_AUTHOR, b.getAuthor());
 		values.put(KEY_BOOK_ISBN, b.getBookISBNnumber());
 		values.put(KEY_BOOK_CAT, b.getBookName());
+		values.put(KEY_BOOK_PHOTO, b.getPhoto());
 
 		return values;
 	}

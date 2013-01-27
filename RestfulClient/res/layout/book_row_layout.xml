@@ -38,13 +38,6 @@
             android:contentDescription="@drawable/ic_launcher"
             android:src="@drawable/ic_launcher" />
 
-        <Button
-            android:id="@+id/bTakePhoto"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
-            android:focusable="false"
-            android:text="Take photo" />
     </LinearLayout>
 
 </RelativeLayout>

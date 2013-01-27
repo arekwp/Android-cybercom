@@ -3,7 +3,6 @@ package com.example.restfulclient.helpers;
 import java.util.List;
 
 import android.app.ListActivity;
-import android.content.Context;
 
 public interface ILibraryDAO
 {
