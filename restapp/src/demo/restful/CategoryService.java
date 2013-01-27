@@ -119,6 +119,26 @@ public class CategoryService
 	}
     }
     
+    @PUT
+    @Path("/category/{id}")
+    public Response updateSyncCat(@PathParam("id") String id, Category category)
+    {
+	
+	System.out.println("updateSyncCat with category id : "
+	        + category.getCategoryId());
+	
+	Category cat = (Category) getCategoryDAO().getCategory(
+	        category.getCategoryId());
+	if (cat == null)
+	{
+	    return Response.status(Status.BAD_REQUEST).build();
+	} else
+	{
+	    getCategoryDAO().syncCategory(category);
+	    return Response.ok(category).build();
+	}
+    }
+    
     @POST
     @Path("/category/book")
     @Consumes("application/xml")
