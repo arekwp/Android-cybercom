@@ -320,4 +320,11 @@ public class DatabaseHelper extends SQLiteOpenHelper
 
 		return values;
 	}
+
+	public void delete(Category category)
+        {
+	    SQLiteDatabase db = getWritableDatabase();
+	    db.delete(TABLE_CATS, KEY_CAT_ID + " = ?", new String[]{category.getCategoryId()});
+	    
+        }
 }

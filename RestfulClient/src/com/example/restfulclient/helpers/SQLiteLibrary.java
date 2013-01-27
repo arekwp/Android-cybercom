@@ -52,5 +52,12 @@ public class SQLiteLibrary implements ILibraryDAO
 	dh.addCategory(category);
 	
     }
+
+    @Override
+    public void deleteCategory(Category category, Context applicationContext)
+    {
+	DatabaseHelper dh = new DatabaseHelper(actv);
+	dh.delete(category);
+    }
     
 }

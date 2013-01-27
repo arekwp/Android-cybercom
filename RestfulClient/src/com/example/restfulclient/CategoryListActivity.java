@@ -7,11 +7,14 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -38,13 +41,8 @@ public class CategoryListActivity extends ListActivity
 	
 	myApp = (MyApplication) getApplication();
 	
-//	ConnectivityManager cm =
-//	        (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-//	    NetworkInfo netInfo = cm.getActiveNetworkInfo();
-//	    if (netInfo != null && netInfo.isConnectedOrConnecting())
-//	        myApp.offline = false;
-//	    else
-//		myApp.offline = true;
+	ListView lv = (ListView) findViewById(android.R.id.list);
+	registerForContextMenu(lv);
 	
 	new GetCategoriesThread().execute(myApp.addr);
     }
@@ -67,7 +65,7 @@ public class CategoryListActivity extends ListActivity
 		return true;
 	    case R.id.menuAddCategory:
 		Intent intent = new Intent(CategoryListActivity.this,
-			AddNewCatActivity.class);
+		        AddNewCatActivity.class);
 		CategoryListActivity.this.startActivity(intent);
 		return true;
 	    case R.id.menuSync:
@@ -103,37 +101,6 @@ public class CategoryListActivity extends ListActivity
 	Intent i = new Intent(CategoryListActivity.this,
 	        BooksListActivity.class);
 	CategoryListActivity.this.startActivity(i);
-    }
-    
-    class GetCategoriesThread extends AsyncTask<String, Void, List<Category>>
-    {
-	ILibraryDAO library;
-	
-	protected List<Category> doInBackground(String... url)
-	{
-	    if (myApp.isOffline())
-		library = new SQLiteLibrary(CategoryListActivity.this);
-	    else
-		library = new OnlineLibrary(url[0]);
-	    
-	    library.setActivity(CategoryListActivity.this);
-	    
-	    return library.getCategories();
-	}
-	
-	protected void onPostExecute(List<Category> result)
-	{
-	    Log.v("dump/offline: ", dumpToOffline + "/" + myApp.offline);
-	    if (dumpToOffline && !myApp.offline)
-	    {
-		Log.v("AsynTask",
-		        "dumping offline cache size: " + result.size());
-		dumpData(result);
-		dumpToOffline = false;
-	    }
-	    Log.v("AsynTask", "setting result");
-	    setCategory(result);
-	}
     }
     
     private void dumpData(List<Category> result)
@@ -211,6 +178,91 @@ public class CategoryListActivity extends ListActivity
 	public int getCount()
 	{
 	    return myApp.categories.size();
+	}
+    }
+    
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v,
+	    ContextMenuInfo menuInfo)
+    {
+	super.onCreateContextMenu(menu, v, menuInfo);
+	menu.setHeaderTitle("Kategorie");
+	menu.add(0, v.getId(), 0, "Edytuj");
+	menu.add(0, v.getId(), 0, "Usuñ");
+    }
+    
+    @Override
+    public boolean onContextItemSelected(MenuItem item)
+    {
+	AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item
+	        .getMenuInfo();
+	myApp.c = myApp.categories.get(info.position);
+	if (item.getTitle() == "Edytuj")
+	{
+	    Intent intent = new Intent(CategoryListActivity.this,
+		    AddNewCatActivity.class);
+	    
+	    CategoryListActivity.this.startActivity(intent);
+	    
+	} else if (item.getTitle() == "Usuñ")
+	{
+	    
+	    new DeleteCategoriesThread().execute(myApp.addr);
+	} else
+	{
+	    return false;
+	}
+	return true;
+    }
+    
+    class GetCategoriesThread extends AsyncTask<String, Void, List<Category>>
+    {
+	ILibraryDAO library;
+	
+	protected List<Category> doInBackground(String... url)
+	{
+	    if (myApp.isOffline())
+		library = new SQLiteLibrary(CategoryListActivity.this);
+	    else
+		library = new OnlineLibrary(url[0]);
+	    
+	    return library.getCategories();
+	}
+	
+	protected void onPostExecute(List<Category> result)
+	{
+	    Log.v("dump/offline: ", dumpToOffline + "/" + myApp.offline);
+	    if (dumpToOffline && !myApp.offline)
+	    {
+		Log.v("AsyncTask",
+		        "dumping offline cache size: " + result.size());
+		dumpData(result);
+		dumpToOffline = false;
+	    }
+	    Log.v("AsyncTask", "setting result");
+	    setCategory(result);
+	}
+    }
+    
+    class DeleteCategoriesThread extends AsyncTask<String, Void, Void>
+    {
+	ILibraryDAO library;
+	
+	protected Void doInBackground(String... url)
+	{
+	    if (myApp.isOffline())
+		library = new SQLiteLibrary(CategoryListActivity.this);
+	    else
+		library = new OnlineLibrary(url[0]);
+	    
+	    library.deleteCategory(myApp.c, CategoryListActivity.this);
+	    return null;
+	}
+	
+	protected void onPostExecute(Void result)
+	{
+	    new GetCategoriesThread().execute(myApp.addr);
+	    Log.v("AsyncTask", "setting result");
 	}
     }
 }
