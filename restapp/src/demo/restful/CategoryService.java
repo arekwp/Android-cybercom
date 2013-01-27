@@ -1,6 +1,8 @@
 package demo.restful;
 
 //JAX-RS Imports
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.Map;
 
 import javax.ws.rs.Consumes;
@@ -81,9 +83,9 @@ public class CategoryService
     
     @DELETE
     @Path("/category/{id}")
-    public Response deleteCategory(@PathParam("id") String id)
+    public Response deleteCategory(@PathParam("id") String id) throws UnsupportedEncodingException
     {
-	
+	id = URLDecoder.decode(id, "UTF-8");
 	System.out.println("deleteCategory with category id : " + id);
 	
 	Category cat = (Category) getCategoryDAO().getCategory(id);
