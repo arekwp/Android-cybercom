@@ -9,7 +9,7 @@ public interface ILibraryDAO
 
 	public List<Category> getCategories();
 
-	public List<Book> getBooks(String string);
+	public List<Book> getBooks(String categoryId);
 	
 	public void addBook(Book b);
 	

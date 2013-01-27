@@ -1,5 +1,6 @@
 package com.example.restfulclient;
 
+import java.util.Collection;
 import java.util.List;
 
 import android.app.ListActivity;
@@ -71,11 +72,18 @@ public class CategoryListActivity extends ListActivity
 		CategoryListActivity.this.startActivity(intent);
 		return true;
 	    case R.id.menuSync:
-		
+		doSync();
 		return true;
+	    case R.id.menuRefresh:
+		new GetCategoriesThread().execute(myApp.addr);
 	    default:
 		return super.onOptionsItemSelected(item);
 	}
+    }
+    
+    private void doSync()
+    {
+	new SyncThread().execute();
     }
     
     @Override
@@ -116,19 +124,21 @@ public class CategoryListActivity extends ListActivity
 	dh.dropDb();
 	for (Category c : result)
 	{
-	    Log.v("add c: " , c.getCategoryId());
+	    Log.v("add c: ", c.getCategoryId());
 	    dh.addCategory(c);
 	    for (Book b : c.getBooks())
 	    {
 		b.setCatId(c.getCategoryId());
-		Log.v("add b: " , b.getBookId());
+		Log.v("add b: ", b.getBookId());
 		dh.addBook(b);
 	    }
 	    
 	}
 	
-	Toast.makeText(this,
-	        "Zapisano " + dh.getCatCount() + " kategorii i " + dh.getBookCount() + " ksiazek do SQLite",
+	Toast.makeText(
+	        this,
+	        "Zapisano " + dh.getCatCount() + " kategorii i "
+	                + dh.getBookCount() + " ksiazek do SQLite",
 	        Toast.LENGTH_LONG).show();
 	if (myApp.isOffline())
 	    goOffline();
@@ -277,6 +287,39 @@ public class CategoryListActivity extends ListActivity
 	    return null;
 	}
 	
+	protected void onPostExecute(Void result)
+	{
+	    new GetCategoriesThread().execute(myApp.addr);
+	    Log.v("AsyncTask", "setting result");
+	}
+    }
+    class SyncThread extends AsyncTask<String, Void, Void>
+    {
+	protected Void doInBackground(String... url)
+	{
+	    if (!myApp.isOffline())
+	    {
+		SQLiteLibrary sqlLib = new SQLiteLibrary(getApplicationContext());
+		OnlineLibrary olLib = new OnlineLibrary(myApp.addr);
+		
+		Collection<Category> localCats = sqlLib.getCategories();
+		Collection<Category> remoteCats = olLib.getCategories();
+		
+		localCats.removeAll(remoteCats);
+		
+		for(Category c : localCats)
+		{
+		    Log.v("localCats: ", c.getCategoryId());
+		    olLib.addCategory(c);
+		}
+	    } else
+	    {
+		
+	    }
+	    
+	    return null;
+	}
+
 	protected void onPostExecute(Void result)
 	{
 	    new GetCategoriesThread().execute(myApp.addr);

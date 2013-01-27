@@ -59,4 +59,27 @@ public class Category
 	this.books = books;
     }
     
+    @Override
+    public boolean equals(Object o)
+    {
+	Category c2 = (Category) o;
+	if (categoryId.equals(c2.categoryId))
+	{
+	    if (categoryName.equals(c2.categoryName))
+	    {
+		if ((c2.getBooks() == null && books == null) || books.containsAll(c2.getBooks()))
+		    return true;
+	    }
+	}
+	return false;
+    }
+    
+    @Override
+    public int hashCode()
+    {
+	int hash = 1;
+	hash = hash * 11 + categoryId.hashCode();
+	hash = hash * 13 + categoryName.hashCode();
+	return hash;
+    }
 }

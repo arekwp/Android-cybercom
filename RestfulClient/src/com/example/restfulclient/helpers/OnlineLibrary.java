@@ -247,4 +247,10 @@ public class OnlineLibrary implements ILibraryDAO
 	}
 	return lcat;
     }
+
+    public void syncCat(Category c)
+    {
+	
+	
+    }
 }

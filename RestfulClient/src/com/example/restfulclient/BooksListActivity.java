@@ -145,6 +145,12 @@ public class BooksListActivity extends ListActivity
     {
 	myApp.c = cat;
 	
+	if(myApp.c.getBooks().size() == 0)
+	{
+	    Toast.makeText(this, "Brak ksi¹¿ek w kategorii",
+		        Toast.LENGTH_LONG).show();
+	}
+	
 	setListAdapter(new BookAdapter());
 	
     }
