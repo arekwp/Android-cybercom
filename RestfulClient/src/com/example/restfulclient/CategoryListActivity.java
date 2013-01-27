@@ -20,6 +20,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.restfulclient.helpers.Book;
 import com.example.restfulclient.helpers.Category;
 import com.example.restfulclient.helpers.DatabaseHelper;
 import com.example.restfulclient.helpers.ILibraryDAO;
@@ -64,6 +65,7 @@ public class CategoryListActivity extends ListActivity
 		doOfflineCache();
 		return true;
 	    case R.id.menuAddCategory:
+		myApp.c = null;
 		Intent intent = new Intent(CategoryListActivity.this,
 		        CategoryDetailsActivity.class);
 		CategoryListActivity.this.startActivity(intent);
@@ -81,6 +83,7 @@ public class CategoryListActivity extends ListActivity
     {
 	super.onResume();
 	new GetCategoriesThread().execute(myApp.addr);
+	myApp.c = null;
     }
     
     private void doOfflineCache()
@@ -112,10 +115,20 @@ public class CategoryListActivity extends ListActivity
 	
 	dh.dropDb();
 	for (Category c : result)
+	{
+	    Log.v("add c: " , c.getCategoryId());
 	    dh.addCategory(c);
+	    for (Book b : c.getBooks())
+	    {
+		b.setCatId(c.getCategoryId());
+		Log.v("add b: " , b.getBookId());
+		dh.addBook(b);
+	    }
+	    
+	}
 	
 	Toast.makeText(this,
-	        "Zapisano " + dh.getCatCount() + " kategorii do SQLite",
+	        "Zapisano " + dh.getCatCount() + " kategorii i " + dh.getBookCount() + " ksiazek do SQLite",
 	        Toast.LENGTH_LONG).show();
 	if (myApp.isOffline())
 	    goOffline();
@@ -226,8 +239,10 @@ public class CategoryListActivity extends ListActivity
 		library = new SQLiteLibrary(CategoryListActivity.this);
 	    else
 		library = new OnlineLibrary(url[0]);
-	    
-	    return library.getCategories();
+	    if (dumpToOffline && !myApp.isOffline())
+		return library.getCatsAndBooks();
+	    else
+		return library.getCategories();
 	}
 	
 	protected void onPostExecute(List<Category> result)

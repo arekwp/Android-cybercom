@@ -1,19 +1,7 @@
 package com.example.restfulclient;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
 
 import android.annotation.TargetApi;
 import android.app.ListActivity;
@@ -40,9 +28,12 @@ import android.widget.Toast;
 
 import com.example.restfulclient.helpers.Book;
 import com.example.restfulclient.helpers.Category;
+import com.example.restfulclient.helpers.DatabaseHelper;
+import com.example.restfulclient.helpers.ILibraryDAO;
 import com.example.restfulclient.helpers.MyApplication;
-import com.example.restfulclient.helpers.Parser;
+import com.example.restfulclient.helpers.OnlineLibrary;
 import com.example.restfulclient.helpers.PhotoHelper;
+import com.example.restfulclient.helpers.SQLiteLibrary;
 
 public class BooksListActivity extends ListActivity
 {
@@ -129,47 +120,16 @@ public class BooksListActivity extends ListActivity
 	
 	protected Category doInBackground(String... url)
 	{
-	    if (myApp.offline)
+	    ILibraryDAO library = null;
+	    if (myApp.isOffline())
 	    {
+		library = new SQLiteLibrary(getApplicationContext());
 	    } else
 	    {
-		
+		library = new OnlineLibrary(myApp.addr);
 	    }
-	    String webClientUrl = "http://" + url[0] + ":8020/";
-	    String categoryUrl = "categoryservice/category/"
-		    + c.getCategoryId() + "/books";
-	    
-	    HttpParams params = new BasicHttpParams();
-	    
-	    HttpConnectionParams.setConnectionTimeout(params, 8000);
-	    HttpConnectionParams.setSoTimeout(params, 8000);
-	    
-	    HttpClient hc = new DefaultHttpClient(params);
-	    
-	    HttpGet hg = new HttpGet(webClientUrl + categoryUrl);
-	    try
-	    {
-		HttpResponse hr = hc.execute(hg);
-		
-		HttpEntity entity = hr.getEntity();
-		
-		if (entity != null)
-		{
-		    InputStream is = entity.getContent();
-		    
-		    Parser parser = new Parser();
-		    
-		    c.setBooks(parser.getBooks(is));
-		    is.close();
-		}
-	    } catch (ClientProtocolException e)
-	    {
-		e.printStackTrace();
-	    } catch (IOException e)
-	    {
-		System.out.println("service timeout");
-		e.printStackTrace();
-	    }
+	    c.setBooks(library.getBooks(myApp.c.getCategoryId()));
+
 	    return c;
 	}
 	
@@ -251,6 +211,14 @@ public class BooksListActivity extends ListActivity
 		        Toast.LENGTH_LONG).show();
 	    }
 	}
+    }
+    
+    @Override
+    public void finish()
+    {
+	super.finish();
+	myApp.b = null;
+	myApp.c = null;
     }
     
     private class BookAdapter extends BaseAdapter

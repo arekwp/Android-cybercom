@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.http.HttpEntity;
@@ -30,6 +31,7 @@ public class OnlineLibrary implements ILibraryDAO
     ListActivity activ = null;
     String webClientUrl = "";
     String categoryUrl = "categoryservice/category";
+    
     
     public OnlineLibrary(String url)
     {
@@ -83,9 +85,45 @@ public class OnlineLibrary implements ILibraryDAO
     }
     
     @Override
-    public List<Book> getBooks()
+    public List<Book> getBooks(String catId)
     {
-	return null;
+	String booksUrl = "categoryservice/category/" + catId
+	        + "/books";
+	
+	List<Book> tmp = new ArrayList<Book>();
+	
+	HttpParams params = new BasicHttpParams();
+	
+	HttpConnectionParams.setConnectionTimeout(params, 8000);
+	HttpConnectionParams.setSoTimeout(params, 8000);
+	
+	HttpClient hc = new DefaultHttpClient(params);
+	
+	HttpGet hg = new HttpGet(webClientUrl + booksUrl);
+	try
+	{
+	    HttpResponse hr = hc.execute(hg);
+	    
+	    HttpEntity entity = hr.getEntity();
+	    
+	    if (entity != null)
+	    {
+		InputStream is = entity.getContent();
+		
+		Parser parser = new Parser();
+		
+		tmp = parser.getBooks(is);
+		is.close();
+	    }
+	} catch (ClientProtocolException e)
+	{
+	    e.printStackTrace();
+	} catch (IOException e)
+	{
+	    System.out.println("service timeout");
+	    e.printStackTrace();
+	}
+	return tmp;
     }
     
     @Override
@@ -184,7 +222,8 @@ public class OnlineLibrary implements ILibraryDAO
 	    Log.v("encodedID", encodedID);
 	    HttpPut put = new HttpPut(webClientUrl + categoryUrl);
 	    put.setHeader("Content-Type", "application/xml");
-	    StringEntity entity = new StringEntity(Parser.getXml(category), "UTF-8");
+	    StringEntity entity = new StringEntity(Parser.getXml(category),
+		    "UTF-8");
 	    put.setEntity(entity);
 	    
 	    hc.execute(put);
@@ -195,5 +234,17 @@ public class OnlineLibrary implements ILibraryDAO
 	{
 	    e.printStackTrace();
 	}
+    }
+
+    @Override
+    public List<Category> getCatsAndBooks()
+    {
+	List<Category> lcat = getCategories();
+	
+	for(Category c : lcat)
+	{
+	    c.setBooks(getBooks(c.getCategoryId()));
+	}
+	return lcat;
     }
 }

@@ -27,9 +27,10 @@ public class SQLiteLibrary implements ILibraryDAO
     }
     
     @Override
-    public List<Book> getBooks()
+    public List<Book> getBooks(String catID)
     {
-	return null;
+	DatabaseHelper dh = new DatabaseHelper(actv);
+	return dh.getBooksByCid(catID);
     }
     
     @Override
@@ -66,6 +67,13 @@ public class SQLiteLibrary implements ILibraryDAO
 	DatabaseHelper dh = new DatabaseHelper(actv);
 	dh.update(category);
 	
+    }
+
+    @Override
+    public List<Category> getCatsAndBooks()
+    {
+	// TODO Auto-generated method stub
+	return null;
     }
     
 }

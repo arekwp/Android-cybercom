@@ -9,7 +9,7 @@ public interface ILibraryDAO
 
 	public List<Category> getCategories();
 
-	public List<Book> getBooks();
+	public List<Book> getBooks(String string);
 	
 	public void addBook(Book b);
 	
@@ -20,4 +20,6 @@ public interface ILibraryDAO
 	public void deleteCategory(Category category);
 
 	public void updateCategory(Category category);
+
+	public List<Category> getCatsAndBooks();
 }
