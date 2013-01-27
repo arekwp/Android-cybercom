@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import antlr.collections.List;
+
 /*
  * DataAcess object for performing CRUD operations.
  * Dummy implementation.
@@ -54,7 +56,6 @@ public class CategoryDAO
 	booksList2.add(book1);
 	booksList2.add(book3);
 	
-	
 	bookMap.put(category1.getCategoryId(), booksList1);
 	bookMap.put(category2.getCategoryId(), booksList2);
     }
@@ -67,8 +68,10 @@ public class CategoryDAO
     
     public void addBook(Category category)
     {
-	bookMap.put(category.getCategoryId(), category.getBooks());
-	
+	ArrayList<Book> tmp = (ArrayList<Book>) bookMap.get(category
+	        .getCategoryId());
+	tmp.addAll(category.getBooks());
+	bookMap.put(category.getCategoryId(), tmp);
     }
     
     public Collection<Book> getBooks(String categoryId)
