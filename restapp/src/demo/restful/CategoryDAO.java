@@ -116,10 +116,4 @@ public class CategoryDAO
 	categoryMap.put(category.getCategoryId(), category);
 	
     }
-
-    public void syncCategory(Category category)
-    {
-	categoryMap.put(category.getCategoryId(), category);
-	bookMap.put(category.getCategoryId(), category.getBooks());
-    }
 }
