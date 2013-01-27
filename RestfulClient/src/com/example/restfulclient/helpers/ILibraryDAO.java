@@ -18,5 +18,7 @@ public interface ILibraryDAO
 
 	public void addCategory(Category category);
 
-	public void deleteCategory(Category category, Context applicationContext);
+	public void deleteCategory(Category category);
+
+	public void updateCategory(Category category);
 }

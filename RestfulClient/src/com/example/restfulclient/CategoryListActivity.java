@@ -256,7 +256,7 @@ public class CategoryListActivity extends ListActivity
 	    else
 		library = new OnlineLibrary(url[0]);
 	    
-	    library.deleteCategory(myApp.c, CategoryListActivity.this);
+	    library.deleteCategory(myApp.c);
 	    return null;
 	}
 	

@@ -13,6 +13,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.BasicHttpParams;
@@ -21,7 +22,6 @@ import org.apache.http.params.HttpParams;
 import org.xmlpull.v1.XmlPullParserException;
 
 import android.app.ListActivity;
-import android.content.Context;
 import android.util.Log;
 
 public class OnlineLibrary implements ILibraryDAO
@@ -139,7 +139,7 @@ public class OnlineLibrary implements ILibraryDAO
     }
     
     @Override
-    public void deleteCategory(Category category, Context applicationContext)
+    public void deleteCategory(Category category)
     {
 	HttpParams params = new BasicHttpParams();
 	
@@ -158,6 +158,36 @@ public class OnlineLibrary implements ILibraryDAO
 	    delete.setHeader("Content-Type", "application/xml");
 	    
 	    hc.execute(delete);
+	} catch (ClientProtocolException e)
+	{
+	    e.printStackTrace();
+	} catch (IOException e)
+	{
+	    e.printStackTrace();
+	}
+    }
+    
+    @Override
+    public void updateCategory(Category category)
+    {
+	HttpParams params = new BasicHttpParams();
+	
+	HttpConnectionParams.setConnectionTimeout(params, 9000);
+	HttpConnectionParams.setSoTimeout(params, 9000);
+	
+	HttpClient hc = new DefaultHttpClient(params);
+	
+	try
+	{
+	    String encodedID = URLEncoder.encode(category.getCategoryId(),
+		    "UTF-8");
+	    Log.v("encodedID", encodedID);
+	    HttpPut put = new HttpPut(webClientUrl + categoryUrl);
+	    put.setHeader("Content-Type", "application/xml");
+	    StringEntity entity = new StringEntity(Parser.getXml(category), "UTF-8");
+	    put.setEntity(entity);
+	    
+	    hc.execute(put);
 	} catch (ClientProtocolException e)
 	{
 	    e.printStackTrace();

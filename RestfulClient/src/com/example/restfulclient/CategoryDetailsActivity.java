@@ -3,21 +3,25 @@ package com.example.restfulclient;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.restfulclient.CategoryListActivity.GetCategoriesThread;
 import com.example.restfulclient.helpers.Category;
 import com.example.restfulclient.helpers.ILibraryDAO;
 import com.example.restfulclient.helpers.MyApplication;
 import com.example.restfulclient.helpers.OnlineLibrary;
 import com.example.restfulclient.helpers.SQLiteLibrary;
 
-public class CategoryDetailsActivity extends Activity implements OnClickListener
+public class CategoryDetailsActivity extends Activity implements
+        OnClickListener
 {
     MyApplication myApp;
+    boolean editMode = false;
     
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -30,6 +34,19 @@ public class CategoryDetailsActivity extends Activity implements OnClickListener
 	button.setOnClickListener(this);
 	
 	myApp = (MyApplication) getApplication();
+	
+	if (myApp.c != null)
+	{
+	    editMode = true;
+	    
+	    EditText etId = (EditText) findViewById(R.id.etCatId);
+	    EditText etName = (EditText) findViewById(R.id.etCatName);
+	    
+	    etId.setText(myApp.c.getCategoryId());
+	    etName.setText(myApp.c.getCategoryName());
+	    
+	    etId.setEnabled(false);
+	}
     }
     
     @Override
@@ -43,15 +60,14 @@ public class CategoryDetailsActivity extends Activity implements OnClickListener
     @Override
     public void onClick(View v)
     {
-	new AddCategoryThread().execute();
+	new CategoryThread().execute();
 	// Toast.makeText(getApplicationContext(), "Kat: " +
 	// etId.getText().toString() + etName.getText().toString(),
 	// Toast.LENGTH_LONG).show();
 	
     }
     
-    private class AddCategoryThread extends
-	    AsyncTask<Void, Void, Void>
+    private class CategoryThread extends AsyncTask<Void, Void, Void>
     {
 	
 	@Override
@@ -66,11 +82,22 @@ public class CategoryDetailsActivity extends Activity implements OnClickListener
 	    
 	    EditText etId = (EditText) findViewById(R.id.etCatId);
 	    EditText etName = (EditText) findViewById(R.id.etCatName);
+	    if (editMode)
+	    {
+		Log.v("calling", "updateCategory");
+		library.updateCategory(new Category(etId.getText().toString(),
+		        etName.getText().toString()));
+	    } else
+		library.addCategory(new Category(etId.getText().toString(),
+		        etName.getText().toString()));
 	    
-	    library.addCategory(new Category(etId.getText().toString(), etName
-		    .getText().toString()));
 	    return null;
-	   
+	    
+	}
+	
+	protected void onPostExecute(Void result)
+	{
+	    finish();
 	}
     }
 }
