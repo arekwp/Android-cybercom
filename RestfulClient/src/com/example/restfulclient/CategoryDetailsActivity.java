@@ -45,6 +45,8 @@ public class CategoryDetailsActivity extends Activity implements
 	    etName.setText(myApp.c.getCategoryName());
 	    
 	    etId.setEnabled(false);
+	    
+	    button.setText("Zapisz zmiany");
 	}
     }
     

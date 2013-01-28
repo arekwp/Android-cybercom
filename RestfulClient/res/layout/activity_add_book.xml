@@ -11,7 +11,7 @@
         android:layout_alignBaseline="@+id/editText_Nazwa"
         android:layout_alignBottom="@+id/editText_Nazwa"
         android:layout_alignParentLeft="true"
-        android:text="Nazwa" />
+        android:text="@string/name" />
 
 
     
@@ -24,7 +24,7 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true"
-            android:text="Add"
+            android:text="@string/dodaj"
             android:onClick="b_Click" />
 
         <EditText
@@ -34,6 +34,7 @@
             android:layout_alignLeft="@+id/editText_ISBN"
             android:layout_below="@+id/textView1"
             android:layout_marginTop="18dp"
+            android:inputType="text"
             android:ems="10" >
 
             <requestFocus />
@@ -45,6 +46,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_toRightOf="@+id/textView1"
+            android:inputType="text"
             android:ems="10" />
 
         <TextView
@@ -54,6 +56,6 @@
             android:layout_alignBaseline="@+id/editText_ISBN"
             android:layout_alignBottom="@+id/editText_ISBN"
             android:layout_alignParentLeft="true"
-            android:text="ISBNnumber" />
+            android:text="@string/isbn" />
 
 </RelativeLayout>
