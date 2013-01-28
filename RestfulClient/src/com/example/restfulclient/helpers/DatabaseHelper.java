@@ -296,8 +296,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
 	
 	ContentValues cv = packToValues(c);
 	
-	return db.update(TABLE_CATS, cv, KEY_CAT_ID + " = '?'", new String[]
-	{ c.getCategoryId() });
+	return db.update(TABLE_CATS, cv, KEY_CAT_ID + " = '" + c.getCategoryId() + "'", null);
     }
     
     public int update(Book b)
@@ -306,8 +305,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
 	
 	ContentValues cv = packToValues(b);
 	
-	return db.update(TABLE_BOOKS, cv, KEY_BOOK_ID + " = '?'", new String[]
-	{ b.getBookId() });
+	return db.update(TABLE_BOOKS, cv, KEY_BOOK_ID + " = '" + b.getBookId() + "'", null);
     }
     
     private ContentValues packToValues(Category c)
@@ -334,8 +332,8 @@ public class DatabaseHelper extends SQLiteOpenHelper
     public void delete(Category category)
     {
 	SQLiteDatabase db = getWritableDatabase();
-	db.delete(TABLE_CATS, KEY_CAT_ID + " = '?'", new String[]
-	{ category.getCategoryId() });
+	Log.v("delete Cat: ", category.toString());
+	db.delete(TABLE_CATS, KEY_CAT_ID + " = '" + category.getCategoryId() + "'", null);
 	
     }
 }

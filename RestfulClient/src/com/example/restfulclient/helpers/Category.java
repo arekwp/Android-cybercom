@@ -82,4 +82,10 @@ public class Category
 	hash = hash * 13 + categoryName.hashCode();
 	return hash;
     }
+    
+    @Override
+    public String toString()
+    {
+	return new String("[ " + categoryId + ", " + categoryName + " ]");
+    }
 }

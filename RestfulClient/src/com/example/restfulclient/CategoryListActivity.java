@@ -314,7 +314,7 @@ public class CategoryListActivity extends ListActivity
 		Collection<Category> localCats = sqlLib.getCategories();
 		Collection<Category> remoteCats = olLib.getCategories();
 		
-		localCats.removeAll(remoteCats);
+		localCats.removeAll(remoteCats); // TODO porownywanie ksiazek -> pobieranie ksiazek z jax
 		
 		for(Category c : localCats)
 		{
