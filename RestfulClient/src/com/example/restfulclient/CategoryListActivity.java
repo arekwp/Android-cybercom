@@ -121,16 +121,24 @@ public class CategoryListActivity extends ListActivity
 	if (result == null)
 	    return;
 	
-	dh.dropDb();
+	dh.recreateDb();
 	for (Category c : result)
 	{
 	    Log.v("add c: ", c.getCategoryId());
 	    dh.addCategory(c);
-	    for (Book b : c.getBooks())
+	    List<Book> tmp = (List<Book>) c.getBooks();
+	    if (tmp != null)
 	    {
-		b.setCatId(c.getCategoryId());
-		Log.v("add b: ", b.getBookId());
-		dh.addBook(b);
+		for (Book b : tmp)
+		{
+		    b.setCatId(c.getCategoryId());
+		    Log.v("add b: ", b.getBookId());
+		    dh.addBook(b);
+		}
+	    }
+	    else
+	    {
+		Log.v("dumpData, cat: " + c.getCategoryId(), "getBooks null");
 	    }
 	    
 	}
@@ -171,7 +179,7 @@ public class CategoryListActivity extends ListActivity
     private class CatAdapter extends BaseAdapter
     {
 	@Override
-        public View getView(int pos, View view, ViewGroup parent)
+	public View getView(int pos, View view, ViewGroup parent)
 	{
 	    if (view == null)
 	    {
@@ -190,19 +198,19 @@ public class CategoryListActivity extends ListActivity
 	}
 	
 	@Override
-        public long getItemId(int position)
+	public long getItemId(int position)
 	{
 	    return position;
 	}
 	
 	@Override
-        public Object getItem(int position)
+	public Object getItem(int position)
 	{
 	    return myApp.categories.get(position);
 	}
 	
 	@Override
-        public int getCount()
+	public int getCount()
 	{
 	    return myApp.categories.size();
 	}
@@ -248,7 +256,7 @@ public class CategoryListActivity extends ListActivity
 	ILibraryDAO library;
 	
 	@Override
-        protected List<Category> doInBackground(String... url)
+	protected List<Category> doInBackground(String... url)
 	{
 	    if (myApp.isOffline())
 		library = new SQLiteLibrary(CategoryListActivity.this);
@@ -261,7 +269,7 @@ public class CategoryListActivity extends ListActivity
 	}
 	
 	@Override
-        protected void onPostExecute(List<Category> result)
+	protected void onPostExecute(List<Category> result)
 	{
 	    Log.v("dump/offline: ", dumpToOffline + "/" + myApp.isOffline());
 	    // jeœli u¿ytkownik wymusi³ pobranie danych do SQLite i mamy
@@ -283,7 +291,7 @@ public class CategoryListActivity extends ListActivity
 	ILibraryDAO library;
 	
 	@Override
-        protected Void doInBackground(String... url)
+	protected Void doInBackground(String... url)
 	{
 	    if (myApp.isOffline())
 		library = new SQLiteLibrary(CategoryListActivity.this);
@@ -295,32 +303,47 @@ public class CategoryListActivity extends ListActivity
 	}
 	
 	@Override
-        protected void onPostExecute(Void result)
+	protected void onPostExecute(Void result)
 	{
 	    new GetCategoriesThread().execute(myApp.addr);
 	    Log.v("AsyncTask", "setting result");
 	}
     }
+    
     class SyncThread extends AsyncTask<String, Void, Void>
     {
 	@Override
-        protected Void doInBackground(String... url)
+	protected Void doInBackground(String... url)
 	{
 	    if (!myApp.isOffline())
 	    {
-		SQLiteLibrary sqlLib = new SQLiteLibrary(getApplicationContext());
+		SQLiteLibrary sqlLib = new SQLiteLibrary(
+		        getApplicationContext());
 		OnlineLibrary olLib = new OnlineLibrary(myApp.addr);
 		
-		Collection<Category> localCats = sqlLib.getCategories();
-		Collection<Category> remoteCats = olLib.getCategories();
+		Collection<Category> localCats = sqlLib.getCatsAndBooks();
+		Collection<Category> remoteCats = olLib.getCatsAndBooks();
 		
-		localCats.removeAll(remoteCats); // TODO porownywanie ksiazek -> pobieranie ksiazek z jax
+		localCats.removeAll(remoteCats);
+		// TODO porownywanie ksiazek -> pobieranie ksiazek z jax
 		
-		for(Category c : localCats)
+		for (Category c : localCats)
 		{
 		    Log.v("localCats: ", c.getCategoryId());
 		    olLib.addCategory(c);
 		}
+		
+		localCats = sqlLib.getCategories();
+		remoteCats = olLib.getCategories();
+		
+		remoteCats.removeAll(localCats);
+		
+		for (Category c : remoteCats)
+		{
+		    Log.v("remoteCats to del: ", c.getCategoryId());
+		    olLib.deleteCategory(c);
+		}
+		
 	    } else
 	    {
 		
@@ -328,9 +351,9 @@ public class CategoryListActivity extends ListActivity
 	    
 	    return null;
 	}
-
+	
 	@Override
-        protected void onPostExecute(Void result)
+	protected void onPostExecute(Void result)
 	{
 	    new GetCategoriesThread().execute(myApp.addr);
 	    Log.v("AsyncTask", "setting result");

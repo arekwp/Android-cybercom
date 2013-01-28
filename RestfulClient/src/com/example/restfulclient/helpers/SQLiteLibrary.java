@@ -72,8 +72,14 @@ public class SQLiteLibrary implements ILibraryDAO
     @Override
     public List<Category> getCatsAndBooks()
     {
-	// TODO Auto-generated method stub
-	return null;
+	List<Category> cats = getCategories();
+	
+	for(Category c : cats)
+	{
+	    c.setBooks(getBooks(c.getCategoryId()));
+	}
+	
+	return cats;
     }
     
 }

@@ -11,10 +11,6 @@ import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-/* TODO add method:
- * update -> form
- * 
- */
 
 public class DatabaseHelper extends SQLiteOpenHelper
 {
@@ -92,7 +88,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
 	
 	// Inserting Row
 	db.insert(TABLE_CATS, null, values);
-	// db.close(); // Closing database connection
+	db.close(); // Closing database connection
     }
     
     public void addBook(Book b)
@@ -104,6 +100,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
 	// Inserting Row
 	db.insert(TABLE_BOOKS, null, values);
 	// db.close(); // Closing database connection
+	db.close();
     }
     
     public List<Category> getAllCats()
@@ -186,7 +183,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
 	return count;
     }
     
-    public void dropDb()
+    public void recreateDb()
     {
 	SQLiteDatabase db = this.getReadableDatabase();
 	
@@ -290,22 +287,32 @@ public class DatabaseHelper extends SQLiteOpenHelper
 	return b;
     }
     
-    public int update(Category c)
+    public void update(Category c)
     {
 	SQLiteDatabase db = getWritableDatabase();
 	
 	ContentValues cv = packToValues(c);
 	
-	return db.update(TABLE_CATS, cv, KEY_CAT_ID + " = '" + c.getCategoryId() + "'", null);
+	db.update(TABLE_CATS, cv, KEY_CAT_ID + " = '" + c.getCategoryId() + "'", null);
+	db.close();
     }
     
-    public int update(Book b)
+    public void update(Book b)
     {
 	SQLiteDatabase db = getWritableDatabase();
 	
 	ContentValues cv = packToValues(b);
 	
-	return db.update(TABLE_BOOKS, cv, KEY_BOOK_ID + " = '" + b.getBookId() + "'", null);
+	db.update(TABLE_BOOKS, cv, KEY_BOOK_ID + " = '" + b.getBookId() + "'", null);
+	db.close();
+    }
+    
+    public void delete(Category category)
+    {
+	SQLiteDatabase db = getWritableDatabase();
+	Log.v("delete Cat: ", category.toString());
+	db.delete(TABLE_CATS, KEY_CAT_ID + " = '" + category.getCategoryId() + "'", null);
+	db.close();
     }
     
     private ContentValues packToValues(Category c)
@@ -327,13 +334,5 @@ public class DatabaseHelper extends SQLiteOpenHelper
 	values.put(KEY_BOOK_PHOTO, b.getPhoto());
 	
 	return values;
-    }
-    
-    public void delete(Category category)
-    {
-	SQLiteDatabase db = getWritableDatabase();
-	Log.v("delete Cat: ", category.toString());
-	db.delete(TABLE_CATS, KEY_CAT_ID + " = '" + category.getCategoryId() + "'", null);
-	
     }
 }

@@ -32,7 +32,6 @@ public class OnlineLibrary implements ILibraryDAO
     String webClientUrl = "";
     String categoryUrl = "categoryservice/category";
     
-    
     public OnlineLibrary(String url)
     {
 	webClientUrl = "http://" + url + ":8020/";
@@ -51,9 +50,9 @@ public class OnlineLibrary implements ILibraryDAO
 	
 	HttpClient hc = new DefaultHttpClient(params);
 	
-	HttpGet hg = new HttpGet(webClientUrl + categoryUrl);
 	try
 	{
+	    HttpGet hg = new HttpGet(webClientUrl + categoryUrl);
 	    HttpResponse hr = hc.execute(hg);
 	    
 	    HttpEntity entity = hr.getEntity();
@@ -87,21 +86,21 @@ public class OnlineLibrary implements ILibraryDAO
     @Override
     public List<Book> getBooks(String catId)
     {
-	String booksUrl = "categoryservice/category/" + catId
-	        + "/books";
-	
-	List<Book> tmp = new ArrayList<Book>();
-	
-	HttpParams params = new BasicHttpParams();
-	
-	HttpConnectionParams.setConnectionTimeout(params, 8000);
-	HttpConnectionParams.setSoTimeout(params, 8000);
-	
-	HttpClient hc = new DefaultHttpClient(params);
-	
-	HttpGet hg = new HttpGet(webClientUrl + booksUrl);
 	try
 	{
+	    String booksUrl = "categoryservice/category/" + URLEncoder.encode(catId, "UTF-8") + "/books";
+	    
+	    List<Book> tmp = new ArrayList<Book>();
+	    
+	    HttpParams params = new BasicHttpParams();
+	    
+	    HttpConnectionParams.setConnectionTimeout(params, 8000);
+	    HttpConnectionParams.setSoTimeout(params, 8000);
+	    
+	    Log.v("getBooks url: ", booksUrl);
+	    
+	    HttpClient hc = new DefaultHttpClient(params);
+	    HttpGet hg = new HttpGet(webClientUrl + booksUrl);
 	    HttpResponse hr = hc.execute(hg);
 	    
 	    HttpEntity entity = hr.getEntity();
@@ -115,6 +114,9 @@ public class OnlineLibrary implements ILibraryDAO
 		tmp = parser.getBooks(is);
 		is.close();
 	    }
+	    
+	    return tmp;
+	    
 	} catch (ClientProtocolException e)
 	{
 	    e.printStackTrace();
@@ -123,7 +125,7 @@ public class OnlineLibrary implements ILibraryDAO
 	    System.out.println("service timeout");
 	    e.printStackTrace();
 	}
-	return tmp;
+	return new ArrayList<Book>();
     }
     
     @Override
@@ -235,22 +237,24 @@ public class OnlineLibrary implements ILibraryDAO
 	    e.printStackTrace();
 	}
     }
-
+    
     @Override
     public List<Category> getCatsAndBooks()
     {
 	List<Category> lcat = getCategories();
 	
-	for(Category c : lcat)
+	for (Category c : lcat)
 	{
-	    c.setBooks(getBooks(c.getCategoryId()));
+	    Log.v("getCatsAndBooks", "cat: " + c.getCategoryId());
+	    List<Book> books = getBooks(c.getCategoryId());
+	    Log.v("getCatsAndBooks books: ", String.valueOf(books.size()));
+	    c.setBooks(books);
 	}
 	return lcat;
     }
-
+    
     public void syncCat(Category c)
     {
-	
-	
+	// nie uzywane online
     }
 }
