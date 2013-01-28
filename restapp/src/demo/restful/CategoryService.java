@@ -143,9 +143,9 @@ public class CategoryService
     @GET
     @Path("/category/{id}/books")
     @Consumes("application/xml")
-    public Response getBooks(@PathParam("id") String id)
+    public Response getBooks(@PathParam("id") String id) throws UnsupportedEncodingException
     {
-	
+	id = URLDecoder.decode(id, "UTF-8");
 	System.out.println("getBooks called with category id : " + id);
 	
 	Category cat = getCategoryDAO().getCategory(id);
