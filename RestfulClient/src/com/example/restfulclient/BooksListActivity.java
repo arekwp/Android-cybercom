@@ -14,6 +14,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -21,8 +22,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnClickListener;
+
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
