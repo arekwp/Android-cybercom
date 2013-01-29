@@ -49,10 +49,7 @@
         </activity>
         <activity
             android:name="com.example.restfulclient.BookDetailsActivity"
-            android:label="@string/title_activity_add_book" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="android.app.ListActivity" />
+            android:label="@string/title_activity_book_details" >
         </activity>
     </application>
 
