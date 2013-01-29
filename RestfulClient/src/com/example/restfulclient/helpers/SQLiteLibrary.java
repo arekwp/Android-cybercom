@@ -65,7 +65,6 @@ public class SQLiteLibrary implements ILibraryDAO
     @Override
     public List<Category> getCatsAndBooks()
     {
-	// TODO Auto-generated method stub
 	return null;
     }
     
