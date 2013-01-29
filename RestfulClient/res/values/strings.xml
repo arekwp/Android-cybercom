@@ -13,6 +13,7 @@
     <string name="id">ID</string>
     <string name="name">Name</string>
     <string name="isbn">ISBN</string>
+    <string name="author">Autor</string>
 
 
 </resources>
