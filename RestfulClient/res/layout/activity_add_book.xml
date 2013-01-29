@@ -50,13 +50,7 @@
         android:layout_alignBaseline="@+id/editText_Nazwa"
         android:layout_alignBottom="@+id/editText_Nazwa"
         android:layout_alignParentLeft="true"
-<<<<<<< HEAD
         android:text="@string/name" />
-
-
-=======
-        android:text="Nazwa" />
->>>>>>> refs/remotes/origin/master
     
     <EditText
         android:id="@+id/editText_Autor"
@@ -75,8 +69,6 @@
         android:layout_marginTop="24dp"
         android:text="Autor" />
 
-<<<<<<< HEAD
-        
         <Button
             android:id="@+id/bSend"
             android:layout_width="wrap_content"
@@ -86,10 +78,6 @@
             android:layout_alignParentRight="true"
             android:text="@string/dodaj"
             android:onClick="b_Click" />
-=======
->>>>>>> refs/remotes/origin/master
-
-<<<<<<< HEAD
         <EditText
             android:id="@+id/editText_Nazwa"
             android:layout_width="wrap_content"
@@ -120,7 +108,4 @@
             android:layout_alignBottom="@+id/editText_ISBN"
             android:layout_alignParentLeft="true"
             android:text="@string/isbn" />
-=======
->>>>>>> refs/remotes/origin/master
-
 </RelativeLayout>

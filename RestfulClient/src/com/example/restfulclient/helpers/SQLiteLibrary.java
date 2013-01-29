@@ -65,7 +65,6 @@ public class SQLiteLibrary implements ILibraryDAO
     @Override
     public List<Category> getCatsAndBooks()
     {
-<<<<<<< HEAD
 	List<Category> cats = getCategories();
 	
 	for(Category c : cats)
@@ -74,9 +73,6 @@ public class SQLiteLibrary implements ILibraryDAO
 	}
 	
 	return cats;
-=======
-	return null;
->>>>>>> refs/remotes/origin/master
     }
     
     @Override
