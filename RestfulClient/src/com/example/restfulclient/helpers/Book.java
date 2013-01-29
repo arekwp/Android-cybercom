@@ -2,7 +2,18 @@ package com.example.restfulclient.helpers;
 
 public class Book
 {
+	public Book(){}
     
+	public Book (String id, String isbn, String name, String photo,  String catid, String bauthor)
+	{
+	    bookId = id;    
+	    bookISBNnumber = isbn;    
+	    bookName = name;
+	    bookPhoto = photo;
+	    catId = catid;
+	    author = bauthor;
+	}
+	
     private String bookId;
     
     private String bookISBNnumber;
@@ -13,8 +24,8 @@ public class Book
     
     private String catId;
     
-    // Let assume one author only
     private String author;
+    
     
     public String getBookId()
     {

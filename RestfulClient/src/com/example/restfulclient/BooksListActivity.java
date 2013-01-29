@@ -22,15 +22,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.restfulclient.CategoryListActivity.DeleteCategoriesThread;
-import com.example.restfulclient.CategoryListActivity.GetCategoriesThread;
+
 import com.example.restfulclient.helpers.Book;
 import com.example.restfulclient.helpers.Category;
 import com.example.restfulclient.helpers.ILibraryDAO;
@@ -55,6 +56,10 @@ public class BooksListActivity extends ListActivity
 	setContentView(R.layout.activity_books_list);
 	
 	myApp = (MyApplication) getApplication();
+	
+	ListView lv = (ListView) findViewById(android.R.id.list);
+	registerForContextMenu(lv);
+	
 	cat = myApp.c;
 	cat.setBooks(new ArrayList<Book>());
 	
@@ -65,6 +70,7 @@ public class BooksListActivity extends ListActivity
 	mStorage = (Environment.getExternalStorageDirectory() + "/" + "Category Images")
 	        .toString();
     }
+    
     
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event)
@@ -109,7 +115,7 @@ public class BooksListActivity extends ListActivity
 	// super.onListItemClick(l, v, position, id);
 	Book selection = (Book) l.getItemAtPosition(position);
 	myApp.b = selection;
-	Log.d("kliknieto: ", selection.getAuthor());
+	Log.d("kliknieto: ", selection.getBookName());
     }
     
     class GetBooksThread extends AsyncTask<String, Void, Category>
@@ -160,9 +166,10 @@ public class BooksListActivity extends ListActivity
     @Override
     public boolean onContextItemSelected(MenuItem item)
     {
-	AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item
-	        .getMenuInfo();
+	AdapterView.AdapterContextMenuInfo info =
+			(AdapterView.AdapterContextMenuInfo) item .getMenuInfo();
 	myApp.b = myApp.books.get(info.position);
+	Log.d("kliknieto: ", myApp.b.getBookName());
 	if (item.getTitle() == "Edytuj")
 	{
 	    Intent intent = new Intent(BooksListActivity.this,BookDetailsActivity.class);
@@ -177,7 +184,7 @@ public class BooksListActivity extends ListActivity
 	}
 	else
 	{
-	    myApp.c = null;
+	    myApp.b = null;
 	    return false;
 	}
 	return true;
@@ -207,19 +214,18 @@ public class BooksListActivity extends ListActivity
 	  //  Log.v("AsyncTask", "setting result");
 	}
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     
     public void setCategoryWithBooks(Category cat)
     {
 	myApp.c = cat;
+	
+	//myApp.books= cat.getBooks();
+	
+	  for (Book b : cat.getBooks())
+	    {
+		  myApp.books.add(b);
+	    }
 	
 	if(myApp.c.getBooks().size() == 0)
 	{
