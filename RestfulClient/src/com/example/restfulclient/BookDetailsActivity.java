@@ -14,7 +14,7 @@ import com.example.restfulclient.helpers.OnlineLibrary;
 import com.example.restfulclient.helpers.SQLiteLibrary;
 
 
-public class AddBookActivity extends Activity {
+public class BookDetailsActivity extends Activity {
 
 	MyApplication myApp;
 
@@ -30,7 +30,7 @@ public class AddBookActivity extends Activity {
 	{
 		ILibraryDAO library;
 	    if(myApp.offline)
-		library = new SQLiteLibrary(AddBookActivity.this);
+		library = new SQLiteLibrary(BookDetailsActivity.this);
 	    else
 		library = new OnlineLibrary(myApp.addr);
 	    
@@ -54,7 +54,7 @@ public class AddBookActivity extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.activity_add_book, menu);
+		getMenuInflater().inflate(R.menu.activity_book_details, menu);
 		return true;
 	}
 	

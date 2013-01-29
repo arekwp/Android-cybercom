@@ -11,18 +11,20 @@ import android.net.NetworkInfo;
 public class MyApplication extends Application
 {
     public List<Category> categories;
+    public List<Book> books;
     
     public Category c;
     public Book b;
     
-    public String addr = "192.168.1.1"; // telefon
-//    public String addr = "10.0.2.2"; // emulator
+   // public String addr = "192.168.1.1"; // telefon
+   public String addr = "10.0.2.2"; // emulator
     
     public boolean offline = false;
     
     public MyApplication()
     {
 	categories = new ArrayList<Category>();
+	books = new ArrayList<Book>();
     }
     
     public int getById(String id)

@@ -63,8 +63,8 @@ public class DatabaseHelper extends SQLiteOpenHelper
 	        + KEY_BOOK_NAME + " TEXT, " // name
 	        + KEY_BOOK_AUTHOR + " TEXT, " // author
 	        + KEY_BOOK_ISBN + " TEXT, " // isbn
-	        + KEY_BOOK_CAT + " TEXT, " // cid
 	        + KEY_BOOK_ID + " TEXT, " // bid
+	        + KEY_BOOK_CAT + " TEXT, " // cid
 	        + KEY_BOOK_PHOTO + " TEXT " // photo
 	        + ")";
 	
@@ -334,6 +334,14 @@ public class DatabaseHelper extends SQLiteOpenHelper
 	SQLiteDatabase db = getWritableDatabase();
 	Log.v("delete Cat: ", category.toString());
 	db.delete(TABLE_CATS, KEY_CAT_ID + " = '" + category.getCategoryId() + "'", null);
+	
+    }
+    
+    public void delete(Book book)
+    {
+	SQLiteDatabase db = getWritableDatabase();
+	Log.v("delete Book: ", book.toString());
+	db.delete(TABLE_BOOKS, KEY_BOOK_ID + " = '" + book.getBookId() + "'", null);
 	
     }
 }
