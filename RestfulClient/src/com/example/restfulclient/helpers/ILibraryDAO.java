@@ -13,6 +13,10 @@ public interface ILibraryDAO
 	
 	public void addBook(Book b);
 	
+	public void deleteBook(Book b);
+	
+	public void updateBook(Book b);
+	
 	public void setActivity(ListActivity la);
 
 	public void addCategory(Category category);

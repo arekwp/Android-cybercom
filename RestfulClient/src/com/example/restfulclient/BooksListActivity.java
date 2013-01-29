@@ -13,6 +13,8 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -20,6 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -89,7 +92,7 @@ public class BooksListActivity extends ListActivity
 	{
 	    case R.id.add_book:
 		Intent intent = new Intent(BooksListActivity.this,
-		        AddBookActivity.class);
+		        BookDetailsActivity.class);
 		BooksListActivity.this.startActivity(intent);
 		return true;
 		
@@ -140,6 +143,77 @@ public class BooksListActivity extends ListActivity
 	    setCategoryWithBooks(cat);
 	}
     }
+    
+    
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v,
+	    ContextMenuInfo menuInfo)
+    {
+	super.onCreateContextMenu(menu, v, menuInfo);
+	menu.setHeaderTitle("Ksi¹¿ki");
+	menu.add(0, v.getId(), 0, "Edytuj");
+	menu.add(0, v.getId(), 0, "Usuñ");
+    }
+    
+    @Override
+    public boolean onContextItemSelected(MenuItem item)
+    {
+	AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item
+	        .getMenuInfo();
+	myApp.b = myApp.books.get(info.position);
+	if (item.getTitle() == "Edytuj")
+	{
+	    Intent intent = new Intent(BooksListActivity.this,BookDetailsActivity.class);
+	    
+	    BooksListActivity.this.startActivity(intent);
+	    
+	} 
+	else if (item.getTitle() == "Usuñ")
+	{
+	    
+	    new DeleteBookThread().execute(myApp.addr);
+	}
+	else
+	{
+	    myApp.c = null;
+	    return false;
+	}
+	return true;
+    }
+    
+    
+    class DeleteBookThread extends AsyncTask<String, Void, Void>
+    {
+	ILibraryDAO library;
+	
+	@Override
+        protected Void doInBackground(String... url)
+	{
+/*	    if (myApp.isOffline())
+		library = new SQLiteLibrary(CategoryListActivity.this);
+	    else
+		library = new OnlineLibrary(url[0]);
+	    
+	    library.deleteCategory(myApp.c);*/
+	    return null;
+	}
+	
+	@Override
+        protected void onPostExecute(Void result)
+	{
+	   // new GetCategoriesThread().execute(myApp.addr);
+	  //  Log.v("AsyncTask", "setting result");
+	}
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     public void setCategoryWithBooks(Category cat)
     {

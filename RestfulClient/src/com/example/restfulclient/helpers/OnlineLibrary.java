@@ -141,6 +141,18 @@ public class OnlineLibrary implements ILibraryDAO
     }
     
     @Override
+    public void updateBook(Book b)
+    {
+	
+    }
+    
+    @Override
+    public void deleteBook(Book b)
+    {
+	
+    }
+    
+    @Override
     public void addCategory(Category category)
     {
 	HttpParams params = new BasicHttpParams();

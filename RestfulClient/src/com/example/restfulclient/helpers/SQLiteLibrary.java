@@ -40,13 +40,6 @@ public class SQLiteLibrary implements ILibraryDAO
     }
     
     @Override
-    public void addBook(Book b)
-    {
-	DatabaseHelper dh = new DatabaseHelper(actv);
-	dh.addBook(b);
-    }
-    
-    @Override
     public void addCategory(Category category)
     {
 	DatabaseHelper dh = new DatabaseHelper(actv);
@@ -72,6 +65,7 @@ public class SQLiteLibrary implements ILibraryDAO
     @Override
     public List<Category> getCatsAndBooks()
     {
+<<<<<<< HEAD
 	List<Category> cats = getCategories();
 	
 	for(Category c : cats)
@@ -80,6 +74,29 @@ public class SQLiteLibrary implements ILibraryDAO
 	}
 	
 	return cats;
+=======
+	return null;
+>>>>>>> refs/remotes/origin/master
     }
     
+    @Override
+    public void addBook(Book book)
+    {
+	DatabaseHelper dh = new DatabaseHelper(actv);
+	dh.addBook(book);
+    }
+    
+    @Override
+    public void updateBook(Book book)
+    {
+	DatabaseHelper dh = new DatabaseHelper(actv);
+	dh.update(book);
+    }
+    
+    @Override
+    public void deleteBook(Book book)
+    {
+	DatabaseHelper dh = new DatabaseHelper(actv);
+	dh.delete(book);
+    } 
 }
