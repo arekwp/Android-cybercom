@@ -196,6 +196,48 @@ public class Parser
 	
 	return sw.toString();
     }
+   
+    public static String getXml(Book b) throws IllegalArgumentException,
+    IllegalStateException, IOException
+    {
+    XmlSerializer serializer = Xml.newSerializer();
+    StringWriter sw = new StringWriter();
+
+    serializer.setOutput(sw);
+
+    serializer.startDocument("UTF-8", true);
+
+    serializer.startTag("", "Book");
+
+    serializer.startTag("", "author");
+    serializer.text(b.getAuthor());
+    serializer.endTag("", "author");
+
+    serializer.startTag("", "bookISBNnumber");
+    serializer.text(b.getBookISBNnumber());
+    serializer.endTag("", "bookISBNnumber");
+
+    serializer.startTag("", "bookId");
+    serializer.text(b.getBookId());
+    serializer.endTag("", "bookId");
+
+    serializer.startTag("", "bookName");
+    serializer.text(b.getBookName());
+    serializer.endTag("", "bookName");
+    
+    serializer.startTag("", "bookPhoto");
+    serializer.text(b.getPhoto());
+    serializer.endTag("", "bookPhoto");
+
+    serializer.endTag("", "Book");
+
+    serializer.endDocument();
+
+    return sw.toString();
+    }
+    
+    
+    
     
     public static String getXml(List<Book> lb) throws IllegalArgumentException,
 	    IllegalStateException, IOException

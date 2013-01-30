@@ -14,7 +14,7 @@ public class CategoryServiceClient
     {
 	
 	// Service instance
-	WebClient client = WebClient.create("http://192.168.1.2:8020/");
+	WebClient client = WebClient.create("http://127.0.0.1:8020/");
 	Category category = client.path("categoryservice/category/001")
 	        .accept("application/xml").get(Category.class);
 	System.out.println("Category details from REST service.");
@@ -23,7 +23,7 @@ public class CategoryServiceClient
 	System.out.println("Book details for Category "
 	        + category.getCategoryId() + " from REST service");
 	
-	WebClient clientBook = WebClient.create("http://192.168.1.2:8020/");
+	WebClient clientBook = WebClient.create("http://127.0.0.1:8020/");
 	Category categoryBooks = clientBook
 	        .path("categoryservice/category/001/books")
 	        .accept("application/xml").get(Category.class);

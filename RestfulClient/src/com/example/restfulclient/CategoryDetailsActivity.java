@@ -13,8 +13,8 @@ import android.widget.EditText;
 import com.example.restfulclient.helpers.Category;
 import com.example.restfulclient.helpers.ILibraryDAO;
 import com.example.restfulclient.helpers.MyApplication;
-import com.example.restfulclient.helpers.OnlineLibrary;
 import com.example.restfulclient.helpers.SQLiteLibrary;
+import com.example.restfulclient.helpers.OnlineLibrary;
 
 public class CategoryDetailsActivity extends Activity implements
         OnClickListener
@@ -45,8 +45,6 @@ public class CategoryDetailsActivity extends Activity implements
 	    etName.setText(myApp.c.getCategoryName());
 	    
 	    etId.setEnabled(false);
-	    
-	    button.setText("Zapisz zmiany");
 	}
     }
     

@@ -13,6 +13,7 @@ public class Book {
 	
 	private String bookPhoto;
 	
+	
 	//Let assume one author only
 	private String author;
 
