@@ -2,7 +2,7 @@ package com.example.restfulclient.helpers;
 
 import java.util.List;
 
-import android.app.ListActivity;
+import android.content.Context;
 
 public interface ILibraryDAO
 {
@@ -17,7 +17,7 @@ public interface ILibraryDAO
 	
 	public void updateBook(Book b);
 	
-	public void setActivity(ListActivity la);
+	public void setActivity(Context la);
 
 	public void addCategory(Category category);
 

@@ -14,6 +14,7 @@
     <string name="name">Name</string>
     <string name="isbn">ISBN</string>
     <string name="author">Autor</string>
+    <string name="takePhoto">Zrób zdjęcie</string>
 
 
 </resources>

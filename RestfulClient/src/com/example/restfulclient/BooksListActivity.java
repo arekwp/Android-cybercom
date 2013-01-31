@@ -1,17 +1,12 @@
 package com.example.restfulclient;
 
-import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
-import android.annotation.TargetApi;
 import android.app.ListActivity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -39,11 +34,8 @@ import com.example.restfulclient.helpers.SQLiteLibrary;
 
 public class BooksListActivity extends ListActivity
 {
-
-	private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
 	MyApplication myApp = null;
 	Category cat = null;
-	String mStorage = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -64,8 +56,6 @@ public class BooksListActivity extends ListActivity
 
 		Log.d("odebrano id: ", myApp.c.getCategoryId());
 		Log.d("wybrano kat: ", cat.getCategoryId());
-		mStorage = (Environment.getExternalStorageDirectory() + "/" + "Category Images")
-		        .toString();
 	}
 
 	@Override
@@ -111,7 +101,11 @@ public class BooksListActivity extends ListActivity
 		// super.onListItemClick(l, v, position, id);
 		Book selection = (Book) l.getItemAtPosition(position);
 		myApp.b = selection;
-		Log.d("kliknieto: ", selection.getBookName());
+		//Log.d("kliknieto: ", selection.getBookName());
+		Intent intent = new Intent(BooksListActivity.this,
+		        BookDetailsActivity.class);
+		BooksListActivity.this.startActivity(intent);
+		
 	}
 
 	class GetBooksThread extends AsyncTask<String, Void, Category>
@@ -154,8 +148,8 @@ public class BooksListActivity extends ListActivity
 	{
 		super.onCreateContextMenu(menu, v, menuInfo);
 		menu.setHeaderTitle("Ksi��ki");
-		menu.add(0, v.getId(), 0, "Edytuj");
-		menu.add(0, v.getId(), 0, "Usu�");
+		menu.add(0, 1, 0, "Edytuj");
+		menu.add(0, 2, 0, "Usuń");
 	}
 
 	@Override
@@ -167,16 +161,15 @@ public class BooksListActivity extends ListActivity
 		myApp.b.setCatId(myApp.c.getCategoryId());
 
 		Log.d("kliknieto: ", myApp.b.getBookName());
-		if (item.getTitle() == "Edytuj")
+		if (item.getItemId() == 1)
 		{
 			Intent intent = new Intent(BooksListActivity.this,
 			        BookDetailsActivity.class);
 
 			BooksListActivity.this.startActivity(intent);
 
-		} else if (item.getTitle() == "Usu�")
+		} else if (item.getItemId() == 2)
 		{
-
 			new DeleteBookThread().execute(myApp.addr);
 		} else
 		{
@@ -205,6 +198,7 @@ public class BooksListActivity extends ListActivity
 		@Override
 		protected void onPostExecute(Void result)
 		{
+			myApp.b = null;
 			new GetBooksThread(myApp.c).execute(myApp.addr);
 			Log.v("AsyncTask", "setting result");
 		}
@@ -214,85 +208,16 @@ public class BooksListActivity extends ListActivity
 	{
 		myApp.c = cat;
 
-		// myApp.books= cat.getBooks();
-
-		for (Book b : cat.getBooks())
-		{
-			myApp.books.add(b);
-		}
+		myApp.books = (List<Book>) cat.getBooks();
 
 		if (myApp.c.getBooks().size() == 0)
 		{
-			Toast.makeText(this, "Brak ksi��ek w kategorii", Toast.LENGTH_LONG)
+			Toast.makeText(this, "Brak książek w kategorii", Toast.LENGTH_LONG)
 			        .show();
 		}
 
 		setListAdapter(new BookAdapter());
 
-	}
-
-	// wywo�anie tej metody spowoduje uruchoimienie activity do robienia zdj��
-	private void dispatchTakePictureIntent()
-	{
-		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
-		Uri fileUri = getOutputMediaFileUri();
-
-		Log.d("fileuri: ", fileUri.getPath());
-
-		intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
-
-		startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
-	}
-
-	private Uri getOutputMediaFileUri()
-	{
-		return Uri.fromFile(getOutputPath());
-	}
-
-	private File getOutputPath()
-	{
-		File imgDir = new File(mStorage);
-
-		if (!imgDir.exists())
-			if (!imgDir.mkdirs())
-				Log.d("Making image dirs failed", "getOutputPath");
-
-		File image = new File(imgDir.getPath() + "/" + myApp.b.getBookName()
-		        + ".jpg");
-
-		return image;
-	}
-
-	@TargetApi(Build.VERSION_CODES.FROYO)
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data)
-	{
-		if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE)
-		{
-			if (resultCode == RESULT_OK)
-			{
-
-				String img = PhotoHelper.PhotoToString(
-				        mStorage + "/" + myApp.b.getBookName() + ".jpg",
-				        myApp.b);
-
-				setListAdapter(new BookAdapter());
-
-				// Image captured and saved to fileUri specified in the
-				// Intent
-				Toast.makeText(this, "Image saved", Toast.LENGTH_LONG).show();
-
-			} else if (resultCode == RESULT_CANCELED)
-			{
-				Toast.makeText(this, "Action canceled", Toast.LENGTH_LONG)
-				        .show();
-			} else
-			{
-				Toast.makeText(this, "Action failed, check log",
-				        Toast.LENGTH_LONG).show();
-			}
-		}
 	}
 
 	@Override
@@ -301,6 +226,13 @@ public class BooksListActivity extends ListActivity
 		super.finish();
 		myApp.b = null;
 		myApp.c = null;
+	}
+
+	@Override
+	public void onResume()
+	{
+		super.onResume();
+		new GetBooksThread(myApp.c).execute(myApp.addr);
 	}
 
 	private class BookAdapter extends BaseAdapter
@@ -331,9 +263,9 @@ public class BooksListActivity extends ListActivity
 
 			if (book.getPhoto().length() < 10)
 			{
-				vHolder.ivBook.setImageBitmap(PhotoHelper.StringToPhoto(myApp.genericPhoto));
-			}
-			else
+				vHolder.ivBook.setImageBitmap(PhotoHelper
+				        .StringToPhoto(myApp.genericPhoto));
+			} else
 			{
 				vHolder.ivBook.setImageBitmap(PhotoHelper.StringToPhoto(book
 				        .getPhoto()));

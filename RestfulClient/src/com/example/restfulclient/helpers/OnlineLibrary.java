@@ -22,14 +22,13 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.xmlpull.v1.XmlPullParserException;
 
-
-import android.app.ListActivity;
+import android.content.Context;
 import android.util.Log;
 
 public class OnlineLibrary implements ILibraryDAO
 {
     
-    ListActivity activ = null;
+    Context activ = null;
     String webClientUrl = "";
     String categoryUrl = "categoryservice/category";
     
@@ -128,7 +127,7 @@ public class OnlineLibrary implements ILibraryDAO
     }
     
     @Override
-    public void setActivity(ListActivity la)
+    public void setActivity(Context la)
     {
 	activ = la;
     }

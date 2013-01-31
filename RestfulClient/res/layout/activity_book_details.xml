@@ -68,8 +68,8 @@
         android:layout_alignBaseline="@+id/textView3"
         android:layout_alignBottom="@+id/textView3"
         android:layout_alignLeft="@+id/editText_Nazwa"
-        android:inputType="text"
-        android:ems="10" />
+        android:ems="10"
+        android:inputType="text" />
 
     <TextView
         android:id="@+id/textView3"
@@ -80,6 +80,16 @@
         android:layout_marginTop="24dp"
         android:text="@string/author" />
 
+    <ImageView
+        android:id="@+id/ivPhoto"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/editText_Autor"
+        android:layout_marginTop="38dp"
+        android:layout_toRightOf="@+id/textView4"
+        android:contentDescription="@string/takePhoto"
+        android:src="@drawable/ic_launcher" />
+    
     <Button
         android:id="@+id/bSend"
         android:layout_width="wrap_content"
@@ -89,5 +99,19 @@
         android:layout_alignParentRight="true"
         android:onClick="b_Click"
         android:text="@string/dodaj" />
+
+    <Button
+        android:id="@+id/bTakePhoto"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/bSend"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="42dp"
+        android:layout_marginRight="18dp"
+        android:onClick="b_Click"
+        android:text="@string/takePhoto" />
+
+    
 
 </RelativeLayout>

@@ -3,22 +3,20 @@ package com.example.restfulclient.helpers;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 
-import com.example.restfulclient.R;
-
 import android.annotation.TargetApi;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.os.Build;
 import android.util.Base64;
-import android.view.View;
-import android.webkit.WebView.FindListener;
+import android.util.Log;
 
 public class PhotoHelper
 {
 	@TargetApi(Build.VERSION_CODES.FROYO)
-	public static String PhotoToString(String path, Book book)
+	public static String PhotoToString(String path)
 	{
+		Log.v("PhotoToString path: ", path);
 		File bmp = new File(path);
 
 		Bitmap bmpImg = resAndScaleBitmap(bmp);
