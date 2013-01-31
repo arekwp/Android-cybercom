@@ -202,25 +202,26 @@ public class CategoryService {
 		}
 	}
 
-	@GET
-	@Path("/category/{cid}/books/{id}")
-	@Consumes("application/xml")
-	public Response getBook(@PathParam("cid") String cid)
-			throws UnsupportedEncodingException {
-		cid = URLDecoder.decode(cid, "UTF-8");
-		System.out.println("getBooks called with category cid : " + cid);
-
-		Category cat = getCategoryDAO().getCategory(cid);
-
-		if (cat == null) {
-			return Response.status(Status.NOT_FOUND).build();
-		} else {
-			cat.setBooks(getCategoryDAO().getBooks(cid));
-			Collection<Book> tmp = cat.getBooks();
-			return Response.ok(cat).build();
-
-		}
-	}
+//	@GET
+//	@Path("/category/{cid}/books/{id}")
+//	@Consumes("application/xml")
+//	public Response getBook(@PathParam("cid") String cid)
+//			throws UnsupportedEncodingException {
+//		cid = URLDecoder.decode(cid, "UTF-8");
+//		System.out.println("getBooks called with category cid : " + cid);
+//
+//		Category cat = getCategoryDAO().getCategory(cid);
+//
+//		if (cat == null) {
+//			return Response.status(Status.NOT_FOUND).build();
+//		} else {
+//			cat.setBooks(getCategoryDAO().getBooks(cid));
+//			Collection<Book> tmp = cat.getBooks();
+//
+//			return Response.ok(cat).build();
+//
+//		}
+//	}
 
 	@GET
 	@Path("/category")
