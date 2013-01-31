@@ -50,12 +50,19 @@ public class CategoryDAO
 		book3.setBookISBNnumber("ISB003");
 		book3.setBookPhoto(tmpimg);
 
+		Book book4 = new Book();
+		book4.setAuthor("Czwarty ");
+		book4.setBookName("CZwarta");
+		book4.setBookId("004");
+		book4.setBookISBNnumber("ISB004");
+		book4.setBookPhoto(tmpimg);
+		
 		Collection<Book> booksList1 = new ArrayList<Book>();
 		booksList1.add(book1);
 		booksList1.add(book2);
 
 		Collection<Book> booksList2 = new ArrayList<Book>();
-		booksList2.add(book1);
+		booksList2.add(book4);
 		booksList2.add(book3);
 
 		bookMap.put(category1.getCategoryId(), booksList1);
