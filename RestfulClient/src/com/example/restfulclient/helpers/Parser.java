@@ -226,7 +226,7 @@ public class Parser
     serializer.endTag("", "bookName");
     
     serializer.startTag("", "bookPhoto");
-    serializer.text(b.getPhoto());
+    serializer.text(b.getPhoto() != null && b.getPhoto().length() > 10 ? b.getPhoto() : "" );
     serializer.endTag("", "bookPhoto");
 
     serializer.endTag("", "Book");
@@ -235,9 +235,6 @@ public class Parser
 
     return sw.toString();
     }
-    
-    
-    
     
     public static String getXml(List<Book> lb) throws IllegalArgumentException,
 	    IllegalStateException, IOException

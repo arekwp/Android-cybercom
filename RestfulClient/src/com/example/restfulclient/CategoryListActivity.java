@@ -46,7 +46,7 @@ public class CategoryListActivity extends ListActivity
 		ListView lv = (ListView) findViewById(android.R.id.list);
 		registerForContextMenu(lv);
 
-		new GetCategoriesThread().execute(myApp.addr);
+		//new GetCategoriesThread().execute(myApp.addr);
 	}
 
 	@Override

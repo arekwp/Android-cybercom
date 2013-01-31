@@ -261,7 +261,7 @@ public class BooksListActivity extends ListActivity
 
 			vHolder.ivBook = (ImageView) view.findViewById(R.id.ivBook);
 
-			if (book.getPhoto().length() < 10)
+			if (book.getPhoto()==null || book.getPhoto().length() < 10)
 			{
 				vHolder.ivBook.setImageBitmap(PhotoHelper
 				        .StringToPhoto(myApp.genericPhoto));

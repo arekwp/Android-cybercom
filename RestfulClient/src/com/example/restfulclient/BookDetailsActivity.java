@@ -30,189 +30,202 @@ import com.example.restfulclient.helpers.SQLiteLibrary;
 public class BookDetailsActivity extends Activity
 {
 
-	private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
-	MyApplication myApp;
-	boolean editMode = false;
-	String mStorage = null;
+    private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
+    MyApplication myApp;
+    boolean editMode = false;
+    String mStorage = null;
 
-	Book book = null;
+    Book book = null;
 
-	EditText etId;
-	EditText etName;
-	EditText etAuthor;
-	EditText etISBN;
-	ImageView ivPhoto;
+    EditText etId;
+    EditText etName;
+    EditText etAuthor;
+    EditText etISBN;
+    ImageView ivPhoto;
 
     @Override
-	protected void onCreate(Bundle savedInstanceState)
+    protected void onCreate(Bundle savedInstanceState)
+    {
+	super.onCreate(savedInstanceState);
+	setContentView(R.layout.activity_book_details);
+	myApp = (MyApplication) getApplication();
+
+	etId = (EditText) findViewById(R.id.editText_ID);
+	etName = (EditText) findViewById(R.id.editText_Nazwa);
+	etAuthor = (EditText) findViewById(R.id.editText_Autor);
+	etISBN = (EditText) findViewById(R.id.editText_ISBN);
+	ivPhoto = (ImageView) findViewById(R.id.ivPhoto);
+
+	book = new Book();
+	
+	if (myApp.b != null)
 	{
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_book_details);
-		myApp = (MyApplication) getApplication();
+	    editMode = true;
+	    etId.setText(myApp.b.getBookId());
+	    etName.setText(myApp.b.getBookName());
+	    etAuthor.setText(myApp.b.getAuthor());
+	    etISBN.setText(myApp.b.getBookISBNnumber());
 
-		etId = (EditText) findViewById(R.id.editText_ID);
-		etName = (EditText) findViewById(R.id.editText_Nazwa);
-		etAuthor = (EditText) findViewById(R.id.editText_Autor);
-		etISBN = (EditText) findViewById(R.id.editText_ISBN);
-		ivPhoto = (ImageView)findViewById(R.id.ivPhoto);
+	    String photo = myApp.b.getPhoto()
+		    .length() < 10 ? myApp.genericPhoto : myApp.b.getPhoto();
+	    ivPhoto.setImageBitmap(PhotoHelper.StringToPhoto(photo));
 
-		if (myApp.b != null)
-		{
-			editMode = true;
+	    etId.setEnabled(false);
 
-			etId.setText(myApp.b.getBookId());
-			etName.setText(myApp.b.getBookName());
-			etAuthor.setText(myApp.b.getAuthor());
-			etISBN.setText(myApp.b.getBookISBNnumber());
+	    book.setPhoto(photo);
 
-			ivPhoto.setImageBitmap(PhotoHelper.StringToPhoto(myApp.b.getPhoto()));
-			
-			etId.setEnabled(false);
-			
-			Button b = (Button)findViewById(R.id.bSend);
-			b.setText("Zapisz zmiany");
-		}
-
-		mStorage = (Environment.getExternalStorageDirectory() + "/" + "Category Images")
-		        .toString();
-
-		if (myApp.b != null)
-		{
-			
-		}
-
-		book = new Book();
+	    Button b = (Button) findViewById(R.id.bSend);
+	    b.setText("Zapisz zmiany");
 	}
 
-	public void b_Click(View v)
+	mStorage = (Environment.getExternalStorageDirectory() + "/" + "Category Images")
+	        .toString();
+    }
+
+    public void b_Click(View v)
+    {
+	if (v.getId() == R.id.bTakePhoto)
 	{
-		if (v.getId() == R.id.bTakePhoto)
-		{
-			dispatchTakePictureIntent();
-		} else
-		{
-			new BookThread().execute();
-		}
+	    dispatchTakePictureIntent();
+	}
+	else
+	{
+	    new BookThread().execute();
+	}
+    }
+
+    @Override
+    public void finish()
+    {
+	super.finish();
+	myApp.b = null;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+	// Inflate the menu; this adds items to the action bar if it is present.
+	getMenuInflater().inflate(R.menu.activity_book_details, menu);
+	return true;
+    }
+
+    private class BookThread extends AsyncTask<Void, Void, Boolean>
+    {
+
+	@Override
+	protected Boolean doInBackground(Void... params)
+	{
+	    ILibraryDAO library = null;
+
+	    if (myApp.offline)
+		library = new SQLiteLibrary(BookDetailsActivity.this);
+	    else
+		library = new OnlineLibrary(myApp.addr);
+
+	    book.setAuthor(etAuthor.getText().toString());
+	    book.setBookId(etId.getText().toString());
+	    book.setBookName(etName.getText().toString());
+	    book.setBookISBNnumber(etISBN.getText().toString());
+	    book.setCatId(myApp.c.getCategoryId());
+
+	    Log.v("book", book.toString());
+	    
+	    if (!book.isValid())
+	    {
+		return false;
+	    }
+
+	    if (editMode)
+	    {
+		Log.v("calling", "updateBook");
+		library.updateBook(book);
+	    }
+	    else
+		library.addBook(book);
+
+	    return true;
+
 	}
 
 	@Override
-	public void finish()
+	protected void onPostExecute(Boolean result)
 	{
-		super.finish();
-		myApp.b = null;
+	    if (result)
+		finish();
+	    else
+		Toast.makeText(getApplicationContext(),
+		        "Wypelnij wszystkie pola", Toast.LENGTH_SHORT).show();
 	}
+    }
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu)
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+	switch (item.getItemId())
 	{
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.activity_book_details, menu);
-		return true;
+	    default:
+		return super.onOptionsItemSelected(item);
 	}
+    }
 
-	private class BookThread extends AsyncTask<Void, Void, Void>
+    private void dispatchTakePictureIntent()
+    {
+	Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+	Uri fileUri = getOutputMediaFileUri();
+
+	Log.d("fileuri: ", fileUri.getPath());
+
+	intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
+
+	startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+    }
+
+    private Uri getOutputMediaFileUri()
+    {
+	return Uri.fromFile(getOutputPath());
+    }
+
+    private File getOutputPath()
+    {
+	File imgDir = new File(mStorage);
+
+	if (!imgDir.exists())
+	    if (!imgDir.mkdirs())
+		Log.d("Making image dirs failed", "getOutputPath");
+
+	File image = null;
+
+	image = new File(imgDir.getPath() + "/" + "tmp_photo" + ".jpg");
+
+	return image;
+    }
+
+    @TargetApi(Build.VERSION_CODES.FROYO)
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+	if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE)
 	{
+	    if (resultCode == RESULT_OK)
+	    {
+		String img = PhotoHelper.PhotoToString(mStorage + "/"
+		        + "tmp_photo" + ".jpg");
+		book.setPhoto(img);
 
-		@Override
-		protected Void doInBackground(Void... params)
-		{
-			ILibraryDAO library = null;
+		ivPhoto.setImageBitmap(PhotoHelper.StringToPhoto(img));
 
-			if (myApp.offline)
-				library = new SQLiteLibrary(BookDetailsActivity.this);
-			else
-				library = new OnlineLibrary(myApp.addr);
-
-			book.setAuthor(etAuthor.getText().toString());
-			book.setBookId(etId.getText().toString());
-			book.setBookName(etName.getText().toString());
-			book.setBookISBNnumber(etISBN.getText().toString());
-			book.setCatId(myApp.c.getCategoryId());
-
-			if (editMode)
-			{
-				Log.v("calling", "updateBook");
-				library.updateBook(book);
-			} else
-				library.addBook(book);
-
-			return null;
-
-		}
-
-		@Override
-		protected void onPostExecute(Void result)
-		{
-			finish();
-		}
+	    }
+	    else if (resultCode == RESULT_CANCELED)
+	    {
+		Toast.makeText(this, "Action canceled", Toast.LENGTH_LONG)
+		        .show();
+	    }
+	    else
+	    {
+		Toast.makeText(this, "Action failed, check log",
+		        Toast.LENGTH_LONG).show();
+	    }
 	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item)
-	{
-		switch (item.getItemId())
-		{
-			default:
-				return super.onOptionsItemSelected(item);
-		}
-	}
-
-	private void dispatchTakePictureIntent()
-	{
-		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
-		Uri fileUri = getOutputMediaFileUri();
-
-		Log.d("fileuri: ", fileUri.getPath());
-
-		intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
-
-		startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
-	}
-
-	private Uri getOutputMediaFileUri()
-	{
-		return Uri.fromFile(getOutputPath());
-	}
-
-	private File getOutputPath()
-	{
-		File imgDir = new File(mStorage);
-
-		if (!imgDir.exists())
-			if (!imgDir.mkdirs())
-				Log.d("Making image dirs failed", "getOutputPath");
-
-		File image = null;
-
-		image = new File(imgDir.getPath() + "/" + "tmp_photo" + ".jpg");
-
-		return image;
-	}
-
-	@TargetApi(Build.VERSION_CODES.FROYO)
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data)
-	{
-		if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE)
-		{
-			if (resultCode == RESULT_OK)
-			{
-				String img = PhotoHelper.PhotoToString(mStorage + "/"
-				        + "tmp_photo" + ".jpg");
-				book.setPhoto(img);
-				
-				ivPhoto.setImageBitmap(PhotoHelper.StringToPhoto(img));
-
-			} else if (resultCode == RESULT_CANCELED)
-			{
-				Toast.makeText(this, "Action canceled", Toast.LENGTH_LONG)
-				        .show();
-			} else
-			{
-				Toast.makeText(this, "Action failed, check log",
-				        Toast.LENGTH_LONG).show();
-			}
-		}
-	}
+    }
 }
