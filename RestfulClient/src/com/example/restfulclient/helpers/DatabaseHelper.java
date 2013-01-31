@@ -337,6 +337,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
 		Log.v("delete Cat: ", category.toString());
 		db.delete(TABLE_CATS, KEY_CAT_ID + " = '" + category.getCategoryId()
 		        + "'", null);
+		db.delete(TABLE_BOOKS, KEY_BOOK_CAT + " = '" + category.getCategoryId() + "'", null);
 
 	}
 

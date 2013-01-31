@@ -214,8 +214,8 @@ public class CategoryListActivity extends ListActivity
 	{
 		super.onCreateContextMenu(menu, v, menuInfo);
 		menu.setHeaderTitle("Kategorie");
-		menu.add(0, v.getId(), 0, "Edytuj");
-		menu.add(0, v.getId(), 0, "UsuÅ„");
+		menu.add(0, 1, 0, "Edytuj");
+		menu.add(0, 2, 0, "Usuñ");
 	}
 
 	@Override
@@ -224,14 +224,14 @@ public class CategoryListActivity extends ListActivity
 		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item
 		        .getMenuInfo();
 		myApp.c = myApp.categories.get(info.position);
-		if (item.getTitle() == "Edytuj")
+		if (item.getItemId() == 1) // jeœli edytuj
 		{
 			Intent intent = new Intent(CategoryListActivity.this,
 			        CategoryDetailsActivity.class);
 
 			CategoryListActivity.this.startActivity(intent);
 
-		} else if (item.getTitle() == "UsuÅ„")
+		} else if (item.getItemId() == 2) // jeœli usuñ
 		{
 			new DeleteCategoriesThread().execute(myApp.addr);
 		} else
