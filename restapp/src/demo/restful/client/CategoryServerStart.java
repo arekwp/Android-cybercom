@@ -38,8 +38,8 @@ public class CategoryServerStart
 	    InetAddress netAddr = InetAddress.getLocalHost();
 	    
 	    //restServer.setAddress("http://192.168.1.2:8020/");
-	    //String address = "http://" + netAddr.getHostAddress() + ":8020/"; // fizyczny telefon
-	    String address = "http://" + "127.0.0.1" + ":8020/"; // emualtor
+	    String address = "http://" + netAddr.getHostAddress() + ":8020/"; // fizyczny telefon
+	    //String address = "http://" + "127.0.0.1" + ":8020/"; // emualtor
 	    System.out.println("Server starting at: " + address);
 	    restServer.setAddress(address);
 	    restServer.create();

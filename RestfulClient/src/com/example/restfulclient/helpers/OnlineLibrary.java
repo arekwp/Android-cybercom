@@ -32,7 +32,6 @@ public class OnlineLibrary implements ILibraryDAO
     String webClientUrl = "";
     String categoryUrl = "categoryservice/category";
     
-    
     public OnlineLibrary(String url)
     {
 	webClientUrl = "http://" + url + ":8020/";
@@ -87,8 +86,7 @@ public class OnlineLibrary implements ILibraryDAO
     @Override
     public List<Book> getBooks(String catId)
     {
-	String booksUrl = "categoryservice/category/" + catId
-	        + "/books";
+	String booksUrl = "categoryservice/category/" + catId + "/books";
 	
 	List<Book> tmp = new ArrayList<Book>();
 	
@@ -113,6 +111,13 @@ public class OnlineLibrary implements ILibraryDAO
 		Parser parser = new Parser();
 		
 		tmp = parser.getBooks(is);
+		Log.v("incoming books", "---- : " + tmp.size());
+		for (Book b : tmp)
+		{
+		    b.setCatId(catId);
+		    Log.v("incoming book", b.toString());
+		}
+		
 		is.close();
 	    }
 	} catch (ClientProtocolException e)
@@ -135,91 +140,91 @@ public class OnlineLibrary implements ILibraryDAO
     @Override
     public void addBook(Book book)
     {
-    	HttpParams params = new BasicHttpParams();
-    	
-    	HttpConnectionParams.setConnectionTimeout(params, 9000);
-    	HttpConnectionParams.setSoTimeout(params, 9000);
-    	
-    	HttpClient hc = new DefaultHttpClient(params);
-
-    	try
-    	{
-    		String encodedcatID = URLEncoder.encode(book.getCatId(), "UTF-8");
-    	    StringEntity entity = new StringEntity(Parser.getXml(book), "UTF-8");
-    	    HttpPost post = new HttpPost(webClientUrl + categoryUrl + "/"+ encodedcatID + "/books");
-    	    entity.setContentType("application/xml");
-    	    post.setEntity(entity);
-    	    hc.execute(post);
-    	    
-    	} catch (UnsupportedEncodingException e)
-    	{
-    	    e.printStackTrace();
-    	} catch (ClientProtocolException e)
-    	{
-    	    e.printStackTrace();
-    	} catch (IOException e)
-    	{
-    	    e.printStackTrace();
-    	}
+	HttpParams params = new BasicHttpParams();
+	
+	HttpConnectionParams.setConnectionTimeout(params, 9000);
+	HttpConnectionParams.setSoTimeout(params, 9000);
+	
+	HttpClient hc = new DefaultHttpClient(params);
+	
+	try
+	{
+	    String encodedcatID = URLEncoder.encode(book.getCatId(), "UTF-8");
+	    StringEntity entity = new StringEntity(Parser.getXml(book), "UTF-8");
+	    HttpPost post = new HttpPost(webClientUrl + categoryUrl + "/"
+		    + encodedcatID + "/books");
+	    entity.setContentType("application/xml");
+	    post.setEntity(entity);
+	    hc.execute(post);
+	    Log.v("Adding book: ", book.toString());
+	} catch (UnsupportedEncodingException e)
+	{
+	    e.printStackTrace();
+	} catch (ClientProtocolException e)
+	{
+	    e.printStackTrace();
+	} catch (IOException e)
+	{
+	    e.printStackTrace();
+	}
     }
     
     @Override
     public void updateBook(Book book)
     {
-    	HttpParams params = new BasicHttpParams();
-    	
-    	HttpConnectionParams.setConnectionTimeout(params, 9000);
-    	HttpConnectionParams.setSoTimeout(params, 9000);
-    	
-    	HttpClient hc = new DefaultHttpClient(params);
-    	
-    	try
-    	{
-    		String encodedcatID = URLEncoder.encode(book.getCatId(), "UTF-8");
-    	    Log.v("encodedID", encodedcatID);
-    	    HttpPut put = new HttpPut(webClientUrl + categoryUrl + "/"
-        		    + encodedcatID + "/books");
-    	    put.setHeader("Content-Type", "application/xml");
-    	    StringEntity entity = new StringEntity(Parser.getXml(book),
-    		    "UTF-8");
-    	    put.setEntity(entity);
-    	    
-    	    hc.execute(put);
-    	} catch (ClientProtocolException e)
-    	{
-    	    e.printStackTrace();
-    	} catch (IOException e)
-    	{
-    	    e.printStackTrace();
-    	}
+	HttpParams params = new BasicHttpParams();
+	
+	HttpConnectionParams.setConnectionTimeout(params, 9000);
+	HttpConnectionParams.setSoTimeout(params, 9000);
+	
+	HttpClient hc = new DefaultHttpClient(params);
+	
+	try
+	{
+	    String encodedcatID = URLEncoder.encode(book.getCatId(), "UTF-8");
+	    Log.v("encodedID", encodedcatID);
+	    HttpPut put = new HttpPut(webClientUrl + categoryUrl + "/"
+		    + encodedcatID + "/books");
+	    put.setHeader("Content-Type", "application/xml");
+	    StringEntity entity = new StringEntity(Parser.getXml(book), "UTF-8");
+	    put.setEntity(entity);
+	    
+	    hc.execute(put);
+	} catch (ClientProtocolException e)
+	{
+	    e.printStackTrace();
+	} catch (IOException e)
+	{
+	    e.printStackTrace();
+	}
     }
     
     @Override
     public void deleteBook(Book b)
     {
-    	HttpParams params = new BasicHttpParams();
-    	
-    	HttpConnectionParams.setConnectionTimeout(params, 9000);
-    	HttpConnectionParams.setSoTimeout(params, 9000);
-    	
-    	HttpClient hc = new DefaultHttpClient(params);
-    	
-    	try
-    	{
-    		String encodedID = URLEncoder.encode(b.getBookId(), "UTF-8");
-    		String encodedcatID = URLEncoder.encode(b.getCatId(), "UTF-8");
-    	    Log.v("encodedID", encodedID);
-    	    HttpDelete delete = new HttpDelete(webClientUrl + categoryUrl + "/"
-    		    + encodedcatID + "/books/" + encodedID);
-    	    delete.setHeader("Content-Type", "application/xml"); 	    
-    	    hc.execute(delete);
-    	} catch (ClientProtocolException e)
-    	{
-    	    e.printStackTrace();
-    	} catch (IOException e)
-    	{
-    	    e.printStackTrace();
-    	}
+	HttpParams params = new BasicHttpParams();
+	
+	HttpConnectionParams.setConnectionTimeout(params, 9000);
+	HttpConnectionParams.setSoTimeout(params, 9000);
+	
+	HttpClient hc = new DefaultHttpClient(params);
+	
+	try
+	{
+	    String encodedID = URLEncoder.encode(b.getBookId(), "UTF-8");
+	    String encodedcatID = URLEncoder.encode(b.getCatId(), "UTF-8");
+	    Log.v("encodedID", encodedID);
+	    HttpDelete delete = new HttpDelete(webClientUrl + categoryUrl + "/"
+		    + encodedcatID + "/books/" + encodedID);
+	    delete.setHeader("Content-Type", "application/xml");
+	    hc.execute(delete);
+	} catch (ClientProtocolException e)
+	{
+	    e.printStackTrace();
+	} catch (IOException e)
+	{
+	    e.printStackTrace();
+	}
     }
     
     @Override
@@ -317,22 +322,21 @@ public class OnlineLibrary implements ILibraryDAO
 	    e.printStackTrace();
 	}
     }
-
+    
     @Override
     public List<Category> getCatsAndBooks()
     {
 	List<Category> lcat = getCategories();
 	
-	for(Category c : lcat)
+	for (Category c : lcat)
 	{
 	    c.setBooks(getBooks(c.getCategoryId()));
 	}
 	return lcat;
     }
-
+    
     public void syncCat(Category c)
     {
-	
 	
     }
 }

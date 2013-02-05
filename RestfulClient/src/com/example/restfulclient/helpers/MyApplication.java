@@ -16,8 +16,8 @@ public class MyApplication extends Application
 	public Category c;
 	public Book b;
 
-	//public String addr = "192.168.1.1"; // telefon
-	public String addr = "10.0.2.2"; // emulator
+	public String addr = "192.168.1.1"; // telefon
+	//public String addr = "10.0.2.2"; // emulator
 
 	public boolean offline = false;
 

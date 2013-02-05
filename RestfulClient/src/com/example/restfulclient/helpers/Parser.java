@@ -16,7 +16,7 @@ import android.util.Xml;
 public class Parser
 {
     
-    // We don't use namespaces
+    // Bez przestrzeni nazw w xml
     private static final String ns = null;
     
     public List<Category> getCategories(InputStream in)
@@ -181,6 +181,34 @@ public class Parser
 	serializer.startDocument("UTF-8", true);
 	
 	serializer.startTag("", "Category");
+	
+	/*for(Book b : c.getBooks())
+	{
+	    serializer.startTag("", "books");
+
+	    serializer.startTag("", "author");
+	    serializer.text(b.getAuthor());
+	    serializer.endTag("", "author");
+
+	    serializer.startTag("", "bookISBNnumber");
+	    serializer.text(b.getBookISBNnumber());
+	    serializer.endTag("", "bookISBNnumber");
+
+	    serializer.startTag("", "bookId");
+	    serializer.text(b.getBookId());
+	    serializer.endTag("", "bookId");
+
+	    serializer.startTag("", "bookName");
+	    serializer.text(b.getBookName());
+	    serializer.endTag("", "bookName");
+	    
+	    serializer.startTag("", "bookPhoto");
+	    serializer.text(b.getPhoto() != null && b.getPhoto().length() > 10 ? b.getPhoto() : "" );
+	    serializer.endTag("", "bookPhoto");
+
+	    serializer.endTag("", "books");
+
+	}*/
 	
 	serializer.startTag("", "categoryId");
 	serializer.text(c.getCategoryId());

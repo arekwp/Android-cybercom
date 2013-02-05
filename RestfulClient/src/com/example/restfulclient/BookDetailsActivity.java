@@ -5,6 +5,7 @@ import java.io.File;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -134,7 +135,12 @@ public class BookDetailsActivity extends Activity
 	    {
 		return false;
 	    }
-
+	    
+	    if(book.getPhoto() ==null ||book.getPhoto().length() < 10)
+	    {
+		book.setPhoto(myApp.genericPhoto);
+	    }
+	    
 	    if (editMode)
 	    {
 		Log.v("calling", "updateBook");
@@ -177,6 +183,7 @@ public class BookDetailsActivity extends Activity
 	Log.d("fileuri: ", fileUri.getPath());
 
 	intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
+	intent.putExtra(MediaStore.EXTRA_SCREEN_ORIENTATION, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
 	startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
     }
@@ -218,7 +225,7 @@ public class BookDetailsActivity extends Activity
 	    }
 	    else if (resultCode == RESULT_CANCELED)
 	    {
-		Toast.makeText(this, "Action canceled", Toast.LENGTH_LONG)
+		Toast.makeText(this, "Action canceled", Toast.LENGTH_SHORT)
 		        .show();
 	    }
 	    else

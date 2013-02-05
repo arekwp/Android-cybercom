@@ -3,7 +3,6 @@ package demo.restful;
 //JAX-RS Imports
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.util.Collection;
 import java.util.Map;
 
 import javax.ws.rs.Consumes;
@@ -61,14 +60,10 @@ public class CategoryService {
 
 		System.out.println("addCategory called");
 
-		Category cat = getCategoryDAO().getCategory(category.getCategoryId());
-
-		if (cat != null) {
-			return Response.status(Status.BAD_REQUEST).build();
-		} else {
-			getCategoryDAO().addCategory(category);
-			return Response.ok(category).build();
-		}
+		//Category cat = getCategoryDAO().getCategory(category.getCategoryId());
+		
+		getCategoryDAO().addCategory(category);
+		return Response.ok(category).build();
 
 	}
 

@@ -11,11 +11,6 @@ import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-/* TODO add method:
- * update -> form
- * 
- */
-
 public class DatabaseHelper extends SQLiteOpenHelper
 {
 
@@ -283,8 +278,8 @@ public class DatabaseHelper extends SQLiteOpenHelper
 		b.setBookName(cursor.getString(1));
 		b.setAuthor(cursor.getString(2));
 		b.setBookISBNnumber(cursor.getString(3));
-		b.setCatId(cursor.getString(4));
-		b.setBookId(cursor.getString(5));
+		b.setBookId(cursor.getString(4));
+		b.setCatId(cursor.getString(5));
 		b.setPhoto(cursor.getString(6));
 
 		return b;

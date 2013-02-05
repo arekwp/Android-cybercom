@@ -115,7 +115,7 @@ public class Book
     @Override
     public String toString()
     {
-	return "[ " + bookId + ", " + bookName + ", " + author + ", "
+	return "[ " + catId + "@" + bookId + ", " + bookName + ", " + author + ", "
 	        + bookISBNnumber + " ]";
     }
 

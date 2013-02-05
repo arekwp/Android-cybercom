@@ -1,7 +1,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-    <item android:id="@+id/menuCacheOffline" android:title="Offline cache"></item>
+    <item android:id="@+id/menuCacheOffline" android:title="Pobierz dane do trybu offline"></item>
     <item android:id="@+id/menuAddCategory" android:title="Dodaj kategorię"></item>
     <item android:id="@+id/menuSync" android:title="Synchronizacja"></item>
     <item android:id="@+id/menuRefresh" android:title="Odśwież"></item>
+    <item android:id="@+id/menuCleanDb" android:title="Wyczysc baze danych"></item>
 
 </menu>

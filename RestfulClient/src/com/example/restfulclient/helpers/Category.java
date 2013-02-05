@@ -2,6 +2,8 @@ package com.example.restfulclient.helpers;
 
 import java.util.Collection;
 
+import android.util.Log;
+
 public class Category
 {
     
@@ -63,14 +65,33 @@ public class Category
     public boolean equals(Object o)
     {
 	Category c2 = (Category) o;
+	Log.v("cat equals " + categoryId + ":",
+	        categoryId + ":" + categoryName + ":" + books.size());
+	Log.v("cat equals " + c2.getCategoryId() + ":", c2.categoryId + ":" + c2.categoryName + ":"
+	        + c2.getBooks().size());
 	if (categoryId.equals(c2.categoryId))
 	{
 	    if (categoryName.equals(c2.categoryName))
 	    {
-		if ((c2.getBooks() == null && books == null) || books.containsAll(c2.getBooks()))
+		
+		if (c2.getBooks() == null && books == null)
+		{
 		    return true;
+		}
+		Log.v("cat equals 1+2: ", "NOT null");
+		if (c2.getBooks().size() == 0 && books.size() == 0)
+		{
+		    return true;
+		}
+		Log.v("cat equals 1+2: ", "NOT size=0");
+		if (books.containsAll(c2.getBooks()))
+		{
+		    return true;
+		}
+		Log.v("cat equals 1+2: ", "NOT containing same items");
 	    }
 	}
+	Log.v("cat equals 1+2: ", "ret FALSE");
 	return false;
     }
     
