@@ -1,5 +1,6 @@
 package com.example.restfulclient;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -26,8 +27,8 @@ import com.example.restfulclient.helpers.Category;
 import com.example.restfulclient.helpers.DatabaseHelper;
 import com.example.restfulclient.helpers.ILibraryDAO;
 import com.example.restfulclient.helpers.MyApplication;
-import com.example.restfulclient.helpers.SQLiteLibrary;
 import com.example.restfulclient.helpers.OnlineLibrary;
+import com.example.restfulclient.helpers.SQLiteLibrary;
 
 public class CategoryListActivity extends ListActivity
 {
@@ -160,7 +161,8 @@ public class CategoryListActivity extends ListActivity
     
     public void setCategory(List<Category> result)
     {
-	
+	if(result == null)
+	    result = new ArrayList<Category>();
 	if (myApp.isOffline())
 	{
 	    goOffline();
@@ -221,7 +223,7 @@ public class CategoryListActivity extends ListActivity
 	super.onCreateContextMenu(menu, v, menuInfo);
 	menu.setHeaderTitle("Kategorie");
 	menu.add(0, 1, 0, "Edytuj");
-	menu.add(0, 2, 0, "Usuñ");
+	menu.add(0, 2, 0, "Usuï¿½");
     }
     
     @Override
@@ -230,14 +232,14 @@ public class CategoryListActivity extends ListActivity
 	AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item
 	        .getMenuInfo();
 	myApp.c = myApp.categories.get(info.position);
-	if (item.getItemId() == 1) // jeœli edytuj
+	if (item.getItemId() == 1) // jeï¿½li edytuj
 	{
 	    Intent intent = new Intent(CategoryListActivity.this,
 		    CategoryDetailsActivity.class);
 	    
 	    CategoryListActivity.this.startActivity(intent);
 	    
-	} else if (item.getItemId() == 2) // jeœli usuñ
+	} else if (item.getItemId() == 2) // jeï¿½li usuï¿½
 	{
 	    new DeleteCategoriesThread().execute(myApp.addr);
 	} else
